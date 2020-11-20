@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J-Parking Management</title>
+
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet"
+    href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <!-- <script type="text/javascript" href="{{ url_for('static', filename='js/Chart.min.js') }}"></script> -->
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    {% include "comp/sidebar.html" %}
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        {% include "comp/header.html" %}
+
+        <div class="container-fluid">
+          <div class="row text-center">
+            <div class="col-lg-3">
+              <div class="card border-left-primary shadow">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        รายการการตรวจสอบ
+                      </div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800">5</div>
+                    </div>
+                    <div class="col-4 text-right">
+                      <img src="{{url_for('static', filename='image/report.svg')}}" width="50">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="card border-left-primary shadow">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        จำนวนช่องจอดว่าง
+                      </div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800">39</div>
+                    </div>
+                    <div class="col-4 text-right">
+                      <img src="{{url_for('static', filename='image/parking2.svg')}}" width="50">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="card border-left-primary shadow">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        รายได้ประจำวัน
+                      </div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800">3,568</div>
+                    </div>
+                    <div class="col-4 text-right">
+                      <img src="{{url_for('static', filename='image/thai-baht.svg')}}" width="50">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="card border-left-primary shadow">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        รายได้ประจำเดือน
+                      </div>
+                      <div class="h4 mb-0 font-weight-bold text-gray-800">24,000</div>
+                    </div>
+                    <div class="col-4 text-right">
+                      <img src="{{url_for('static', filename='image/thai-baht.svg')}}" width="50">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-lg-6 mb-3"></div>
+            <div class="col-lg-6 mb-3">
+              <div class="row">
+                <!-- <div class="col">
+                  <input class="form-control form-control-sm" name="dates" />
+                </div> -->
+                <div class="col">
+                  <p class="mb-1">วันที่เริ่มต้น</p>
+                  <input type="date" class="form-control form-control-sm" name="" id="startDate"></input>
+                </div>
+                <div class="col">
+                  <p class="mb-1">วันที่สิ้นสุด</p>
+                  <input type="date" class="form-control form-control-sm" name="" id="endDate"></input>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">รายได้ Vistor</h6>
+                </div>
+                <div class="card-body">
+                  <canvas id="chart" width="600" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">จำนวนรถที่จอดคงค้าง</h6>
+                </div>
+                <div class="card-body">
+                  <canvas id="linechart" width="600" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">สัดส่วน Vistor : Member</h6>
+                </div>
+                <div class="card-body">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- กราฟแท่งแสดงรายได้ Vistor -->
+  <script>
+    var chartData = {
+      labels: [{% for item in values %} "{{ item }}", {% endfor %}],
+    datasets:
+    [
+      {
+        label: '{{ tabname }}',
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        data: [{% for item in labels %} {{ item }}, {% endfor %}]
+          }
+        ],
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem) {
+          console.log(tooltipItem)
+          return tooltipItem.yLabel;
+        }
+      }
+    }
+    }
+
+    Chart.defaults.global.animationSteps = 50;
+    Chart.defaults.global.tooltipYPadding = 16;
+    Chart.defaults.global.tooltipCornerRadius = 0;
+    Chart.defaults.global.tooltipTitleFontStyle = "normal";
+    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+    Chart.defaults.global.animationEasing = "easeOutBounce";
+    Chart.defaults.global.responsive = false;
+    Chart.defaults.global.legend.display = false;
+    Chart.defaults.global.scaleLineColor = "black";
+    Chart.defaults.global.scaleFontSize = 16;
+
+    var ctx = document.getElementById('chart').getContext('2d');
+    steps = 10
+    max = 40
+
+    var myNewChart = new Chart(ctx, {
+      type: "bar",
+      data: chartData,
+      scaleOverride: true,
+      scaleSteps: steps,
+      scaleStepWidth: Math.ceil(max / steps),
+      scaleStartValue: 0,
+      scaleShowVerticalLines: true,
+      scaleShowGridLines: true,
+      barShowStroke: true,
+      scaleShowLabels: true,
+      bezierCurve: false,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+    var circleData = {
+      labels: [{% for item in values %} "{{ item }}", {% endfor %}],
+    datasets:
+    [
+      {
+        label: '{{ tabname }}',
+        backgroundColor: "#4e73df",
+        hoverBackgroundColor: "#2e59d9",
+        borderColor: "#4e73df",
+        data: [{% for item in labels %}"{{ item }}",{% endfor %}]
+        }
+      ],
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem) {
+          console.log(tooltipItem)
+          return tooltipItem.yLabel;
+        }
+      }
+    }
+  }
+
+    Chart.defaults.global.animationSteps = 50;
+    Chart.defaults.global.tooltipYPadding = 16;
+    Chart.defaults.global.tooltipCornerRadius = 0;
+    Chart.defaults.global.tooltipTitleFontStyle = "normal";
+    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+    Chart.defaults.global.animationEasing = "easeOutBounce";
+    Chart.defaults.global.responsive = false;
+    Chart.defaults.global.legend.display = false;
+    Chart.defaults.global.scaleLineColor = "black";
+    Chart.defaults.global.scaleFontSize = 16;
+
+    var ctx = document.getElementById('linechart').getContext('2d');
+    steps = 10
+    max = 40
+
+    var myNewChart = new Chart(ctx, {
+      type: "line",
+      data: circleData,
+      scaleOverride: true,
+      scaleSteps: steps,
+      scaleStepWidth: Math.ceil(max / steps),
+      scaleStartValue: 0,
+      scaleShowVerticalLines: true,
+      scaleShowGridLines: true,
+      barShowStroke: true,
+      scaleShowLabels: true,
+      bezierCurve: false,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+      $("body").toggleClass("sidebar-toggled");
+      $(".sidebar").toggleClass("toggled");
+      if ($(".sidebar").hasClass("toggled")) {
+        $('.sidebar .collapse').collapse('hide');
+      };
+    });
+
+    // Close any open menu accordions when window is resized below 768px
+    $(window).resize(function () {
+      if ($(window).width() < 768) {
+        $('.sidebar .collapse').collapse('hide');
+      };
+
+      // Toggle the side navigation when window is resized below 480px
+      if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+        $("body").addClass("sidebar-toggled");
+        $(".sidebar").addClass("toggled");
+        $('.sidebar .collapse').collapse('hide');
+      };
+    });
+
+    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+      if ($(window).width() > 768) {
+        var e0 = e.originalEvent,
+          delta = e0.wheelDelta || -e0.detail;
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
+      }
+    });
+
+    // Scroll to top button appear
+    $(document).on('scroll', function () {
+      var scrollDistance = $(this).scrollTop();
+      if (scrollDistance > 100) {
+        $('.scroll-to-top').fadeIn();
+      } else {
+        $('.scroll-to-top').fadeOut();
+      }
+    });
+
+    // Smooth scrolling using jQuery easing
+    $(document).on('click', 'a.scroll-to-top', function (e) {
+      var $anchor = $(this);
+      $('html, body').stop().animate({
+        scrollTop: ($($anchor.attr('href')).offset().top)
+      }, 1000, 'easeInOutExpo');
+      e.preventDefault();
+    });
+  </script>
+</body>
+
+</html>

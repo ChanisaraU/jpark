@@ -1,0 +1,138 @@
+@import url(https://fonts.googleapis.com/css2?family=Kanit&subset=thai,latin);
+
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit Regular'), local('Kanit-Regular'), url(https://fonts.gstatic.com/s/kanit/v7/nKKZ-Go6G5tXcraBGwCYdA.woff2) format('woff2');
+}
+
+body {
+  font-family: 'Kanit', sans-serif !important;
+}
+
+.bd-example {
+  position: relative;
+  padding: 1rem;
+  /* margin: 1rem -15px 0; */
+  border: solid #f8f9fa;
+  border-width: .2rem 0 0;
+}
+
+.w-30 {
+  width: 8%;
+}
+
+.btn-border-radius {
+  border-radius: 20px !important;
+}
+
+.text-red {
+  color: #e74a3b;
+}
+.text-green {
+  color: #07C900;
+}
+.text-blue {
+  color: #080071;
+}
+.text-black {
+  color: #121212;
+}
+
+.box-red {
+  color: white;
+  background-color: #e74a3b !important;
+  border: 0 !important;
+}
+
+.box-green {
+  color: white;
+  background-color: #26a342 !important;
+  border: 0 !important;
+}
+
+.box-blue {
+  color: white;
+  background-color: #2e77b8 !important;
+  border: 0 !important;
+}
+
+.bg-blue-login {
+  background-color: #9ED5FE;
+}
+
+.animate-car-left {
+  margin-left: -18rem;
+  position: relative;
+}
+
+.animate-label-car {
+  margin-left: 325px;
+  position: absolute;
+}
+
+.container-login {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.wrap-login {
+  width: 450px;
+  overflow: hidden;
+  padding: 30px 35px 30px 35px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.form-control-test {
+  display: block;
+  font-size: 1rem;
+  color: #495057;
+  border: 1px solid #ced4da;
+  padding: .375rem .75rem;
+  border-radius: .25rem;
+  min-height: calc(1.5em + .75rem + 2px);
+}
+
+.header-title {
+  font-size: 5rem;
+}
+.body-title {
+  font-size: 24rem;
+}
+
+.picture-show:hover {
+  width: 1590px;
+  height: auto;
+  -webkit-transform: scale(9) rotate(0.01deg);
+  transform: scale(9) rotate(0.01deg);
+}
+
+
+.col-print-1 {width:8%;  float:left;}
+.col-print-2 {width:16%; float:left;}
+.col-print-3 {width:25%; float:left;}
+.col-print-4 {width:33%; float:left;}
+.col-print-5 {width:42%; float:left;}
+.col-print-6 {width:50%; float:left;}
+.col-print-7 {width:58%; float:left;}
+.col-print-8 {width:66%; float:left;}
+.col-print-9 {width:75%; float:left;}
+.col-print-10{width:83%; float:left;}
+.col-print-11{width:92%; float:left;}
+.col-print-12{width:100%; float:left;}

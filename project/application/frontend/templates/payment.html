@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row text-center mt-2">
+            <div class="col-lg-12">
+                <img src="{{url_for('static', filename='image/logo-jpark.svg')}}" width="250">
+            </div>
+            <div class="col-lg-12">
+                <div class="m-5">
+                    <h2>เวลาจอด 00.00 น. จำนวนเงิน 100 บาท</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center my-3">ธนาคาร</h3>
+                        <img src="{{url_for('static', filename='image/qr1.png')}}" width="600" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center my-3">True Wallet</h3>
+                        <img src="{{url_for('static', filename='image/qr1.png')}}" width="600" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

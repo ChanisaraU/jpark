@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>J-Parking Management</title>
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
+    
+    <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        {% include "comp/sidebar.html" %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                {% include "comp/header.html" %}
+
+                <div class="container-fluid">
+                    <div class="row text-center">
+                        <div class="col-lg-4">
+                            <div class="card box-red">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <img src="{{url_for('static', filename='image/ic-parking-1-white.svg')}}"
+                                                width="70">
+                                        </div>
+                                        <div class="col-7 text-left">
+                                            <h6 class="card-title">จำนวนรถที่จอด</h6>
+                                            <div class="h2">140 <span class="h6">คัน</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card box-green">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <img src="{{url_for('static', filename='image/ic-parking-2-white.svg')}}"
+                                                width="70">
+                                        </div>
+                                        <div class="col-7 text-left">
+                                            <h6 class="card-title">จำนวนรถที่ว่าง</h6>
+                                            <div class="h2">110 <span class="h6">คัน</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card box-blue">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <img src="{{url_for('static', filename='image/ic-parking-3-white.svg')}}"
+                                                width="70">
+                                        </div>
+                                        <div class="col-7 text-left">
+                                            <h6 class="card-title">เวลาเข้า</h6>
+                                            <div class="h2"><span id="timecurrent"></span></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Show CV2 Video -->
+                    <div class="row mt-2">
+                        <div class="col-lg-6">
+                            <img src="{{ url_for('video_feed', id='0') }}" class="img-fluid">
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="{{ url_for('video_feed', id='1') }}" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="first_name" class="col-lg-4 col-form-label text-blue">ชื่อ</label>
+                                        <p id="datalist" hidden></p>
+                                        <div class="col-lg-8">
+                                            <input type="text" class="form-control" name="first_name" id="livebox">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="member_type"
+                                            class="col-sm-4 col-form-label text-blue">ประเภทสมาชิก</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="member_type"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="expiry_date"
+                                            class="col-sm-4 col-form-label text-blue">วันที่หมดอายุ</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="expiry_date"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="insert_date"
+                                            class="col-sm-4 col-form-label text-blue">นาฬิกา</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="insert_date"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="license_plate"
+                                            class="col-sm-4 col-form-label text-blue">ทะเบียนรถ</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="license_plate"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="car_type" class="col-sm-4 col-form-label text-blue">ประเภทรถ</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="car_type"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="province" class="col-sm-4 col-form-label text-blue">จังหวัด</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="province"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 text-center mt-2">
+                                <div id="div1" hidden></div>
+                                <button class="btn btn-primary mx-2 w-30 col-3">ยืนยัน</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="row">
+                        {% include "comp/block-btn-system.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery-->
+    <script>
+        var display = setInterval(function () { Time() }, 0);
+        function Time() {
+            var date = new Date();
+            var time = date.toLocaleTimeString();
+            document.getElementById("timecurrent").innerHTML = time;
+        }
+        $(document).ready(function () {
+            $("#livebox").on("input", function (e) { // ฟังก์ชั่นการค้นหาแบบเรียวไทม์ อักษรต่ออักษร
+                $("#datalist").empty();
+                $.ajax({
+                    method: "post",
+                    url: "/livesearch",
+                    data: { text: $("#livebox").val() },
+                    success: function (res) {
+                        const propertyValues = Object.values(res);
+                        console.log("size = ", propertyValues.length)
+                        if (propertyValues.length != 0) {
+                            $("#member_type").html(res[0][2]);
+                            $("#expiry_date").html(res[0][11]);
+                            $("#insert_date").html(res[0][14])
+                            $("#license_plate").html(res[0][8]);
+                            $("#car_type").html(res[0][7]);
+                            $("#province").html(res[0][9]);
+                        }
+                        else {
+                            $("#member_type").html(" ");
+                            $("#expiry_date").html(" ");
+                            $("#insert_date").html(" ");
+                            $("#license_plate").html(" ");
+                            $("#car_type").html(" ");
+                            $("#province").html(" ");
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.ajax({
+                    method: "get",
+                    url: "/livesearch",
+                    data: { text: $("#div1").val() },
+                    success: function (res) {
+                        alert("finish!!");
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <!-- SidebarToggle JS-->
+    <script>
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+            $("body").toggleClass("sidebar-toggled");
+            $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function () {
+            if ($(window).width() < 768) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+
+            // Toggle the side navigation when window is resized below 480px
+            if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+                $("body").addClass("sidebar-toggled");
+                $(".sidebar").addClass("toggled");
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+            if ($(window).width() > 768) {
+                var e0 = e.originalEvent,
+                    delta = e0.wheelDelta || -e0.detail;
+                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+                e.preventDefault();
+            }
+        });
+
+        // Scroll to top button appear
+        $(document).on('scroll', function () {
+            var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+                $('.scroll-to-top').fadeIn();
+            } else {
+                $('.scroll-to-top').fadeOut();
+            }
+        });
+
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function (e) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top)
+            }, 1000, 'easeInOutExpo');
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

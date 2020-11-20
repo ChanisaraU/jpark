@@ -1,0 +1,160 @@
+<head>
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+
+  <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script
+    src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script
+    src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <link rel="stylesheet"
+    href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/admin.js') }}"></script> -->
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top h-100" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" onclick="window.location.href='car-in'" style="cursor:pointer;">
+      <div class="sidebar-brand-icon">
+        <!-- <i class="fas fa-laugh-wink"></i> -->
+        <img src="{{url_for('static', filename='image/logoart-jpark-white-02.svg')}}" width="50">
+      </div>
+      <div class="sidebar-brand-text mx-1">
+        <img src="{{url_for('static', filename='image/logoart-jpark-white-01.svg')}}" width="110">
+      </div>
+    </a>
+
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+      <a class="nav-link" href="home">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+    <!-- Nav Item - car-out -->
+    <li class="nav-item">
+      <a class="nav-link" href="car-in">
+        <i class="fas fa-fw fa-file"></i>
+        <span>ข้อมูลรถเข้าลานจอด</span></a>
+    </li>
+    <!-- Nav Item - car-out -->
+    <li class="nav-item">
+      <a class="nav-link" href="car-out">
+        <i class="fas fa-fw fa-file"></i>
+        <span>ข้อมูลรถออกลานจอด</span></a>
+    </li>
+    <!-- Nav Item - transaction -->
+    <li class="nav-item">
+      <a class="nav-link" href="transaction">
+        <i class="fas fa-fw fa-table"></i>
+        <span>รายการรถเข้า-ออกสะสม</span></a>
+    </li>
+    <!-- Nav Item - payment -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="payment">
+        <i class="fas fa-fw fa-money"></i>
+        <span>Payment</span></a>
+    </li> -->
+    <li class="nav-item">
+      <a class="nav-link" href="checkin">
+        <i class="fas fa-check-square"></i>
+        <span>Checkin</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="checkout">
+        <i class="fas fa-check-square"></i>
+        <span>Checkout</span></a>
+    </li>
+    <!-- Nav Item - report -->
+    <li class="nav-item">
+      <a class="nav-link" href="report">
+        <i class="fas fa-fw fa-bar-chart"></i>
+        <span>รายงาน</span></a>
+    </li>
+
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline mt-3">
+      <a class="rounded-circle2 border-0" id="sidebarToggle"></a>
+    </div>
+
+  </ul>
+
+  <script>
+    $(document).ready(function () {
+      $(function () {
+        var current_page_URL = location.href;
+        $("a").each(function () {
+          if ($(this).attr("href") !== "#") {
+            var target_URL = $(this).prop("href");
+            if (target_URL == current_page_URL) {
+              $('nav a').parents('li, ul').removeClass('active');
+              $(this).parent('li').addClass('active');
+              return false;
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+      $("body").toggleClass("sidebar-toggled");
+      $(".sidebar").toggleClass("toggled");
+      if ($(".sidebar").hasClass("toggled")) {
+        $('.sidebar .collapse').collapse('hide');
+      };
+    });
+
+    // Close any open menu accordions when window is resized below 768px
+    $(window).resize(function () {
+      if ($(window).width() < 768) {
+        $('.sidebar .collapse').collapse('hide');
+      };
+
+      // Toggle the side navigation when window is resized below 480px
+      if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+        $("body").addClass("sidebar-toggled");
+        $(".sidebar").addClass("toggled");
+        $('.sidebar .collapse').collapse('hide');
+      };
+    });
+
+    // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+      if ($(window).width() > 768) {
+        var e0 = e.originalEvent,
+          delta = e0.wheelDelta || -e0.detail;
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
+      }
+    });
+
+    // Scroll to top button appear
+    $(document).on('scroll', function () {
+      var scrollDistance = $(this).scrollTop();
+      if (scrollDistance > 100) {
+        $('.scroll-to-top').fadeIn();
+      } else {
+        $('.scroll-to-top').fadeOut();
+      }
+    });
+
+    // Smooth scrolling using jQuery easing
+    $(document).on('click', 'a.scroll-to-top', function (e) {
+      var $anchor = $(this);
+      $('html, body').stop().animate({
+        scrollTop: ($($anchor.attr('href')).offset().top)
+      }, 1000, 'easeInOutExpo');
+      e.preventDefault();
+    });
+  </script>
+</body>

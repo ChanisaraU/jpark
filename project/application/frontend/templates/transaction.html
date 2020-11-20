@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J-Parking Management</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kanit&subset=thai,latin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
+
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        {% include "comp/sidebar.html" %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                {% include "comp/header.html" %}
+                <div class="container-fluid">
+                    <div class="col-lg-12">
+                        <div class="row my-2">
+                            <div class="col">
+                                <h4 class="text-blue">รายการรถเข้า-ออกสะสม</h4>
+                                <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal">
+                                    <i class="fas fa-plus"></i> เพิ่ม
+                                </button>
+                                <a class="btn btn-success mb-2 ml-3" href="{{ url_for('.download_report') }}"><i class="far fa-file-excel"></i> Export to Excel</a>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addModalLabel">เพิ่มรายการ</h5>
+                                                <button type="button" class="btn-close" data-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{url_for('addcar')}}" method="POST" id="addForm">
+                                                <div class="modal-body">
+                                                    <div class="row mb-3">
+                                                        <label for="exampleInputEmail1" class="form-label col-2">เข้า/ออก
+                                                            <span class="text-red">*</span> </label>
+                                                        <select class="form-select form-select-sm col-9" name="comp_select">
+                                                            {% for o in data %}
+                                                            <option value="{{ o.in_out }}">{{ o.in_out }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="carregis" class="form-label col-2">ทะเบียนรถ <span
+                                                                class="text-red">*</span> </label>
+                                                        <input type="text" class="form-control col-9" name="carregis" value="{{
+                                                            request.form.carregis }}" required>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="province" class="form-label col-2">จังหวัด<span
+                                                                class="text-red">*</span> </label>
+                                                        <input type="text" class="form-control col-9" name="province" value="{{
+                                                            request.form.province }}" required>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="timeinout" class="form-label col-2">เวลา <span
+                                                                class="text-red">*</span> </label>
+                                                        <input type="text" class="form-control col-9" name="timeinout"
+                                                            value="{{
+                                                            request.form.timeinout }}" required>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="typecar" class="form-label col-2">ประเภทรถ <span
+                                                                class="text-red">*</span> </label>
+                                                        <select class="form-select form-select-sm col-9" name="typecar">
+                                                            {% for t in type %}
+                                                            <option value="{{ t.typecar }}">{{ t.typecar }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="motive" class="form-label col-2">สาเหตุ <span
+                                                                class="text-red">*</span> </label>
+                                                        <textarea class="form-control col-9" name="motive"
+                                                            rows="3"></textarea>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="amountmoney" class="form-label col-2">จำนวนเงิน</label>
+                                                        <input type="text" class="form-control col-9" name="amountmoney">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">ยกเลิก</button>
+                                                    <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <input class="form-control" list="datalistOptions" id="myInput" placeholder="ค้นหา">
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="height: 500px;overflow-x: scroll;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="sticky-top" style="background: white;">ลำดับ</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">เวลาเข้า</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">เวลาออก</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">เวลาจอดรวม</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ยอดเงิน</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">VAT</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ยอดรวม VAT</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ทะเบียนรถเข้า</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">จังหวัดรถเข้า</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ทะเบียนรถออก</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">จังหวัดรถออก</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ทะเบียนรถเข้า
+                                            (รูป)</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ทะเบียนรถออก (รูป)
+                                        </th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ประเภทรถ</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">% ความถูกต้อง</th>
+                                        <th scope="col" class="sticky-top" style="background: white;">ประวัติการแก้ไข
+                                        </th>
+                                        <th scope="col" class="sticky-top" width="1000" style="background: white;">เหตุผลการแก้ไข
+                                        </th>
+                                        <th scope="col" class="sticky-top" style="background: white;"></th>
+                                    </tr>
+                                </thead>
+                                {% if result %}
+                                {% for row in result %}
+                                <tbody id="myTable">
+                                    <tr>
+                                        <td>{{ row[0] }}</td>
+                                        <td>{{ row[7] }}</td>
+                                        <td>{{ row[14] }}</td>
+                                        <td>{{ row[16] }}</td>
+                                        <td>{{ row[19] }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ row[2] }}</td>
+                                        <td>{{ row[3] }}</td>
+                                        <td>{{ row[2] }}</td>
+                                        <td>{{ row[3] }}</td>
+
+                                        <td><img class="picture-show img-fluid"
+                                                src="data:image/jpeg;charset=utf-8;base64,{{ row[5] }}" /></td>
+                                        <td><img class="picture-show img-fluid"
+                                                src="data:image/jpeg;charset=utf-8;base64,{{ row[13] }}" /></td>
+                                        <td>{{ row[6] }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <button data-id="{{ row[0] }}" type="button" class="btn btn-primary"
+                                                data-toggle="modal" data-target="#editModal">
+                                                <i class="fas fa-edit"></i> แก้ไข
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editModal" tabindex="-1"
+                                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">แก้ไขรายการ</h5>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{url_for('edit')}}" method="POST">
+                                                            <div class="modal-body">
+                                                                <div class="row mb-3">
+                                                                    <label class="form-label col-2">Id:</label>
+                                                                    <input type="text" class="form-control col-9"
+                                                                        name='id' id='id' readonly>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <label for="carregis_"
+                                                                        class="form-label col-2">ทะเบียนรถ</label>
+                                                                    <input type="text" class="form-control col-9"
+                                                                        name="carregis_"
+                                                                        value="{{request.form.carregis_}}" required>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <label for="province_"
+                                                                        class="form-label col-2">จังหวัด</label>
+                                                                    <input type="text" class="form-control col-9"
+                                                                        name="province_"
+                                                                        value="{{request.form.province_}}" required>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <label for="typecar_"
+                                                                        class="form-label col-2">ประเภทรถ</label>
+                                                                    <select class="form-select form-select-sm col-9"
+                                                                        name="typecar_">
+                                                                        {% for t in type %}
+                                                                        <option value="{{ t.typecar }}">{{ t.typecar }}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                                                                <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $('#modal-confirm').click(function () {
+            // Perform the action after modal confirm button is clicked.
+            $('#form-submit').click(); // submitting the form
+        });
+
+        //กำหนดไอดีให้กับปุ่มแก้ไขแต่ละปุ่ม
+        $("button1").click(function () {
+            console.log("hi")
+            var passedID = $(this).data('id');//get the id of the selected button
+            $('input[name="id"]').val(passedID);//set the id to the input on the modal
+            console.log(passedID)
+        });
+
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+            $("body").toggleClass("sidebar-toggled");
+            $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function () {
+            if ($(window).width() < 768) {
+                $('.sidebar .collapse').collapse('hide');
+            };
+
+            // Toggle the side navigation when window is resized below 480px
+            if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+                $("body").addClass("sidebar-toggled");
+                $(".sidebar").addClass("toggled");
+                $('.sidebar .collapse').collapse('hide');
+            };
+        });
+
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+            if ($(window).width() > 768) {
+                var e0 = e.originalEvent,
+                    delta = e0.wheelDelta || -e0.detail;
+                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+                e.preventDefault();
+            }
+        });
+
+        // Scroll to top button appear
+        $(document).on('scroll', function () {
+            var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+                $('.scroll-to-top').fadeIn();
+            } else {
+                $('.scroll-to-top').fadeOut();
+            }
+        });
+
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function (e) {
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top)
+            }, 1000, 'easeInOutExpo');
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
