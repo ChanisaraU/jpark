@@ -11,7 +11,7 @@ import xlwt
 import pdfkit
 # path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-zzzz
+
 
 def find_camera(id):
     cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138', 'rtsp://admin:Jpark*2020*@172.20.1.138']
@@ -161,8 +161,35 @@ def car_in():
 
 @app.route('/car-out')  # ข้อมูลรถออกลานจอด
 def maindown():
-    if session['username'] != " ": 
-        return render_template('car-out.html')
+ if session['username'] != " ":
+    cursor = mysql.connection.cursor()
+    sql = 'select * from test_log where id = 0'
+    cursor.execute(sql)
+    info = cursor.fetchone()
+    car_out = info[2] #license_plate
+    # print(car_out)
+    cursor2 = mysql.connection.cursor()
+    sql2 = 'select * from member where license_plate = %s'
+    val = (car_out,)
+    cursor2.execute(sql2,val)
+    member = cursor2.fetchone()
+    if member:
+     name = member[4]+" "+member[5]
+     mem_type = member[2]
+     expiry_date = member[11]
+     licenseP = info[2]
+     time_in = str(info[8])+" "+str(info[7])
+     time_out = str(info[15])+" "+str(info[14])
+    else :
+     name = " "
+     mem_type = " "
+     expiry_date = " "
+     licenseP = " "
+     time_in = " "
+     time_out = " "
+
+    return render_template('car-out.html',name=name,mem_type=mem_type,expiry_date=expiry_date,licenseP=licenseP,time_in=time_in,time_out= time_out)
+
 
 
 @app.route('/report')  # รายงาน

@@ -96,9 +96,10 @@
                                 <div class="col-lg-4 mb-2">
                                     <div class="row">
                                         <label for="first_name" class="col-sm-4 col-form-label text-blue">ชื่อ</label>
-                                        <p id="datalist" hidden></p>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="first_name" id="livebox">
+                                            <div class="form-control-test p" id="first_name"value="{{ name }}">{{ name }}</div>
+                                         
+                                            <!-- <input type="text" class="form-control" name="first_name" id="livebox"> -->
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +108,7 @@
                                         <label for="member_type"
                                             class="col-sm-4 col-form-label text-blue">ประเภทสมาชิก</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="member_type"></div>
+                                            <div class="form-control-test p" id="member_type" value="{{ mem_type }}">{{ mem_type }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +117,7 @@
                                         <label for="expiry_date"
                                             class="col-sm-4 col-form-label text-blue">วันที่หมดอายุ</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="expiry_date"></div>
+                                            <div class="form-control-test p" id="expiry_date" value="{{expiry_date}}">{{ expiry_date }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,15 +126,7 @@
                                         <label for="license_plate"
                                             class="col-sm-4 col-form-label text-blue">ทะเบียนรถ</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="license_plate"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="province" class="col-sm-4 col-form-label text-blue">จังหวัด</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="province"></div>
+                                            <div class="form-control-test p" id="license_plate" value="{{licenseP}}">{{licenseP}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +135,16 @@
                                         <label for="insert_date"
                                             class="col-sm-4 col-form-label text-blue">เวลาจอด</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="insert_date"></div>
+                                            <div class="form-control-test p" id="insert_date" value="{{time_in}}">{{time_in}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-2">
+                                    <div class="row">
+                                        <label for="insert_date"
+                                            class="col-sm-4 col-form-label text-blue">เวลาออก</label>
+                                        <div class="col-sm-8">
+                                            <div class="form-control-test p" id="insert_date" value="{{time_out}}">{{time_out}}</div>
                                         </div>
                                     </div>
                                 </div>
