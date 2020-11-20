@@ -52,29 +52,39 @@ def cal_Price():
                 
                 if date_in >= date_out and not last:
                     last = True
-            
-            vat =  (price * 7)/100 
-            formatted_vat = "{:.2f}".format(vat)
-            print(formatted_vat)
-            total_amount = price + vat
+    
+            discount = ''
+            fines = 60
+            if discount != '' and fines != '' :
+                price = + price - discount + fines 
+            elif discount != '' :
+                price = price - discount  
+            elif fines != '' :
+                price = fines + price
+            else:
+                price  
+                
+        vat =  (price * 7)/100 
+        formatted_vat = "{:.2f}".format(vat)
+        total_amount = price + vat
 
-            cal_vat(vat)
-            cal_total_amount(total_amount)
-            cal_amount(price) # สั่งอัพเดตราคา
-            return price
+        cal_vat(vat)
+        cal_total_amount(total_amount)
+        cal_amount(price) # สั่งอัพเดตราคา
+        return price
 
 def cal_discount(discount) :   
     mycursor = mydb.cursor() 
     sql = "update parking_log set discount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
-    val = (price,)
+    val = (discount,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()        
         
-def cal_discount(discount) :   
+def cal_fines(fines) :   
     mycursor = mydb.cursor() 
-    sql = "update parking_log set discount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
-    val = (price,)
+    sql = "update parking_log set fines = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    val = (fines,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()
