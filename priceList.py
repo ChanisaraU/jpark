@@ -16,7 +16,8 @@ def get_hour(delta):
 
 def cal_Price():
     mycursor = mydb.cursor() 
-    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
+    # mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
+    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
     myresult = mycursor.fetchall()
 
     for (date_in, time_in,date_out, time_out ) in myresult:
@@ -52,9 +53,11 @@ def cal_Price():
                 
                 if date_in >= date_out and not last:
                     last = True
-    
+
             discount = ''
             fines = 60
+            cal_fines(fines)
+            cal_discount(discount)
             if discount != '' and fines != '' :
                 price = + price - discount + fines 
             elif discount != '' :
@@ -63,43 +66,48 @@ def cal_Price():
                 price = fines + price
             else:
                 price  
-                
+
+            
         vat =  (price * 7)/100 
         formatted_vat = "{:.2f}".format(vat)
         total_amount = price + vat
-
+        print()
         cal_vat(vat)
         cal_total_amount(total_amount)
         cal_amount(price) # สั่งอัพเดตราคา
         return price
 
+
 def cal_discount(discount) :   
     mycursor = mydb.cursor() 
-    sql = "update parking_log set discount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql = "update test_log set discount = %s where id = 0"
     val = (discount,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()        
         
+        
 def cal_fines(fines) :   
     mycursor = mydb.cursor() 
-    sql = "update parking_log set fines = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql = "update test_log set fines = %s where id = 0"
     val = (fines,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()
             
+            
 def cal_amount(price) :   
     mycursor = mydb.cursor() 
-    sql = "update parking_log set amount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql = "update test_log set amount = %s where id = 0"
     val = (price,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()
 
+
 def cal_vat(vat) :
     mycursor = mydb.cursor() 
-    sql = "update parking_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql = "update test_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (vat,)
     mycursor.execute(sql, val)
     mydb.commit()
@@ -108,10 +116,10 @@ def cal_vat(vat) :
     
 def cal_total_amount(total_amount) :
     mycursor = mydb.cursor() 
-    sql = "update parking_log set total_amount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql = "update test_log set total_amount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (total_amount,)
     mycursor.execute(sql, val)
     mydb.commit()
     mycursor.close()
     
-print(cal_Price())    
+# print(cal_Price())    

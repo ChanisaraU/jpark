@@ -161,34 +161,48 @@ def car_in():
 
 @app.route('/car-out')  # ข้อมูลรถออกลานจอด
 def maindown():
- if session['username'] != " ":
-    cursor = mysql.connection.cursor()
-    sql = 'select * from test_log where id = 0'
-    cursor.execute(sql)
-    info = cursor.fetchone()
-    car_out = info[2] #license_plate
-    # print(car_out)
-    cursor2 = mysql.connection.cursor()
-    sql2 = 'select * from member where license_plate = %s'
-    val = (car_out,)
-    cursor2.execute(sql2,val)
-    member = cursor2.fetchone()
-    if member:
-     name = member[4]+" "+member[5]
-     mem_type = member[2]
-     expiry_date = member[11]
-     licenseP = info[2]
-     time_in = str(info[8])+" "+str(info[7])
-     time_out = str(info[15])+" "+str(info[14])
-    else :
-     name = " "
-     mem_type = " "
-     expiry_date = " "
-     licenseP = " "
-     time_in = " "
-     time_out = " "
+    if session['username'] != " ":
+        price = member()
+        cursor = mysql.connection.cursor()
+        sql = 'select * from test_log where id = 0'
+        cursor.execute(sql)
+        info = cursor.fetchone()
+        car_out = info[2] #license_plate
+        print(car_out+"1")
+        
+        cursor2 = mysql.connection.cursor()
+        sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
+        val = (price,car_out)
+        cursor2.execute(sql2, val)
+        mysql.connection.commit()
+        cursor2.close()
+        
+        cursor3 = mysql.connection.cursor()
+        sql3 = 'select * from member where license_plate = %s'
+        val = (car_out,)
+        cursor3.execute(sql3,val)
+        member1 = cursor3.fetchone()
+    
+        print(member1,"2")
+        if member1:
+            name = member1[4]+" "+member1[5]
+            mem_type = member1[2]
+            expiry_date = member1[11]
+            licenseP = info[2]
+            time_in = str(info[8])+" "+str(info[7])
+            time_out = str(info[15])+" "+str(info[14])
+            amount = info[19]
+            
+        else :
+            name = " "
+            mem_type = " "
+            expiry_date = " "
+            licenseP = " "
+            time_in = " "
+            time_out = " "
+            amount = " "
 
-    return render_template('car-out.html',name=name,mem_type=mem_type,expiry_date=expiry_date,licenseP=licenseP,time_in=time_in,time_out= time_out)
+    return render_template('car-out.html',name=name,mem_type=mem_type,expiry_date=expiry_date,licenseP=licenseP,time_in=time_in,time_out= time_out,amount=amount)
 
 
 

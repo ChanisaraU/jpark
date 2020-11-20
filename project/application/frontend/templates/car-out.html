@@ -97,7 +97,7 @@
                                     <div class="row">
                                         <label for="first_name" class="col-sm-4 col-form-label text-blue">ชื่อ</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="first_name"value="{{ name }}">{{ name }}</div>
+                                            <div class="form-control-test p" id="first_name"value="{{name}}">{{name}}</div>
                                          
                                             <!-- <input type="text" class="form-control" name="first_name" id="livebox"> -->
                                         </div>
@@ -108,7 +108,7 @@
                                         <label for="member_type"
                                             class="col-sm-4 col-form-label text-blue">ประเภทสมาชิก</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="member_type" value="{{ mem_type }}">{{ mem_type }}</div>
+                                            <div class="form-control-test p" id="member_type" value="{{mem_type}}">{{mem_type}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
                                         <label for="total_amount"
                                             class="col-sm-4 col-form-label text-blue">จำนวนเงิน</label>
                                         <div class="col-sm-8">
-                                            <div class="form-control-test p" id="total_amount"></div>
+                                            <div class="form-control-test p" id="total_amount" value="{{amount}}">{{amount}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -235,50 +235,9 @@
             var date = new Date();
             var time = date.toLocaleTimeString();
             document.getElementById("timecurrent").innerHTML = time;
-        }
+        } 
 
-        $(document).ready(function () {
-            $("#livebox").on("input", function (e) {
-                $("#datalist").empty();
-                $.ajax({
-                    method: "post",
-                    url: "/livesearch",
-                    data: { text: $("#livebox").val() },
-                    success: function (res) {
-                        const propertyValues = Object.values(res);
-                        console.log("size = ", propertyValues.length)
-                        if (propertyValues.length != 0) {
-                            $("#member_type").html(res[0][2]);
-                            $("#expiry_date").html(res[0][11]);
-                            $("#license_plate").html(res[0][8]);
-                            $("#province").html(res[0][9]);
-                            $("#insert_date").html(res[0][14])
-                            $("#net_amount").html(res[0][20]);
-                        } else {
-                            $("#member_type").html(" ");
-                            $("#expiry_date").html(" ");
-                            $("#license_plate").html(" ");
-                            $("#province").html(" ");
-                            $("#insert_date").html(" ");
-                            $("#net_amount").html(" ");
-                        }
-                    }
-                })
-            })
-        });
-        $(document).ready(function () {
-            $("button").click(function () {
-                $.ajax({
-                    method: "get",
-                    url: "/livesearch",
-                    data: { text: $("#div1").val() },
-                    success: function (res) {
-                        alert("finish!!");
-                    }
-                });
-            });
-
-        });
+      
 
         function showImage() {
             document.getElementById('loadingImage').style.visibility = document.getElementById('loadingImage').style.visibility == 'visible' ? 'hidden' : 'visible';
