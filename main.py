@@ -48,13 +48,26 @@ def pay():
 
 @app.route('/checkin')  # checkin
 def checkin():
+    mycursor = mydb.cursor() 
+    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
+    myresult = mycursor.fetchall()
     return render_template('checkin.html')
 
 
 @app.route('/checkout')  # checkout
 def checkout():
+    mycursor = mysql.connection.cursor()
+    query = "select * from test_log "
+    mycursor.execute(query)
+    result = mycursor.fetchall()
+    timeIn = str(result[0][7])
+    dateIn = str(result[0][8])
+    license_plate = result[0][2]
+    timeOut = str(result[0][14])
+    dateOut = str(result[0][15])
+    province = result[0][3]
     price = member()
-    return render_template('checkout.html',price=price,)
+    return render_template('checkout.html',price=price,timeIn=timeIn,license_plate=license_plate,province=province,timeOut=timeOut)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login

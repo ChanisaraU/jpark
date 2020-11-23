@@ -12,7 +12,7 @@ mydb = mysql.connector.connect(
 
 def member() :
     mycursor_member = mydb.cursor()
-    mycursor_member.execute("select member.expiry_date, member.member_type, member.license_plate FROM member INNER JOIN parking_log ON member.license_plate = parking_log.license_plate ORDER BY date_out DESC, time_out DESC LIMIT 1")
+    mycursor_member.execute("select member.expiry_date, member.member_type, member.license_plate FROM member INNER JOIN test_log ON member.license_plate = test_log.license_plate ORDER BY date_out DESC, time_out DESC LIMIT 1")
     myresult = mycursor_member.fetchall()
     
     if len(myresult)==0:
@@ -44,4 +44,4 @@ def member() :
             return price
     return 'error'
 
-print(member())
+# print(member())
