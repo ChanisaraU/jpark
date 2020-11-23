@@ -1,14 +1,16 @@
 @import url(https://fonts.googleapis.com/css2?family=Kanit&subset=thai,latin);
 
 @font-face {
-  font-family: 'Kanit';
+  font-family: "Kanit";
   font-style: normal;
   font-weight: 400;
-  src: local('Kanit Regular'), local('Kanit-Regular'), url(https://fonts.gstatic.com/s/kanit/v7/nKKZ-Go6G5tXcraBGwCYdA.woff2) format('woff2');
+  src: local("Kanit Regular"), local("Kanit-Regular"),
+    url(https://fonts.gstatic.com/s/kanit/v7/nKKZ-Go6G5tXcraBGwCYdA.woff2)
+      format("woff2");
 }
 
 body {
-  font-family: 'Kanit', sans-serif !important;
+  font-family: "Kanit", sans-serif !important;
 }
 
 .bd-example {
@@ -16,7 +18,7 @@ body {
   padding: 1rem;
   /* margin: 1rem -15px 0; */
   border: solid #f8f9fa;
-  border-width: .2rem 0 0;
+  border-width: 0.2rem 0 0;
 }
 
 .w-30 {
@@ -31,7 +33,7 @@ body {
   color: #e74a3b;
 }
 .text-green {
-  color: #07C900;
+  color: #07c900;
 }
 .text-blue {
   color: #080071;
@@ -40,26 +42,30 @@ body {
   color: #121212;
 }
 
-.box-red {
+/* .box-red {
   color: white;
   background-color: #e74a3b !important;
   border: 0 !important;
-}
+} */
 
-.box-green {
+/* .box-green {
   color: white;
   background-color: #26a342 !important;
   border: 0 !important;
-}
+} */
 
-.box-blue {
+/* .box-blue {
   color: white;
   background-color: #2e77b8 !important;
   border: 0 !important;
+} */
+
+.license-font {
+  font-size: 4rem;
 }
 
 .bg-blue-login {
-  background-color: #9ED5FE;
+  background-color: #9ed5fe;
 }
 
 .animate-car-left {
@@ -104,9 +110,9 @@ body {
   font-size: 1rem;
   color: #495057;
   border: 1px solid #ced4da;
-  padding: .375rem .75rem;
-  border-radius: .25rem;
-  min-height: calc(1.5em + .75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  min-height: calc(1.5em + 0.75rem + 2px);
 }
 
 .header-title {
@@ -123,16 +129,51 @@ body {
   transform: scale(9) rotate(0.01deg);
 }
 
-
-.col-print-1 {width:8%;  float:left;}
-.col-print-2 {width:16%; float:left;}
-.col-print-3 {width:25%; float:left;}
-.col-print-4 {width:33%; float:left;}
-.col-print-5 {width:42%; float:left;}
-.col-print-6 {width:50%; float:left;}
-.col-print-7 {width:58%; float:left;}
-.col-print-8 {width:66%; float:left;}
-.col-print-9 {width:75%; float:left;}
-.col-print-10{width:83%; float:left;}
-.col-print-11{width:92%; float:left;}
-.col-print-12{width:100%; float:left;}
+.col-print-1 {
+  width: 8%;
+  float: left;
+}
+.col-print-2 {
+  width: 16%;
+  float: left;
+}
+.col-print-3 {
+  width: 25%;
+  float: left;
+}
+.col-print-4 {
+  width: 33%;
+  float: left;
+}
+.col-print-5 {
+  width: 42%;
+  float: left;
+}
+.col-print-6 {
+  width: 50%;
+  float: left;
+}
+.col-print-7 {
+  width: 58%;
+  float: left;
+}
+.col-print-8 {
+  width: 66%;
+  float: left;
+}
+.col-print-9 {
+  width: 75%;
+  float: left;
+}
+.col-print-10 {
+  width: 83%;
+  float: left;
+}
+.col-print-11 {
+  width: 92%;
+  float: left;
+}
+.col-print-12 {
+  width: 100%;
+  float: left;
+}

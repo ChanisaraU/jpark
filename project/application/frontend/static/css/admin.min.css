@@ -2255,13 +2255,13 @@ fieldset:disabled a.btn {
 }
 .btn-primary {
   color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+  background-color: #1b3e6c;
+  border-color: #1b3e6c;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #2e59d9;
-  border-color: #2653d4;
+  background-color: #284f81;
+  border-color: #284f81;
 }
 .btn-primary.focus,
 .btn-primary:focus {
@@ -9556,6 +9556,7 @@ a:focus {
   background: white;
   font-size: 1rem;
   margin-bottom: 10px;
+  border: 2px solid;
 }
 @media (min-width: 768px) {
   .sidebar {

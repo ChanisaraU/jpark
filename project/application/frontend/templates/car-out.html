@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 
@@ -30,48 +31,48 @@
                 <div class="container-fluid">
                     <div class="row text-center">
                         <div class="col-lg-4">
-                            <div class="card box-red">
+                            <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-5">
-                                            <img src="{{url_for('static', filename='image/ic-parking-1-white.svg')}}"
+                                            <img src="{{url_for('static', filename='image/ic-parking-1.svg')}}"
                                                 width="70">
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่จอด</h6>
-                                            <div class="h2">145 <span class="h6">คัน</span></div>
+                                            <span class="h2 text-red">150</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div class="card box-green">
+                            <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-5">
-                                            <img src="{{url_for('static', filename='image/ic-parking-2-white.svg')}}"
+                                            <img src="{{url_for('static', filename='image/ic-parking-2.svg')}}"
                                                 width="70">
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่ว่าง</h6>
-                                            <div class="h2">105 <span class="h6">คัน</span></div>
+                                            <span class="h2 text-green">105</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div class="card box-blue">
+                            <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-5">
-                                            <img src="{{url_for('static', filename='image/ic-parking-3-white.svg')}}"
+                                            <img src="{{url_for('static', filename='image/ic-parking-3.svg')}}"
                                                 width="70">
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">นาฬิกา</h6>
-                                            <div class="h2"><span id="timecurrent"></span></div>
+                                            <span class="h2 text-blue"><span id="timecurrent"></span></span>
                                         </div>
                                     </div>
 
@@ -80,47 +81,102 @@
                         </div>
                     </div>
 
-                    <!-- Show CV2 Video -->
-                    <div class="row mt-2">
-                        <div class="col-lg-6">
-                            <img src="{{ url_for('video_feed', id='0') }}" class="img-fluid">
-                        </div>
-                        <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-5 mt-2">
+                            <img src="{{ url_for('video_feed', id='0') }}" class="img-fluid"><br>
                             <img src="{{ url_for('video_feed', id='1') }}" class="img-fluid">
                         </div>
-                    </div>
-
-                    <div class="row mt-2">
-                        <form>
-                            <div class="row">
-                                <div class="col-lg-4 mb-2">
+                        <div class="col-lg-7 mt-2">
+                            <div class="row g-2 mt-2">
+                                <div class="col-md-6 text-center text-blue">
+                                    <h5>ป้ายทะเบียนรถ</h5>
+                                    <span class="license-font">7กญ3603</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-2">
+                                        <input type="text" class="form-control" id="province" name="province">
+                                        <label for="province">จังหวัด</label>
+                                    </div>
+                                    <div class="form-floating mb-2">
+                                        <input type="text" class="form-control" id="insert_date" value="{{time_out}}">
+                                        <!-- {{time_out}} -->
+                                        <label for="insert_date">เวลาออก</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-2">
+                                        <input type="text" class="form-control" name="discount" id="discount">
+                                        <label for="discount">คูปอง</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="fines" id="fines">
+                                        <label for="fines">ค่าปรับ</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center text-blue">
+                                    <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
+                                    <input type="text" class="form-control" id="amount" value="{{amount}}">{{amount}}
+                                    <button type="button" class="btn btn-primary mt-2 btn-sm">คำนวณเงิน</button>
+                                </div>
+                                <div class="col-md-6 text-blue">
+                                    <div class="text-center">
+                                        <label for="amount" class="form-label h5">ค่าจอดรถ</label>
+                                        <input type="text" class="form-control" id="amount" value="{{amount}}">{{amount}}
+                                    </div>
+                                    <div class="form-check my-2 mx-3">
+                                        <input class="form-check-input" type="radio"
+                                            name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            เงินสด
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center text-blue">
+                                    <label for="amount" class="form-label h5">เงินทอน</label>
+                                    <input type="text" class="form-control" id="change" name="change">
+                                    <button type="submit" class="btn btn-primary mt-2 btn-sm">ยืนยัน</button>
+                                </div>
+                                <hr>
+                                <div class="col-md-12 text-blue">
                                     <div class="row">
-                                        <label for="first_name" class="col-sm-4 col-form-label text-blue">ชื่อ</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="first_name"value="{{name}}">{{name}}</div>
-                                
-                                            <!-- <input type="text" class="form-control" name="first_name" id="livebox"> -->
+                                        <div class="col-md-2">
+                                            <label for="first_name" class="col-form-label text-blue">ชื่อ-นามสกุล</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-control-test p" id="first_name" value="{{name}}">{{name}}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-2">
+                                <div class="col-md-12 text-blue">
                                     <div class="row">
-                                        <label for="member_type"
-                                            class="col-sm-4 col-form-label text-blue">ประเภทสมาชิก</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-md-2">
+                                            <label for="member_type" class="col-form-label text-blue">ประเภทสมาชิก</label>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="form-control-test p" id="member_type" value="{{mem_type}}">{{mem_type}}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-2">
+
+                                <div class="col-md-12 text-blue mb-3">
                                     <div class="row">
-                                        <label for="expiry_date"
-                                            class="col-sm-4 col-form-label text-blue">วันที่หมดอายุ</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-md-2">
+                                            <label for="expiry_date" class="col-form-label text-blue">วันที่หมดอายุ</label>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="form-control-test p" id="expiry_date" value="{{expiry_date}}">{{ expiry_date }}</div>
+                                        </div>
+                                        <div class="col-md-4 m-0 p-0">
+                                            <button type="button" class="btn btn-primary"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
                                         </div>
                                     </div>
                                 </div>
+                                
+                            </div>
+                        </div>          
+
+                            <!-- <div class="row">
                                 <div class="col-lg-4 mb-2">
                                     <div class="row">
                                         <label for="license_plate"
@@ -130,98 +186,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="insert_date"
-                                            class="col-sm-4 col-form-label text-blue">เวลาจอด</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="insert_date" value="{{time_in}}">{{time_in}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="insert_date"
-                                            class="col-sm-4 col-form-label text-blue">เวลาออก</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="insert_date" value="{{time_out}}">{{time_out}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="total_amount"
-                                            class="col-sm-4 col-form-label text-blue">จำนวนเงิน</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="total_amount" value="{{amount}}">{{amount}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="earn"
-                                            class="col-sm-4 col-form-label text-blue ">จำนวนเงินที่ได้รับ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="amount" id="amount">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="change"
-                                            class="col-sm-4 col-form-label text-blue">ค่าปรับ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="fines" id="fines">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="change"
-                                            class="col-sm-4 col-form-label text-blue">ส่วนลด</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="discount" id="discount">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="change"
-                                            class="col-sm-4 col-form-label text-blue">จำนวนเงินทอน</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="change"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-2">
-                                    <div class="row">
-                                        <label for="payment"
-                                            class="col-sm-4 col-form-label text-blue">ช่องทางการชำระเงิน</label>
-                                        <div class="col-sm-8 mt-2">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            เงินสด
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 text-center mt-2">
-                                    <div id="div1" hidden></div>
-                                    <button class="btn btn-primary mx-2 w-30 col-3">ยืนยัน</button>
-                                </div>
-                            </div>
-                        </form>
+                            </div> -->
                     </div>
-                    <div class="row">
-                        {% include "comp/block-btn-system.html" %}
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -236,6 +203,8 @@
             var time = date.toLocaleTimeString();
             document.getElementById("timecurrent").innerHTML = time;
         } 
+
+      
 
         function showImage() {
             document.getElementById('loadingImage').style.visibility = document.getElementById('loadingImage').style.visibility == 'visible' ? 'hidden' : 'visible';
