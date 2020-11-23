@@ -24,7 +24,8 @@ def cal_Price():
         if date_in and time_in and date_out and time_out:
             date_in = datetime.fromisoformat("{0} {1}".format(date_in, time_in))
             date_out = datetime.fromisoformat("{0} {1}".format(date_out, time_out))
-
+            print(date_in)
+            print(date_out)
             price = 0
             tmp = None
             last = False

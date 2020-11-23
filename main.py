@@ -65,7 +65,7 @@ def checkout():
     dateOut = str(result[0][15])
     province = result[0][3]
     price = member()
-    return render_template('checkout.html',price=price,timeIn=timeIn,license_plate=license_plate,province=province,timeOut=timeOut)
+    return render_template('checkout.html',price=price,dateIn=dateIn,timeIn=timeIn,license_plate=license_plate,province=province,timeOut=timeOut,dateOut=dateOut)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
