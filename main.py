@@ -48,9 +48,7 @@ def pay():
 
 @app.route('/checkin')  # checkin
 def checkin():
-    mycursor = mydb.cursor() 
-    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
-    myresult = mycursor.fetchall()
+    #ใส่ api
     return render_template('checkin.html')
 
 
