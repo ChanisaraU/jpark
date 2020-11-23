@@ -4,85 +4,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ใบกำกับภาษี : JPARK</title>
+    <title>รายงานภาษีขาย : JPARK</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css',  _external=True) }}">
+    <meta name="pdfkit-page-size" content="Legal"/>
+    <meta name="pdfkit-orientation" content="Landscape"/>
 </head>
+<style>
+    @font-face{
+        font-family: 'Cordia New';
+        src: {{ url_for('static',filename='font/Cordia New Regular.ttf') }} ;
+    }
 
+    @font-face {
+        font-family: 'Cordia New';
+        font-weight: bold;
+        src: {{ url_for('static',filename='font/Cordia New Bold.ttf') }} ;
+    }
+    body {
+        font-family: 'Cordia New' !important;
+    }
+    .col-print-1 {
+        width: 8%;
+        float: left;
+    }
+    .col-print-2 {
+        width: 16%;
+        float: left;
+    }
+    .col-print-3 {
+        width: 25%;
+        float: left;
+    }
+    .col-print-4 {
+        width: 33%;
+        float: left;
+    }
+    .col-print-5 {
+        width: 42%;
+        float: left;
+    }
+    .col-print-6 {
+        width: 50%;
+        float: left;
+    }
+    .col-print-7 {
+        width: 58%;
+        float: left;
+    }
+    .col-print-8 {
+        width: 66%;
+        float: left;
+    }
+    .col-print-9 {
+        width: 75%;
+        float: left;
+    }
+    .col-print-10 {
+        width: 83%;
+        float: left;
+    }
+    .col-print-11 {
+        width: 92%;
+        float: left;
+    }
+    .col-print-12 {
+        width: 100%;
+        float: left;    
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th {
+        font-weight: bold;
+        border: 1px solid #000;
+    }
+    td {
+        border: 1px solid #000;
+    }
+    .bold-1 {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+</style>
 <body>
-    <div class="container-fluid">
-        <div class="col-lg-12 text-center">
-            <h3>บริษัท เจนก้องไกล จำกัด (สาขา 00002)</h3>
-            <h3>เลขที่ 448 ถนนพระราม 1 แขวงปทุมวัน</h3>
-            <h3>เขตปทุมวัน กรุงเทพฯ 10330</h3>
+        <div class="col-lg-12 text-center bold-1">
+            รายงานภาษีขาย<br>
+            ประจำเดือนพฤศจิกายน ปี 2563
         </div>
-        <div class="col-lg-12">
-            <hr>
-        </div>
-        <div class="row pb-5" style="padding-left: 8rem;">
-            <div class="col-print-6"><h3>TAX ID :</h3></div>
-            <div class="col-print-6 pl-5"><h3>0735541000291</h3></div>
-
-            <div class="col-print-6"><h3>Tel :</h3></div>
-            <div class="col-print-6 pl-5"><h3><br></h3></div>
-
-            <div class="col-print-6"><h3>POS ID :</h3></div>
-            <div class="col-print-6 pl-5"><h3><br></h3></div>
-
-            <div class="col-print-12"><h3>Cashier : <span class="pl-3">ศิรินทรา สมสลิต</span></h3></div>
-
-            <div class="col-print-12"><h3>Cashier box : <span class="pl-3">ทางออก 1 (027)</span></h3></div>
-
-            <div class="col-print-6"><h3>วันที่ Date :</h3></div>
-            <div class="col-print-6 pl-5"><h3>03/09/2563 14:58</h3></div>
-
-            <div class="col-print-6"><h3>เลขที่ Receipt No. :</h3></div>
-            <div class="col-print-6 pl-5"><h3>SSQSSQ1200901001271</h3></div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12 text-center" style="padding-top: 12rem;">
-                <h3>ค่าบริการจอดรถ Parking Fee</h3>
+        <br>
+        <div class="row" style="font-size: 1.1rem;">
+            <div class="col-print-2">
+                ชื่อผู้ประกอบการ :        
             </div>
-            <div class="col-lg-12" style="padding-left: 8rem;padding-bottom: 8rem;">
-                <div class="col-print-6"><h3>หมายเลขบัตร Card No. :</h3></div>
-                <div class="col-print-6 pl-5"><h3>V00089</h3></div>
-
-                <div class="col-print-6"><h3>ทะเบียนรถ License :</h3></div>
-                <div class="col-print-6 pl-5"><h3>3656</h3></div>
-
-                <div class="col-print-6"><h3>เวลาเข้า IN :</h3></div>
-                <div class="col-print-6 pl-5"><h3>03/09/2563 12:22</h3></div>
-
-                <div class="col-print-6"><h3>เวลาออก OUT :</h3></div>
-                <div class="col-print-6 pl-5"><h3>03/09/2563 14:58</h3></div>
-
-                <div class="col-print-6"><h3>ระยะเวลาเข้าออก IN-OUT :</h3></div>
-                <div class="col-print-6 pl-5"><h3>02:36 Hrs.</h3></div>
-
-                <div class="col-print-6"><h3>ค่าจอดรถ :</h3></div>
-                <div class="col-print-6 pl-5"><h3>60.00 Baht</h3></div>
-
-                <div class="col-print-6"><h3>ค่าปรับบัตรหาย :</h3></div>
-                <div class="col-print-6 pl-5"><h3>0.00 Baht</h3></div>
-
-                <div class="col-print-6"><h3>ซื้อส่วนลด :</h3></div>
-                <div class="col-print-6 pl-5"><h3>0001</h3></div>
-
-                <div class="col-print-6"><h3>ส่วนลด :</h3></div>
-                <div class="col-print-6 pl-5"><h3>60.00 Baht</h3></div>
-
-                <div class="col-print-6"><h3>จำนวนเงิน Amount :</h3></div>
-                <div class="col-print-6 pl-5"><h3>0.00 Baht</h3></div>
+            <div class="col-print-4">
+                บริษัท เจนก้องไกล จำกัด <br> เลขที่ 944 อาคารมิตรทาวน์ ออฟฟิศ ทาวเวอร์ ห้อง 1110 <br> ถนนพระราม 4 แขวงวังใหม่ เขตปทุมวัน กทม.
             </div>
         </div>
-        <div class="col-lg-12 text-center pt-2">
-            <div class="col-print-12"><h3><hr></h3></div>
-            <h5>ขอบคุณที่ใช้บริการ Thank you</h5>
+        <div class="row" style="font-size: 1.1rem;">
+            <div class="col-print-2">
+                เลขประจำตัวผู้เสียภาษีอากร :        
+            </div>
+            <div class="col-print-4">
+                <p>0735541000291</p>
+                <p><input type="checkbox" class="form-check-input" checked>
+                    <label class="form-check-label">
+                        สำนักงานใหญ่
+                    </label> 
+                    <input type="checkbox" class="form-check-input ml-3">
+                    <label class="form-check-label">
+                        สาขาที่ .........
+                    </label> 
+                </p>
+            </div>
         </div>
-
-    </div>
+        <br>
+        <div class="row" style="font-size: 1.1rem;">
+            <div class="col-print-2">
+                ชื่อสถานประกอบการ :        
+            </div>
+            <div class="col-print-4">
+                บริษัท เจนก้องไกล จำกัด <br> เลขที่ 944 อาคารมิตรทาวน์ ออฟฟิศ ทาวเวอร์ ห้อง 1110 <br> ถนนพระราม 4 แขวงวังใหม่ เขตปทุมวัน กทม.
+            </div>
+        </div>
+        <br><br><br><br><br><br><br>
+        <table style="font-size: 1rem;">
+            <thead>
+              <tr>
+                <th rowspan="2">ลำดับ</th>
+                <th colspan="3">ใบกำกับ</th>
+                <th rowspan="2" style="width: 100px;">ทะเบียนรถ</th>
+                <th rowspan="2" style="width: 100px;">ประเภทสมาชิก</th>
+                <th rowspan="2" style="width: 200px;">ชื่อผู้รับบริการ</th>
+                <th rowspan="2" style="width: 140px;">เลขประจำตัว<br>ผู้เสียภาษีอากร</th>
+                <th colspan="2">สถานประกอบการ</th>
+                <th rowspan="2" style="width: 100px;">มูลค่าสินค้า<br>หรือบริการ</th>
+                <th rowspan="2" style="width: 120px;">จำนวนเงิน<br>ภาษีมูลค่าเพิ่ม</th>
+                <th rowspan="2" style="width: 120px;">บริการที่ได้รับยกเว้น<br>ภาษีมูลค่าเพิ่ม</th>
+              </tr>
+              <tr>
+                  <th style="width: 70px;">วัน เดือน ปี</th>
+                  <th style="width: 140px;">เลขที่</th>
+                  <th style="width: 140px;">POS No.</th>
+                  <th style="width: 100px;">สำนักงานใหญ่</th>
+                  <th style="width: 100px;">สาขาที่</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr>
+                <td>1</td>
+                <td>00/00/0000</td>
+                <td>RV 2020-000152</td>
+                <td>XXXXXX0002555</td>
+                <td>5กฮ1234</td>
+                <td>Member</td>
+                <td>นายสวัสดี ทดสอบ</td>
+                <td>0735541000291</td>
+                <td>X</td>
+                <td></td>
+                <td>450.00</td>
+                <td>0.00</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>00/00/0000</td>
+                <td>RV 2020-000202</td>
+                <td>XXXXXX0002676</td>
+                <td>ทท456</td>
+                <td>Visitor</td>
+                <td></td>
+                <td></td>
+                <td>X</td>
+                <td></td>
+                <td>150.00</td>
+                <td>0.00</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
 </body>
 
 </html>

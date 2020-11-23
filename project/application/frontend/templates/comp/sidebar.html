@@ -9,8 +9,7 @@
     src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script
     src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <link rel="stylesheet"
-    href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
   <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/admin.js') }}"></script> -->
 </head>
@@ -21,7 +20,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion sticky-top h-100" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" onclick="window.location.href='car-in'" style="cursor:pointer;">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center">
       <div class="sidebar-brand-icon">
         <!-- <i class="fas fa-laugh-wink"></i> -->
         <img src="{{url_for('static', filename='image/logoart-jpark-white-02.svg')}}" width="50">
@@ -32,22 +31,20 @@
     </a>
 
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-      <a class="nav-link" href="home">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
-    </li>
+    <div class="sidebar-heading">
+      <i class="fas fa-user"></i>
+      <span>พนักงาน</span>
+    </div>
     <!-- Nav Item - car-out -->
     <li class="nav-item">
       <a class="nav-link" href="car-in">
-        <i class="fas fa-fw fa-file"></i>
+        <i class="fas fa-car"></i>
         <span>ข้อมูลรถเข้าลานจอด</span></a>
     </li>
     <!-- Nav Item - car-out -->
     <li class="nav-item">
       <a class="nav-link" href="car-out">
-        <i class="fas fa-fw fa-file"></i>
+        <i class="fas fa-car"></i>
         <span>ข้อมูลรถออกลานจอด</span></a>
     </li>
     <!-- Nav Item - transaction -->
@@ -62,15 +59,26 @@
         <i class="fas fa-fw fa-money"></i>
         <span>Payment</span></a>
     </li> -->
+
+    <div class="sidebar-heading">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span>
+    </div>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+      <a class="nav-link" href="home">
+        <i class="fas fa-tv"></i>
+        <span>แสดงจำนวน</span></a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="checkin">
-        <i class="fas fa-check-square"></i>
-        <span>Checkin</span></a>
+        <i class="fas fa-tv"></i>
+        <span>Check-In</span></a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="checkout">
-        <i class="fas fa-check-square"></i>
-        <span>Checkout</span></a>
+        <i class="fas fa-tv"></i>
+        <span>Check-Out</span></a>
     </li>
     <!-- Nav Item - report -->
     <li class="nav-item">

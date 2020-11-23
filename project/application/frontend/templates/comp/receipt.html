@@ -7,15 +7,22 @@
     <title>POS Receipt : JPARK</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css',  _external=True) }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
     <style>
-        @page { size: 58mm 91mm } /* output size */
-        body.receipt .sheet { width: 58mm; height: 91mm } /* sheet size */
-        @media print { body.receipt { width: 58mm } } /* fix for Chrome */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        @page { size: 58mm 91mm }
+        body.receipt .sheet { width: 58mm; height: 91mm }
+        @media print { body.receipt { width: 58mm } }
+        .text-header {
+            font-size: 10px;
+            margin-bottom: 0.15rem !important;
+        }
       </style>
     <div id="invoice-POS">
     
@@ -23,14 +30,14 @@
           <div class="logo"></div>
           <div class="info"> 
             <p class="mt-2 mb-0">บริษัท เจนก้องไกล จำกัด</p>
-            <p class="mb-2">(สาขา 00002)</p>
+            <p class="mb-2">(สาขาสวนรถไฟ)</p>
           </div><!--End Info-->
         </center><!--End InvoiceTop-->
         
         <div id="mid">
           <div class="info">
             <!-- <h2>Contact Info</h2> -->
-            <p class="text-center"> 
+            <p class="text-center text-header"> 
                 เลขที่ 448 ถนนพระราม 1 แขวงปทุมวัน <br>
                 เขตปทุมวัน กรุงเทพฯ 10330 <br>
             </p>
@@ -51,14 +58,19 @@
                         <td class="tableitem"><p class="itemtext">0735541000291</p></td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">Tel.</p></td>
+                        <td class="tableitem"><p class="itemtext">Tel. :</p></td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext"></p></td>
+                        <td class="tableitem"><p class="itemtext">02-546-XXXX</p></td>
                     </tr>
                     <tr>
                         <td class="tableitem"><p class="itemtext">POS ID. :</p></td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext"></p></td>
+                        <td class="tableitem"><p class="itemtext">P002020</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">REG ID. :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">123451000000</p></td>
                     </tr>
                     <tr>
                         <td class="tableitem"><p class="itemtext">Cashier :</p></td>
@@ -68,14 +80,13 @@
                     <tr>
                         <td class="tableitem"><p class="itemtext">Cashier box :</p></td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">ทางออก 1 (027)</p></td>
+                        <td class="tableitem"><p class="itemtext">ทางออก 1</p></td>
                     </tr>
                     <tr>
                         <td class="tableitem"><p class="itemtext">วันที่ Date :</p></td>
                         <td class="tableitem"></td>
                         <td class="tableitem"><p class="itemtext">03/09/2563 14:58</p></td>
                     </tr>
-                    
                     <tr class="service">
                         <td class="tableitem"><p class="itemtext">เลขที่ Receipt No. :</p></td>
                         <td class="tableitem"></td>
@@ -86,12 +97,7 @@
             <p class="text-center mt-2 mb-1" id="headOrder2">ค่าบริการจอดรถ Parking Fee</p>
             <table>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">หมายเลขบัตร Card No. :</p></td>
-                    <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">V00089</p></td>
-                </tr>
-                <tr>
-                    <td class="tableitem"><p class="itemtext">ทะเบียนรถ License :</p></td>
+                    <td class="tableitem"><p class="itemtext">ทะเบียน License :</p></td>
                     <td class="tableitem"></td>
                     <td class="tableitem"><p class="itemtext">3656</p></td>
                 </tr>
@@ -116,14 +122,9 @@
                     <td class="tableitem"><p class="itemtext">60.00 Baht</p></td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ค่าปรับบัตรหาย :</p></td>
+                    <td class="tableitem"><p class="itemtext">ค่าบริการจอดค้างคืน :</p></td>
                     <td class="tableitem"></td>
                     <td class="tableitem"><p class="itemtext">0.00 Baht</p></td>
-                </tr>
-                <tr>
-                    <td class="tableitem"><p class="itemtext">ซื้อส่วนลด :</p></td>
-                    <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">0001</p></td>
                 </tr>
                 <tr class="tabletitle">
                     <td class="tableitem"><p class="itemtext">ส่วนลด :</p></td>
@@ -134,6 +135,11 @@
                     <td class="tableitem"><p class="itemtext">จำนวนเงิน Amount :</p></td>
                     <td class="tableitem"></td>
                     <td class="tableitem"><p class="itemtext">0.00 Baht</p></td>
+                </tr>                
+                <tr>
+                    <td class="tableitem"><p class="itemtext">ช่องทางชำระเงิน :</p></td>
+                    <td class="tableitem"></td>
+                    <td class="tableitem"><p class="itemtext">เงินสด</p></td>
                 </tr>
             </table>
             <div id="legalcopy">
