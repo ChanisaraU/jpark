@@ -81,8 +81,9 @@ def cal_Price():
 def cal_discount(discount) :   
     mycursor = mydb.cursor() 
     sql = "update test_log set discount = %s where id = 0"
+    sql_parking = "update parking_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"    
     val = (discount,)
-    mycursor.execute(sql, val)
+    mycursor.execute(sql, sql_parking, val)
     mydb.commit()
     mycursor.close()        
         
@@ -90,8 +91,9 @@ def cal_discount(discount) :
 def cal_fines(fines) :   
     mycursor = mydb.cursor() 
     sql = "update test_log set fines = %s where id = 0"
+    sql_parking = "update parking_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (fines,)
-    mycursor.execute(sql, val)
+    mycursor.execute(sql, sql_parking, val)
     mydb.commit()
     mycursor.close()
             
@@ -99,8 +101,9 @@ def cal_fines(fines) :
 def cal_amount(price) :   
     mycursor = mydb.cursor() 
     sql = "update test_log set amount = %s where id = 0"
+    sql_parking = "update parking_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (price,)
-    mycursor.execute(sql, val)
+    mycursor.execute(sql, sql_parking, val)
     mydb.commit()
     mycursor.close()
 
@@ -108,8 +111,9 @@ def cal_amount(price) :
 def cal_vat(vat) :
     mycursor = mydb.cursor() 
     sql = "update test_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql_parking = "update parking_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (vat,)
-    mycursor.execute(sql, val)
+    mycursor.execute(sql, sql_parking, val)
     mydb.commit()
     mycursor.close()
     
@@ -117,8 +121,9 @@ def cal_vat(vat) :
 def cal_total_amount(total_amount) :
     mycursor = mydb.cursor() 
     sql = "update test_log set total_amount = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
+    sql_parking = "update test_log set vat = %s ORDER BY date_out DESC, time_out DESC LIMIT 1"
     val = (total_amount,)
-    mycursor.execute(sql, val)
+    mycursor.execute(sql, sql_parking, val)
     mydb.commit()
     mycursor.close()
     

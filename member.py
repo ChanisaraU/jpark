@@ -36,11 +36,11 @@ def member() :
             expiry = expiry.days 
             expiration = 'หมดอายุ'
             still_expire = '0'
-            expiry_1 = still_expire if expiry > 0 else expiration # เช็ค แค่หมดอายุรึยัง ยังไม่ได้เช็คเพคเกจ
+            expiry_1 = still_expire if expiry > 0 else cal_Price() # เช็ค แค่หมดอายุรึยัง ยังไม่ได้เช็คเพคเกจ
             return expiry_1
             
         elif member_type == 'VIP' :
-            price = "0" 
+            price = "vip" 
             return price
     return 'error'
 

@@ -212,7 +212,7 @@ def report():
         legend = "Data A"
         cursor = mysql.connection.cursor()
         try:
-            cursor.execute("select net_amount from parking_log")
+            cursor.execute("select amount from parking_log")
             rows = cursor.fetchall()
             labels = list()
             i = 0
