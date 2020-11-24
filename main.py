@@ -1,7 +1,7 @@
 from member import member
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
 from app import app
-from db_config import mysql #import sql
+from db_config import mysql  # import sql
 import cv2
 import time
 from datetime import datetime
@@ -14,7 +14,8 @@ import pdfkit
 
 
 def find_camera(id):
-    cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138', 'rtsp://admin:Jpark*2020*@172.20.1.138']
+    cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138',
+               'rtsp://admin:Jpark*2020*@172.20.1.138']
     return cameras[int(id)]
 
 # camera = cv2.VideoCapture('rtsp://admin:Jpark*2020*@172.20.1.138')  # use 0 for web camera
@@ -33,13 +34,15 @@ def gen_frames(camera_id):  # generate frame by frame from camera
         else:
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
-            yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+            # concat frame one by one and show result
+            yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/video_feed/<string:id>/', methods=["GET"])
 def video_feed(id):
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen_frames(id), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @app.route('/pay')  # pay
 def pay():
@@ -48,7 +51,7 @@ def pay():
 
 @app.route('/checkin')  # checkin
 def checkin():
-    #ใส่ api
+    # ใส่ api
     return render_template('checkin.html')
 
 
@@ -65,7 +68,7 @@ def checkout():
     dateOut = str(result[0][15])
     province = result[0][3]
     price = member()
-    return render_template('checkout.html',price=price,dateIn=dateIn,timeIn=timeIn,license_plate=license_plate,province=province,timeOut=timeOut,dateOut=dateOut)
+    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
@@ -86,14 +89,15 @@ def login():
             login_date = now.strftime('%Y-%m-%d %H:%M:%S')
             print(login_date)
             sql = "INSERT INTO login_history(user_name,user_ip,system,login_date,status) VALUES (%s, %s, %s, %s, %s)"
-            val = (account[8], ip_address,"ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
+            val = (account[8], ip_address,
+                   "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
             return redirect(url_for('car_in'))
         else:
             sql = 'select * from user_admin where user_name = %s'
-            cursor.execute(sql,(username,))
+            cursor.execute(sql, (username,))
             account = cursor.fetchone()
             if account:
                 error = 'Incorrect password!'
@@ -139,7 +143,8 @@ def livesearch():
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5], data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5],
+               data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -178,23 +183,23 @@ def maindown():
         sql = 'select * from test_log where id = 0'
         cursor.execute(sql)
         info = cursor.fetchone()
-        car_out = info[2] #license_plate
+        car_out = info[2]  # license_plate
         print(car_out+"1")
-        
+
         cursor2 = mysql.connection.cursor()
         sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
-        val = (price,car_out)
+        val = (price, car_out)
         cursor2.execute(sql2, val)
         mysql.connection.commit()
         cursor2.close()
-        
+
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
         val = (car_out,)
-        cursor3.execute(sql3,val)
+        cursor3.execute(sql3, val)
         member1 = cursor3.fetchone()
-    
-        print(member1,"2")
+
+        print(member1, "2")
         if member1:
             name = member1[4]+" "+member1[5]
             mem_type = member1[2]
@@ -203,8 +208,8 @@ def maindown():
             time_in = str(info[8])+" "+str(info[7])
             time_out = str(info[15])+" "+str(info[14])
             amount = info[19]
-            
-        else :
+
+        else:
             name = " "
             mem_type = " "
             expiry_date = " "
@@ -213,8 +218,7 @@ def maindown():
             time_out = " "
             amount = " "
 
-    return render_template('car-out.html',name=name,mem_type=mem_type,expiry_date=expiry_date,licenseP=licenseP,time_in=time_in,time_out= time_out,amount=amount)
-
+    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, time_out=time_out, amount=amount)
 
 
 @app.route('/report')  # รายงาน
@@ -229,7 +233,7 @@ def report():
             i = 0
             for row in rows:
                 labels.append(row[i])
-            
+
             cursor.execute("select date_out from parking_log")
             rows = cursor.fetchall()
             # Convert query to objects of key-value pairs
@@ -239,29 +243,31 @@ def report():
                 values.append(row[i])
             mysql.connection.commit()
             cursor.close()
-        
+
         except:
             print("Error: Unable to fetch items")
         return render_template('report.html', values=values, labels=labels, legend=legend)
+
 
 @app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
 def listcar():
     if session['username'] != " ":
         now = datetime.now()
-        today = now.strftime('%Y-%m-%d') 
+        today = now.strftime('%Y-%m-%d')
         cursor = mysql.connection.cursor()
         query = "select * from parking_log where date_in = %s order by time_in DESC,date_in DESC"
-        cursor.execute(query,(today,))
+        cursor.execute(query, (today,))
         resultt = cursor.fetchall()
-        return render_template('transaction.html', result=resultt,data=[{'in_out':'เข้า'}, {'in_out':'ออก'}],type=[{'typecar':'รถยนต์ส่วนบุคคล'}, {'typecar':'รถแท๊กซี่'}, {'typecar':'รถจักรยานยนต์'}])
+        return render_template('transaction.html', result=resultt, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
+
 
 @app.route('/addcar', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
 def addcar():
     now = datetime.now()
-    today = now.strftime('%Y-%m-%d') 
+    today = now.strftime('%Y-%m-%d')
     cursor = mysql.connection.cursor()
     query = "select * from parking_log where date_in = %s order by time_in DESC,date_in DESC"
-    cursor.execute(query,(today,))
+    cursor.execute(query, (today,))
     resultt = cursor.fetchall()
     cursor2 = mysql.connection.cursor()
     in_out = request.form.get('comp_select')
@@ -274,13 +280,14 @@ def addcar():
     cursor2 = mysql.connection.cursor()
     if in_out == 'เข้า':
         sql = "INSERT INTO parking_log(id,license_plate,province,time_in,car_type) VALUES (%s, %s, %s, %s, %s)"
-        val = (in_out,carregis,province,timeinout,typecar)
+        val = (in_out, carregis, province, timeinout, typecar)
         cursor2.execute(sql, val)
         mysql.connection.commit()
         cursor2.close()
-    return render_template('transaction.html', result=resultt,data=[{'in_out':'เข้า'}, {'in_out':'ออก'}],type=[{'typecar':'รถยนต์ส่วนบุคคล'}, {'typecar':'รถแท๊กซี่'}, {'typecar':'รถจักรยานยนต์'}])
+    return render_template('transaction.html', result=resultt, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
 
-@app.route('/edit',methods=["POST", "GET"])  
+
+@app.route('/edit', methods=["POST", "GET"])
 def edit():
     cursor2 = mysql.connection.cursor()
     id = request.values.get('id')
@@ -289,24 +296,24 @@ def edit():
     typecar = request.values.get('typecar_')
 
     sql = "UPDATE parking_log SET license_plate = %s, province= %s ,car_type= %s WHERE id = %s"
-    val = (car_regis,province,typecar,id)
+    val = (car_regis, province, typecar, id)
     cursor2.execute(sql, val)
     mysql.connection.commit()
     cursor2.close()
     now = datetime.now()
-    today = now.strftime('%Y-%m-%d') 
+    today = now.strftime('%Y-%m-%d')
     cursor = mysql.connection.cursor()
     query = "select * from parking_log where date_in = %s order by time_in DESC,date_in DESC"
-    cursor.execute(query,(today,))
+    cursor.execute(query, (today,))
     resultt = cursor.fetchall()
-    return render_template('transaction.html', result=resultt,data=[{'in_out':'เข้า'}, {'in_out':'ออก'}],type=[{'typecar':'รถยนต์ส่วนบุคคล'}, {'typecar':'รถแท๊กซี่'}, {'typecar':'รถจักรยานยนต์'}])
+    return render_template('transaction.html', result=resultt, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
 
 
 # Export to Excel :: Transaction
 @app.route('/download/report/excel')
 def download_report():
     cursor = mysql.connection.cursor()
-    query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, net_amount, discount, earn, reason from parking_log"
+    query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, amount, discount, earn, reason from parking_log"
     cursor.execute(query)
     result = cursor.fetchall()
 
@@ -375,12 +382,13 @@ def logout():
 @app.route('/invoice')
 def invoice():
     rendered = render_template("comp/invoice.html")
-    options = { 'disable-smart-shrinking': ''}
-    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
     response = make_response(pdf, False)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
-    return response  
+    return response
 
 
 @app.route('/receipt')
