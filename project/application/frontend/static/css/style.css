@@ -5,26 +5,23 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
 }
-  
 
 .btn-primary-jpark {
   color: #fff;
-  background-color: #1B3E6C;
-  border-color: #1B3E6C;
+  background-color: #1b3e6c;
+  border-color: #1b3e6c;
 }
-
 
 .bg-image {
-  width:100vw;
+  width: 100vw;
   /* height:100vw; */
-  background-image: url('/static/image/bg-parking.png');
-  background-repeat:no-repeat;
-  background-position:center center;
-  background-size: cover
+  background-image: url("/static/image/bg-parking.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
-
 
 #invoice-POS {
   /* box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); */
@@ -43,7 +40,7 @@
 }
 #invoice-POS h1 {
   font-size: 1.5em;
-  color: #222;
+  color: #000;
 }
 #invoice-POS h2 {
   font-size: 0.6rem;
@@ -56,7 +53,7 @@
 }
 #invoice-POS p {
   font-size: 0.8rem;
-  color: #666;
+  color: #000;
   line-height: 1.2rem;
   margin-bottom: 0.5rem;
 }

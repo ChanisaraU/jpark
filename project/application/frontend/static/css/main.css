@@ -60,6 +60,11 @@ body {
   border: 0 !important;
 } */
 
+.floating-button {
+  bottom: 40px;
+  right: 60px;
+}
+
 .license-font {
   font-size: 4.1rem;
 }

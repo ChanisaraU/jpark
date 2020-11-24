@@ -94,35 +94,37 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" id="province" name="province">
+                                        <input type="text" class="form-control" id="province" name="province" readonly>
                                         <label for="province">จังหวัด</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" id="insert_date" value="{{time_out}}">
+                                        <input type="text" class="form-control" id="insert_date" value="{{time_out}}" readonly>
                                         <!-- {{time_out}} -->
-                                        <label for="insert_date">เวลาออก</label>
+                                        <label for="insert_date">เวลาจอด</label>
                                     </div>
                                 </div>
-                                <hr>
+                                <div class="col-md-12 px-5">
+                                    <hr>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" name="discount" id="discount">
+                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
                                         <label for="discount">คูปอง</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="fines" id="fines">
+                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
                                     <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
-                                    <input type="text" class="form-control" id="amount" value="{{amount}}">{{amount}}
-                                    <button type="button" class="btn btn-primary mt-2 btn-sm">คำนวณเงิน</button>
+                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="amount" value="{{amount}}">{{amount}}
+                                    <button type="button" class="btn btn-primary mt-2 col-4">คำนวณเงิน</button>
                                 </div>
                                 <div class="col-md-6 text-blue">
                                     <div class="text-center">
                                         <label for="amount" class="form-label h5">ค่าจอดรถ</label>
-                                        <input type="text" class="form-control" id="amount" value="{{amount}}">{{amount}}
+                                        <input type="text" class="form-control shadow" style="border-radius: 34px;" id="amount" value="{{amount}}" readonly>{{amount}}
                                     </div>
                                     <div class="form-check my-2 mx-3">
                                         <input class="form-check-input" type="radio"
@@ -134,10 +136,12 @@
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
                                     <label for="amount" class="form-label h5">เงินทอน</label>
-                                    <input type="text" class="form-control" id="change" name="change">
-                                    <button type="submit" class="btn btn-primary mt-2 btn-sm">ยืนยัน</button>
+                                    <input type="text" class="form-control shadow" style="border-radius: 34px;color: #F72C25 !important;" id="change" name="change" readonly>
+                                    <button type="submit" class="btn btn-primary mt-2 col-4">ยืนยัน</button>
                                 </div>
-                                <hr>
+                                <div class="col-md-12 px-5">
+                                    <hr>
+                                </div>
                                 <div class="col-md-12 text-blue">
                                     <div class="row">
                                         <div class="col-md-2">
