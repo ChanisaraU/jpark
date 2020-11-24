@@ -21,10 +21,6 @@ body {
   border-width: 0.2rem 0 0;
 }
 
-.w-30 {
-  width: 8%;
-}
-
 .btn-border-radius {
   border-radius: 20px !important;
 }
@@ -33,7 +29,7 @@ body {
   color: #e74a3b;
 }
 .text-green {
-  color: #07c900;
+  color: #19821d;
 }
 .text-blue {
   color: #080071;
@@ -60,9 +56,18 @@ body {
   border: 0 !important;
 } */
 
+.btn-barrier {
+  color: #fff;
+  background-color: #74543f;
+  border-color: #74543f;
+  /* border-radius: 20px; */
+}
+
 .floating-button {
   bottom: 40px;
   right: 60px;
+  position: fixed;
+  box-shadow: 2px 2px 3px #999;
 }
 
 .license-font {

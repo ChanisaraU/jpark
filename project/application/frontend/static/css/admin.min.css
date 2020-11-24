@@ -2317,8 +2317,8 @@ fieldset:disabled a.btn {
 }
 .btn-success {
   color: #fff;
-  background-color: #1cc88a;
-  border-color: #1cc88a;
+  background-color: #07c900;
+  border-color: #07c900;
 }
 .btn-success:hover {
   color: #fff;
@@ -9303,9 +9303,9 @@ a:focus {
 .topbar #sidebarToggleTop:active {
   background-color: #dddfeb;
 }
-.topbar .navbar-search {
+/* .topbar .navbar-search {
   width: 25rem;
-}
+} */
 .topbar .navbar-search input {
   font-size: 0.85rem;
   height: auto;

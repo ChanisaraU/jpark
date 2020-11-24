@@ -172,7 +172,9 @@
                                             <div class="form-control-test p" id="expiry_date" value="{{expiry_date}}">{{ expiry_date }}</div>
                                         </div>
                                         <div class="col-md-4 m-0 p-0">
-                                            <button type="button" class="btn btn-primary"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
+                                            <a href='{{ url_for('invoice') }}' target="_blank" type="button" class="btn btn-primary floating-button">
+                                                <i class="fas fa-print"></i> พิมพ์ใบเสร็จ
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

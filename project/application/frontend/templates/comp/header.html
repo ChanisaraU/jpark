@@ -19,7 +19,7 @@
   <link rel="stylesheet"
     href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.min.css') }}">
-  <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/admin.js') }}"></script> -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
 <body>
@@ -32,8 +32,14 @@
     </button>
 
     <!-- Topbar Search -->
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
       <span class="text-blue">Status :</span>
+      <button type="button" class="btn btn-success btn-sm mx-1">กล้อง 1</button>
+      <button type="button" class="btn btn-success btn-sm mx-1">กล้อง 2</button>
+      <button type="button" class="btn btn-success btn-sm mx-1">กล้อง 3</button>
+      <button type="button" class="btn btn-barrier btn-sm mx-1">ไม้กั้น 1</button>
+      <button type="button" class="btn btn-barrier btn-sm mx-1">ไม้กั้น 2</button>
+      <button type="button" class="btn btn-barrier btn-sm mx-1">ไม้กั้น 3</button>
       <!-- <div class="input-group">
           <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
           <div class="input-group-append">
