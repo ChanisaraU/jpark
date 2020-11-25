@@ -55,6 +55,12 @@ body {
   background-color: #2e77b8 !important;
   border: 0 !important;
 } */
+.btn-excel {
+  color: #fff;
+  background-color: #1cc88a;
+  border-color: #1cc88a;
+  /* border-radius: 20px; */
+}
 
 .btn-barrier {
   color: #fff;
