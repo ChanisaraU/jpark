@@ -73,10 +73,13 @@ def checkout():
     val = (license_plate,)
     cursor.execute(sql, val)
     mem = cursor.fetchone()
-    memberType = mem[2]
-    print(memberType)
-    expi = mem[11]
-    price = member()
+    if mem:
+       memberType = mem[2]
+       expi = mem[11]
+    else:
+       memberType = "visitor"
+       expi = " "
+
     price = member()
     return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut,memberType=memberType,expi=expi)
 
