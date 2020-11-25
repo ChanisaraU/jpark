@@ -67,8 +67,18 @@ def checkout():
     timeOut = str(result[0][14])
     dateOut = str(result[0][15])
     province = result[0][3]
+
+    cursor = mysql.connection.cursor()
+    sql = 'select * from member where license_plate = %s'
+    val = (license_plate,)
+    cursor.execute(sql, val)
+    mem = cursor.fetchone()
+    memberType = mem[2]
+    print(memberType)
+    expi = mem[11]
     price = member()
-    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut)
+    price = member()
+    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut,memberType=memberType,expi=expi)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
