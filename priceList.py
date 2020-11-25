@@ -6,10 +6,9 @@ from datetime import datetime, timedelta, date, time
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
-    database="car_bkk"
+    password="12345",
+    database="car_trmp"
 )
-
 
 def get_hour(delta):
     return delta.seconds/3600
@@ -21,8 +20,29 @@ def cal_Price():
     mycursor.execute(
         "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
     myresult = mycursor.fetchall()
+    if not myresult[0][1]:
+        y = list(myresult[0])
+        y[1] = '00:00:00'
+        myresult[0] = tuple(y)
+        # print(myresult)
+
+    if not myresult[0][3]:
+        y = list(myresult[0])
+        y[3] = '00:00:00'
+        myresult[0] = tuple(y)
+        # print(myresult)
 
     for (date_in, time_in, date_out, time_out) in myresult:
+        checkHourIn = str(time_in).split(":")
+        if len(checkHourIn[0])== 1 :
+            checkHourIn[0]= "0"+checkHourIn[0]
+            time_in = checkHourIn[0]+":"+checkHourIn[1]+":"+checkHourIn[2]
+
+        checkHourOut = str(time_out).split(":")
+        if len(checkHourOut[0])== 1 :
+            checkHourOut[0]= "0"+checkHourOut[0]
+            time_out = checkHourOut[0]+":"+checkHourOut[1]+":"+checkHourOut[2]
+
         if date_in and time_in and date_out and time_out:
             date_in = datetime.fromisoformat(
                 "{0} {1}".format(date_in, time_in))
