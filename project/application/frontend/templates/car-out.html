@@ -108,11 +108,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
+                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" id="discount" onkeydown="return nextbox(event, 'fines');">
                                         <label for="discount">คูปอง</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
+                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines" onkeydown="return nextbox(event, 'receive');">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
                                     <div class="form-check my-2 mx-3">
@@ -126,12 +126,12 @@
                                 <div class="col-md-6 text-blue">
                                     <div class="text-center">
                                         <label for="amount" class="form-label h5">ค่าจอดรถ</label>
-                                        <input type="text" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>{{amount}}
+                                        <input type="text" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
                                     <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
-                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="amount" value="{{amount}}">{{amount}}
+                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="receive" value="{{receive}}">
                                     <button type="button" class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button>
                                 </div>
                                 
@@ -190,16 +190,26 @@
     </div>
 
 
-    <!-- Timeline JS-->
+    
     <script type="text/javascript">
+        function nextbox(e, id) {
+        // อ่าน keycode (cross browser)
+            var keycode = e.which || e.keyCode;
+            // ตรวจสอบ keycode (13 คือ กด enter)
+            if (keycode == 13) {
+                // ย้ายโฟกัสไปยัง input ที่ id
+                document.getElementById(id).focus();
+                // return false
+                return false;
+            }
+        }
+        // Timeline JS
         var display = setInterval(function () { Time() }, 0);
         function Time() {
             var date = new Date();
             var time = date.toLocaleTimeString();
             document.getElementById("timecurrent").innerHTML = time;
         } 
-
-      
 
         function showImage() {
             document.getElementById('loadingImage').style.visibility = document.getElementById('loadingImage').style.visibility == 'visible' ? 'hidden' : 'visible';
