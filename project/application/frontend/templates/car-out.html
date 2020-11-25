@@ -115,17 +115,6 @@
                                         <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
-                                </div>
-                                <div class="col-md-6 text-center text-blue">
-                                    <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
-                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="amount" value="{{amount}}">{{amount}}
-                                    <button type="button" class="btn btn-primary mt-2 col-4">คำนวณเงิน</button>
-                                </div>
-                                <div class="col-md-6 text-blue">
-                                    <div class="text-center">
-                                        <label for="amount" class="form-label h5">ค่าจอดรถ</label>
-                                        <input type="text" class="form-control shadow" style="border-radius: 34px;" id="amount" value="{{amount}}" readonly>{{amount}}
-                                    </div>
                                     <div class="form-check my-2 mx-3">
                                         <input class="form-check-input" type="radio"
                                             name="flexRadioDefault" id="flexRadioDefault1" checked>
@@ -134,10 +123,22 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="col-md-6 text-blue">
+                                    <div class="text-center">
+                                        <label for="amount" class="form-label h5">ค่าจอดรถ</label>
+                                        <input type="text" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>{{amount}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center text-blue">
+                                    <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
+                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="amount" value="{{amount}}">{{amount}}
+                                    <button type="button" class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button>
+                                </div>
+                                
                                 <div class="col-md-6 text-center text-blue">
                                     <label for="amount" class="form-label h5">เงินทอน</label>
                                     <input type="text" class="form-control shadow" style="border-radius: 34px;color: #F72C25 !important;" id="change" name="change" readonly>
-                                    <button type="submit" class="btn btn-primary mt-2 col-4">ยืนยัน</button>
+                                    <button type="submit" class="btn btn-primary btn-sm mt-2 col-4">ยืนยัน</button>
                                 </div>
                                 <div class="col-md-12 px-5">
                                     <hr>
@@ -181,18 +182,6 @@
                                 
                             </div>
                         </div>          
-
-                            <!-- <div class="row">
-                                <div class="col-lg-4 mb-2">
-                                    <div class="row">
-                                        <label for="license_plate"
-                                            class="col-sm-4 col-form-label text-blue">ทะเบียนรถ</label>
-                                        <div class="col-sm-8">
-                                            <div class="form-control-test p" id="license_plate" value="{{licenseP}}">{{licenseP}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                     </div>
 
                 </div>

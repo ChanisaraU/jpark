@@ -38,23 +38,11 @@ body {
   color: #121212;
 }
 
-/* .box-red {
-  color: white;
-  background-color: #e74a3b !important;
-  border: 0 !important;
-} */
+.input-parking-fee {
+  border-radius: 34px;
+  font-size: 53px;
+}
 
-/* .box-green {
-  color: white;
-  background-color: #26a342 !important;
-  border: 0 !important;
-} */
-
-/* .box-blue {
-  color: white;
-  background-color: #2e77b8 !important;
-  border: 0 !important;
-} */
 .btn-excel {
   color: #fff;
   background-color: #1cc88a;
