@@ -199,49 +199,48 @@
             var time = date.toLocaleTimeString();
             document.getElementById("timecurrent").innerHTML = time;
         }
-        $(document).ready(function () {
-            $("#livebox").on("input", function (e) { // ฟังก์ชั่นการค้นหาแบบเรียวไทม์ อักษรต่ออักษร
-                $("#datalist").empty();
-                $.ajax({
-                    method: "post",
-                    url: "/livesearch",
-                    data: { text: $("#livebox").val() },
-                    success: function (res) {
-                        const propertyValues = Object.values(res);
-                        console.log("size = ", propertyValues.length)
-                        if (propertyValues.length != 0) {
-                            $("#member_type").html(res[0][2]);
-                            $("#expiry_date").html(res[0][11]);
-                            $("#insert_date").html(res[0][14])
-                            $("#license_plate").html(res[0][8]);
-                            $("#car_type").html(res[0][7]);
-                            $("#province").html(res[0][9]);
-                        }
-                        else {
-                            $("#member_type").html(" ");
-                            $("#expiry_date").html(" ");
-                            $("#insert_date").html(" ");
-                            $("#license_plate").html(" ");
-                            $("#car_type").html(" ");
-                            $("#province").html(" ");
-                        }
-                    }
-                });
-            });
-        });
-
-        $(document).ready(function () {
-            $("button").click(function () {
-                $.ajax({
-                    method: "get",
-                    url: "/livesearch",
-                    data: { text: $("#div1").val() },
-                    success: function (res) {
-                        alert("finish!!");
-                    }
-                });
-            });
-        });
+        // $(document).ready(function () {
+        //     $("#livebox").on("input", function (e) { // ฟังก์ชั่นการค้นหาแบบเรียวไทม์ อักษรต่ออักษร
+        //         $("#datalist").empty();
+        //         $.ajax({
+        //             method: "post",
+        //             url: "/livesearch",
+        //             data: { text: $("#livebox").val() },
+        //             success: function (res) {
+        //                 const propertyValues = Object.values(res);
+        //                 console.log("size = ", propertyValues.length)
+        //                 if (propertyValues.length != 0) {
+        //                     $("#member_type").html(res[0][2]);
+        //                     $("#expiry_date").html(res[0][11]);
+        //                     $("#insert_date").html(res[0][14])
+        //                     $("#license_plate").html(res[0][8]);
+        //                     $("#car_type").html(res[0][7]);
+        //                     $("#province").html(res[0][9]);
+        //                 }
+        //                 else {
+        //                     $("#member_type").html(" ");
+        //                     $("#expiry_date").html(" ");
+        //                     $("#insert_date").html(" ");
+        //                     $("#license_plate").html(" ");
+        //                     $("#car_type").html(" ");
+        //                     $("#province").html(" ");
+        //                 }
+        //             }
+        //         });
+        //     });
+        // });
+        // $(document).ready(function () {
+        //     $("button").click(function () {
+        //         $.ajax({
+        //             method: "get",
+        //             url: "/livesearch",
+        //             data: { text: $("#div1").val() },
+        //             success: function (res) {
+        //                 alert("finish!!");
+        //             }
+        //         });
+        //     });
+        // });
 
     </script>
 
