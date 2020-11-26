@@ -1,4 +1,5 @@
 from member import member
+# from current import cal_current
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
 from app import app
 from db_config import mysql  # import sql
@@ -12,10 +13,13 @@ import pdfkit
 # path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
+# @app.route('/current')
+# def current() :
+#     currentCar = cal_current()
+#     return currentCar
 
 def find_camera(id):
-    cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138',
-               'rtsp://admin:Jpark*2020*@172.20.1.138']
+    cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138', 'rtsp://admin:Jpark*2020*@172.20.1.138']
     return cameras[int(id)]
 
 # camera = cv2.VideoCapture('rtsp://admin:Jpark*2020*@172.20.1.138')  # use 0 for web camera
@@ -44,11 +48,6 @@ def video_feed(id):
     return Response(gen_frames(id), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/pay')  # pay
-def pay():
-    return render_template('pay.html')
-
-
 @app.route('/checkin')  # checkin
 def checkin():
     # ใส่ api
@@ -73,17 +72,11 @@ def checkout():
     val = (license_plate,)
     cursor.execute(sql, val)
     mem = cursor.fetchone()
-    if mem:
-       memberType = mem[2]
-       if mem[2]=="VIP":
-           expi = " - "
-       else:
-         expi = mem[11] 
-    else:
-       memberType = "visitor"
-       expi = "-"
+    memberType = mem[2]
+    expi = mem[11]
     price = member()
-    return render_template('checkout.html', price=price, timeIn=timeIn, dateOut= dateOut,dateIn=dateIn, license_plate=license_plate, province=province, timeOut=timeOut,memberType=memberType,expi=expi)
+    # price = 
+    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut, memberType=memberType,expi=expi)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
@@ -104,8 +97,7 @@ def login():
             login_date = now.strftime('%Y-%m-%d %H:%M:%S')
             print(login_date)
             sql = "INSERT INTO login_history(user_name,user_ip,system,login_date,status) VALUES (%s, %s, %s, %s, %s)"
-            val = (account[8], ip_address,
-                   "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
+            val = (account[8], ip_address, "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
@@ -158,8 +150,7 @@ def livesearch():
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5],
-               data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5],data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -194,12 +185,13 @@ def car_in():
 def maindown():
     if session['username'] != " ":
         price = member()
+        
         cursor = mysql.connection.cursor()
         sql = 'select * from test_log where id = 0'
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-        print(car_out+"1")
+        # print(car_out+"1")
 
         cursor2 = mysql.connection.cursor()
         sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
@@ -214,7 +206,7 @@ def maindown():
         cursor3.execute(sql3, val)
         member1 = cursor3.fetchone()
 
-        print(member1, "2")
+        # print(member1, "2")
         if member1:
             name = member1[4]+" "+member1[5]
             mem_type = member1[2]
@@ -222,8 +214,8 @@ def maindown():
             licenseP = info[2]
             time_in = str(info[8])+" "+str(info[7])
             time_out = str(info[15])+" "+str(info[14])
-            amount = info[19]
-
+            amount = info[26]
+        
         else:
             name = " "
             mem_type = " "

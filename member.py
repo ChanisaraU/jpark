@@ -2,13 +2,13 @@ import mysql.connector
 import datetime
 from datetime import date
 from priceList import cal_Price, get_hour
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="12345",
     database="car_trmp"
 )
-
 
 
 def member():
@@ -47,4 +47,4 @@ def member():
             return price
     return 'error'
 
-# print(member())
+print(member())
