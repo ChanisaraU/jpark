@@ -75,13 +75,15 @@ def checkout():
     mem = cursor.fetchone()
     if mem:
        memberType = mem[2]
-       expi = mem[11]
+       if mem[2]=="VIP":
+           expi = " - "
+       else:
+         expi = mem[11] 
     else:
        memberType = "visitor"
-       expi = " "
-
+       expi = "-"
     price = member()
-    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut,memberType=memberType,expi=expi)
+    return render_template('checkout.html', price=price, timeIn=timeIn, dateOut= dateOut,dateIn=dateIn, license_plate=license_plate, province=province, timeOut=timeOut,memberType=memberType,expi=expi)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login

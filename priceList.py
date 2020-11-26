@@ -84,7 +84,7 @@ def cal_Price():
                     last = True
             cal_amount(price)  # ค่าเงินจอดรถ
             discount = ''
-            fines = 60
+            fines = 0
             cal_fines(fines)
             cal_discount(discount)
             if discount != '' and fines != '':

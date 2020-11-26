@@ -43,7 +43,7 @@ def member():
             return expiry_1
 
         elif member_type == 'VIP':
-            price = "vip"
+            price = "0"
             return price
     return 'error'
 
