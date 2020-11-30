@@ -138,8 +138,8 @@
                                 </div>
                                 
                                 <div class="col-md-6 text-center text-blue">
-                                    <label for="change" class="form-label h5">เงินทอน</label>
-                                    <input type="text" class="form-control shadow" style="border-radius: 34px;color: #F72C25 !important;" id="change" name="change" readonly>
+                                    <label for="changes" class="form-label h5">เงินทอน</label>
+                                    <input type="text" class="form-control shadow" style="border-radius: 34px;color: #F72C25 !important;" id="changes" name="changes" readonly>
                                     <button type="submit" class="btn btn-primary btn-sm mt-2 col-4">ยืนยัน</button>
                                 </div>
                                 </form>
@@ -275,9 +275,9 @@
                 var discount = parseInt($('#discount').val());
                 var receieve = parseInt($('#receieve').val());
                 var total = original + fines - discount;
-                var change = receieve - total;
+                var changes = receieve - total;
                 $('#amount').val(total);
-                $('#change').val(change);
+                $('#changes').val(changes);
             })
         });
   
@@ -287,5 +287,4 @@
 
     </script>
 </body>
-
 </html>

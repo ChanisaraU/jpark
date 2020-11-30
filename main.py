@@ -1,5 +1,5 @@
 from member import member
-from current import cal_fines
+from current import *
 
 # from current import cal_current
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
@@ -15,10 +15,6 @@ import pdfkit
 # path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
-# @app.route('/current')
-# def current() :
-#     currentCar = cal_current()
-#     return currentCar
 
 def find_camera(id):
     cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138', 'rtsp://admin:Jpark*2020*@172.20.1.138']
@@ -185,9 +181,18 @@ def car_in():
 
 @app.route('/car-out', methods=["POST"] )
 def current() :
-    fines = request.form.get("fines")
+    discount = request.form.get("discount") #คูปอง
+    fines = request.form.get("fines") #ค่าปรับ
+    original_amount = request.form.get("original_amount") #ค่าจอดรถรวม vat แล้ว
+    receieve = request.form.get("receieve") #เงินที่ได้รับ
+    changes = request.form.get("changes") #เงินทอน
+    
+    cal_discount(discount)
     cal_fines(fines)
-    print(fines)
+    cal_receieve(receieve)
+    cal_changes(changes)
+    
+    print(discount, fines, original_amount, receieve)
     return maindown()
 
 
@@ -414,4 +419,4 @@ def receipt():
 
 
 if __name__ == "__main__":
-    app.run(host='172.20.1.125')
+    app.run(host='localhost')
