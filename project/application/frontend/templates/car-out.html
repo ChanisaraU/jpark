@@ -88,17 +88,18 @@
                         </div>
                         <div class="col-lg-7 mt-2">
                             <div class="row g-2 mt-2">
-                                <div class="col-md-6 text-center text-blue">
-                                    <h5>ป้ายทะเบียนรถ</h5>
-                                    <span class="license-font">7กญ3603</span>
+                                <div class="col-md-6 text-center">
+                                    <h5 class="text-blue">ป้ายทะเบียนรถ</h5>
+                                    <span class="license-font text-blue mb-1">7กญ3603</span>
+                                    <div class="fw-normal">{{province}}</div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" id="province" name="province" readonly>
-                                        <label for="province">จังหวัด</label>
+                                        <input type="text" class="form-control" id="time_out" value="{{time_out}}" readonly>
+                                        <label for="time_out">เวลาออก</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" id="insert_date" value="{{time_out}}" readonly>
+                                        <input type="text" class="form-control" id="time_total" value="{{time_total}}" readonly>
                                         <!-- {{time_out}} -->
                                         <label for="insert_date">เวลาจอด</label>
                                     </div>
@@ -109,11 +110,11 @@
                                 <form class="row" action="{{ url_for('current') }}" method="POST">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="number" value="0" min="0" class="form-control" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
+                                        <input type="number" value="0" min="0" class="form-control mobile-verify pass" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
                                         <label for="discount">คูปอง</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="number" value="0" min="0" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
+                                        <input type="number" value="0" min="0" class="form-control mobile-verify pass" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
                                     <div class="form-check my-2 mx-3">
@@ -133,8 +134,7 @@
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
                                     <label for="receieve" class="form-label h5" >เงินที่ได้รับ</label>
-                                    <input type="text" name="receieve" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;"  id="receieve" type="number" value="0" min="0">
-                                    <!-- <button type="button" class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button> -->
+                                    <input type="text" name="receieve" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="receieve" type="number" value="0" min="0">
                                 </div>
                                 
                                 <div class="col-md-6 text-center text-blue">
@@ -260,7 +260,6 @@
 
         $(document).ready(function() {
             $('#fines, #discount, #receieve').on('keyup' ,function(){
-                
                 var original = parseInt($('#original_amount').val());
                 var fines = parseInt($('#fines').val());
                 var discount = parseInt($('#discount').val());
