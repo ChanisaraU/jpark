@@ -107,14 +107,14 @@
                                 <div class="col-md-12 px-5">
                                     <hr>
                                 </div>
-                                <form class="row" action="{{ url_for('current') }}" method="POST">
+                                <form class="row" method="POST" id="form">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <input type="number" value="0" min="0" class="form-control mobile-verify pass" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
+                                        <input type="number" value="0" min="0" class="form-control input-field" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
                                         <label for="discount">คูปอง</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="number" value="0" min="0" class="form-control mobile-verify pass" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
+                                        <input type="number" value="0" min="0" class="form-control input-field" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
                                     <div class="form-check my-2 mx-3">
@@ -128,7 +128,7 @@
                                 <div class="col-md-6 text-blue">
                                     <div class="text-center">
                                         <label for="amount" class="form-label h5">ค่าจอดรถ</label>
-                                        <input type="text" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>
+                                        <input type="number" class="form-control input-parking-fee shadow input-field" id="amount" value="{{amount}}" readonly>
                                         <input type="hidden" name="original_amount" id="original_amount" value="{{amount}}" >
                                     </div>
                                 </div>
@@ -258,6 +258,16 @@
             e.preventDefault();
         });
 
+        //Move the cursor to the next field and not submitting the form on enter
+        $(document).ready(function() {
+        $('.input-field').keypress(function (e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                var index = $('.input-field').index(this) + 1;
+                $('.input-field').eq(index).focus();
+            }
+        });
+
         $(document).ready(function() {
             $('#fines, #discount, #receieve').on('keyup' ,function(){
                 var original = parseInt($('#original_amount').val());
@@ -270,6 +280,10 @@
                 $('#change').val(change);
             })
         });
+  
+
+});
+
 
     </script>
 </body>
