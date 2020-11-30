@@ -1,4 +1,6 @@
 from member import member
+from current import cal_fines
+
 # from current import cal_current
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
 from app import app
@@ -59,6 +61,7 @@ def checkout():
     mycursor = mysql.connection.cursor()
     query = "select * from test_log "
     mycursor.execute(query)
+    print(mycursor)
     result = mycursor.fetchall()
     timeIn = str(result[0][7])
     dateIn = str(result[0][8])
@@ -66,7 +69,7 @@ def checkout():
     timeOut = str(result[0][14])
     dateOut = str(result[0][15])
     province = result[0][3]
-
+    print(timeOut)
     cursor = mysql.connection.cursor()
     sql = 'select * from member where license_plate = %s'
     val = (license_plate,)
@@ -75,7 +78,6 @@ def checkout():
     memberType = mem[2]
     expi = mem[11]
     price = member()
-    # price = 
     return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut, memberType=memberType,expi=expi)
 
 
@@ -181,7 +183,15 @@ def car_in():
         return render_template('car-in.html')
 
 
-@app.route('/car-out')  # ข้อมูลรถออกลานจอด
+@app.route('/car-out', methods=["POST"] )
+def current() :
+    fines = request.form.get("fines")
+    cal_fines(fines)
+    print(fines)
+    return maindown()
+
+
+@app.route('/car-out', methods=["GET"])  # ข้อมูลรถออกลานจอด
 def maindown():
     if session['username'] != " ":
         price = member()
@@ -191,7 +201,7 @@ def maindown():
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-        # print(car_out+"1")
+        print(car_out+"1")
 
         cursor2 = mysql.connection.cursor()
         sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
@@ -206,7 +216,7 @@ def maindown():
         cursor3.execute(sql3, val)
         member1 = cursor3.fetchone()
 
-        # print(member1, "2")
+        print(member1, "2")
         if member1:
             name = member1[4]+" "+member1[5]
             mem_type = member1[2]

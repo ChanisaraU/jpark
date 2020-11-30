@@ -106,18 +106,17 @@
                                 <div class="col-md-12 px-5">
                                     <hr>
                                 </div>
+                                <form action="{{ url_for('current') }}" method="POST">
                                 <div class="col-md-6">
-                                    <form name="calCurrent">
                                     <div class="form-floating mb-2">
-                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
+                                        <input type="number" value="0" min="0" class="form-control" style="border: 3px solid #B4C8E2;" name="discount" id="discount">
                                         <label for="discount">คูปอง</label>
                                     </div>
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
+                                        <input type="number" value="0" min="0" class="form-control" style="border: 3px solid #B4C8E2;" name="fines" id="fines">
                                         <label for="fines">ค่าปรับ</label>
                                     </div>
-                                    <button type="submit" action="current.py" method="POST" class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button>
-                                    </form>
+                                    <button type="submit"  class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button>
                                     <div class="form-check my-2 mx-3">
                                         <input class="form-check-input" type="radio"
                                             name="flexRadioDefault" id="flexRadioDefault1" checked>
@@ -130,19 +129,21 @@
                                     <div class="text-center">
                                         <label for="amount" class="form-label h5">ค่าจอดรถ</label>
                                         <input type="text" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>
+                                        <input type="hidden" name="original_amount" id="original_amount" value="{{amount}}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
-                                    <label for="amount" class="form-label h5">เงินที่ได้รับ</label>
-                                    <input type="text" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;" id="amount" value="{{amount}}">
+                                    <label for="receieve" class="form-label h5" >เงินที่ได้รับ</label>
+                                    <input type="text" name="receieve" class="form-control shadow" style="border-radius: 34px;border: 3px solid #B4C8E2;"  id="receieve" type="number" value="0" min="0">
                                     <button type="button" class="btn btn-primary btn-sm mt-2 col-4">คำนวณเงิน</button>
                                 </div>
                                 
                                 <div class="col-md-6 text-center text-blue">
-                                    <label for="amount" class="form-label h5">เงินทอน</label>
+                                    <label for="change" class="form-label h5">เงินทอน</label>
                                     <input type="text" class="form-control shadow" style="border-radius: 34px;color: #F72C25 !important;" id="change" name="change" readonly>
                                     <button type="submit" class="btn btn-primary btn-sm mt-2 col-4">ยืนยัน</button>
                                 </div>
+                                </form>
                                 <div class="col-md-12 px-5">
                                     <hr>
                                 </div>
@@ -202,7 +203,6 @@
             document.getElementById("timecurrent").innerHTML = time;
         } 
 
-      
 
         function showImage() {
             document.getElementById('loadingImage').style.visibility = document.getElementById('loadingImage').style.visibility == 'visible' ? 'hidden' : 'visible';
@@ -259,8 +259,21 @@
             e.preventDefault();
         });
 
-    </script>
+        $(document).ready(function() {
+            $('#fines, #discount, #receieve').on('keyup' ,function(){
+                
+                var original = parseInt($('#original_amount').val());
+                var fines = parseInt($('#fines').val());
+                var discount = parseInt($('#discount').val());
+                var receieve = parseInt($('#receieve').val());
+                var total = original + fines - discount;
+                var change = receieve - total;
+                $('#amount').val(total);
+                $('#change').val(change);
+            })
+        });
 
+    </script>
 </body>
 
 </html>
