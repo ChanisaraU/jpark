@@ -47,4 +47,4 @@ def member():
             return price
     return 'error'
 
-print(member())
+# print(member())

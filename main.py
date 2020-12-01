@@ -48,16 +48,9 @@ def video_feed(id):
 
 @app.route('/checkin')  # checkin
 def checkin():
-    # ใส่ api
-    return render_template('checkin.html')
-
-
-@app.route('/checkout')  # checkout
-def checkout():
     mycursor = mysql.connection.cursor()
     query = "select * from test_log "
     mycursor.execute(query)
-    print(mycursor)
     result = mycursor.fetchall()
     timeIn = str(result[0][7])
     dateIn = str(result[0][8])
@@ -65,7 +58,29 @@ def checkout():
     timeOut = str(result[0][14])
     dateOut = str(result[0][15])
     province = result[0][3]
-    print(timeOut)
+    cursor = mysql.connection.cursor()
+    sql = 'select * from member where license_plate = %s'
+    val = (license_plate,)
+    cursor.execute(sql, val)
+    mem = cursor.fetchone()
+    print(mem)
+    # if mem :
+    memberType = mem[2]
+    expi = mem[11]
+    df_expi = str(expi.day) +"/"+ str(expi.month) +"/"+ str(expi.year)
+    return render_template('checkin.html',timeIn=timeIn, license_plate=license_plate,memberType=memberType,df_expi=df_expi)
+
+
+@app.route('/checkout')  # checkout
+def checkout():
+    mycursor = mysql.connection.cursor()
+    query = "select * from test_log "
+    mycursor.execute(query)
+    result = mycursor.fetchall()
+    timeIn = str(result[0][7])
+    license_plate = result[0][2]
+    timeOut = str(result[0][14])
+    province = result[0][3]
     cursor = mysql.connection.cursor()
     sql = 'select * from member where license_plate = %s'
     val = (license_plate,)
@@ -73,8 +88,13 @@ def checkout():
     mem = cursor.fetchone()
     memberType = mem[2]
     expi = mem[11]
+    df_expi = str(expi.day) +"/"+ str(expi.month) +"/"+ str(expi.year)
     price = member()
-    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province, timeOut=timeOut, memberType=memberType,expi=expi)
+    dt_dateIn = result[0][8]
+    dt_dateOut= result[0][15]
+    dateIn =  str(dt_dateIn.day) +"/"+ str(dt_dateIn.month) +"/"+ str(dt_dateIn.year)
+    dateOut =  str(dt_dateOut.day) +"/"+ str(dt_dateOut.month) +"/"+ str(dt_dateOut.year)
+    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province,dateIn=dateIn,dateOut=dateOut, timeOut=timeOut, memberType=memberType,df_expi=df_expi)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
@@ -93,7 +113,6 @@ def login():
             hostname = socket.gethostname()
             ip_address = socket.gethostbyname(hostname)
             login_date = now.strftime('%Y-%m-%d %H:%M:%S')
-            print(login_date)
             sql = "INSERT INTO login_history(user_name,user_ip,system,login_date,status) VALUES (%s, %s, %s, %s, %s)"
             val = (account[8], ip_address, "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
             cursor.execute(sql, val)
@@ -192,7 +211,6 @@ def current() :
     cal_receieve(receieve)
     cal_changes(changes)
     
-    print(discount, fines, original_amount, receieve)
     return maindown()
 
 
@@ -206,7 +224,6 @@ def maindown():
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-        print(car_out+"1")
 
         cursor2 = mysql.connection.cursor()
         sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
@@ -221,16 +238,14 @@ def maindown():
         cursor3.execute(sql3, val)
         member1 = cursor3.fetchone()
 
-        print(member1, "2")
         if member1:
             name = member1[4]+" "+member1[5]
             mem_type = member1[2]
             expiry_date = member1[11]
             licenseP = info[2]
             time_in = str(info[8])+" "+str(info[7])
-            # time_out = str(info[15])+" "+str(info[14])
             dt = info[15]
-            time_out =  str(dt.day) +":"+ str(dt.month) +":"+ str(dt.year)+" "+str(info[14])
+            time_out =  str(dt.day) +"/"+ str(dt.month) +"/"+ str(dt.year)+" "+str(info[14])
             amount = info[26]
         
         else:

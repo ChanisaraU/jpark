@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="col text-right">
-                                <input class="form-control" list="datalistOptions" id="myInput" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
+                                <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
                                 padding: .375rem .75rem;font-size: 1rem;text-align: start;">
                             </div>
                         </div>
@@ -143,8 +143,8 @@
                                         <td>{{ row[14] }}</td>
                                         <td>{{ row[16] }}</td>
                                         <td>{{ row[19] }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ row[27] }}</td>
+                                        <td>{{ row[26] }}</td>
                                         <td>{{ row[2] }}</td>
                                         <td>{{ row[3] }}</td>
                                         <td>{{ row[2] }}</td>
@@ -243,7 +243,7 @@
         });
 
         $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
+            $("#search").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
                 $("#myTable tr").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
