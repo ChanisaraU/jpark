@@ -228,7 +228,9 @@ def maindown():
             expiry_date = member1[11]
             licenseP = info[2]
             time_in = str(info[8])+" "+str(info[7])
-            time_out = str(info[15])+" "+str(info[14])
+            # time_out = str(info[15])+" "+str(info[14])
+            dt = info[15]
+            time_out =  str(dt.day) +":"+ str(dt.month) +":"+ str(dt.year)+" "+str(info[14])
             amount = info[26]
         
         else:
