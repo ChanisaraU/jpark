@@ -240,7 +240,7 @@ def maindown():
             time_out = " "
             amount = " "
 
-    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, time_out=time_out, amount=amount)
+    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/report')  # รายงาน
