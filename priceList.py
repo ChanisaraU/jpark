@@ -119,4 +119,4 @@ def cal_total_amount(total_amount):
     mycursor.close()
 
 
-print(cal_Price())
+# print(cal_Price())

@@ -195,20 +195,7 @@ def showled():
 @app.route('/car-in')  # ข้อมูลรถเข้าลานจอด
 def car_in():
     if session['username'] != " ":
-        mycursor = mysql.connection.cursor()
-        query = "select * FROM member INNER JOIN test_log ON member.license_plate = test_log.license_plate ORDER BY date_out DESC, time_out DESC LIMIT 1"
-        mycursor.execute(query)
-        result = mycursor.fetchall()
-        member_type = result[0][2]
-        timeIn = str(result[0][23])
-        dateIn = str(result[0][24])
-        name = str(result[0][4])+" "+str(result[0][5])
-        license_plate = result[0][8]
-        province = result[0][19]
-        car_type = result[0][7]
-        expi = result[0][11]
-        df_expi = str(expi.day) +"/"+ str(expi.month) +"/"+ str(expi.year)
-        return render_template('car-in.html',province=province, car_type=car_type, df_expi=df_expi, timeIn=timeIn, member_type=member_type, name=name, license_plate=license_plate)
+        return render_template('car-in.html')
 
 
 @app.route('/car-out', methods=["POST"] )
