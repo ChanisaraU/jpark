@@ -6,7 +6,7 @@ from priceList import cal_Price, get_hour
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
+    password="Jpark1234*",
     database="car_trmp"
 )
 

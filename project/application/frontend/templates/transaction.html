@@ -165,10 +165,10 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            <button data-id="{{ row[0] }}" type="button" class="btn btn-primary"
-                                                data-toggle="modal" data-target="#editModal">
-                                                <i class="fas fa-edit"></i> แก้ไข
-                                            </button>
+                                            <button data-id="{{ row[0] }}" type="button" id="button1" class="btn btn-primary"
+                                            data-toggle="modal" data-target="#editModal">
+                                            <i class="fas fa-edit"></i> แก้ไข
+                                          </button >
                                             <!-- Modal -->
                                             <div class="modal fade" id="editModal" tabindex="-1"
                                                 aria-labelledby="editModalLabel" aria-hidden="true">
@@ -214,7 +214,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                                                                <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                                <button type="submit" class="btn btn-primary">ยืนยัน</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -241,12 +241,14 @@
         });
 
         //กำหนดไอดีให้กับปุ่มแก้ไขแต่ละปุ่ม
-        $("button1").click(function () {
+        $(document).ready(function(){
+        $("#button1").click(function () {
             console.log("hi")
             var passedID = $(this).data('id');//get the id of the selected button
             $('input[name="id"]').val(passedID);//set the id to the input on the modal
             console.log(passedID)
         });
+    });
 
         $(document).ready(function () {
             $("#search").on("keyup", function () {
