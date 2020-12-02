@@ -84,8 +84,8 @@
 
                     <div class="row">
                         <div class="col-lg-5">
-                            <img src="{{ url_for('video_feed', id='0') }}" class="img-fluid"><br>
-                            <img src="{{ url_for('video_feed', id='1') }}" class="img-fluid">
+                            <!-- <img src="{{ url_for('video_feed', id='0') }}" class="img-fluid"><br>
+                            <img src="{{ url_for('video_feed', id='1') }}" class="img-fluid"> -->
                         </div>
                         <div class="col-lg-7 mt-2">
                             <div class="row g-2 mt-2">
@@ -96,7 +96,7 @@
                                         <div class="col-8">
                                             <div class="card shadow mb-2" style="border-radius: 34px;background: #f1f1f1;">
                                                 <div class="card-body">
-                                                    <span class="license-font">7กญ3603</span>
+                                                    <span class="license-font">{{license_plate}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -110,7 +110,7 @@
                                             <label for="province" class="col-form-label text-blue">จังหวัด</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="form-control" id="province" readonly></div>
+                                            <div class="form-control" id="province" readonly>{{province}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -122,7 +122,7 @@
                                             <label for="insert_date" class="col-form-label text-blue">เวลาเข้า</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="form-control" id="insert_date" readonly></div>
+                                            <div class="form-control" id="insert_date" readonly>{{timeIn}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -134,7 +134,7 @@
                                             <label for="car_type" class="col-form-label text-blue">ประเภทรถ</label>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div class="form-control" id="car_type" readonly></div>
+                                            <div class="form-control" id="car_type" readonly>{{car_type}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -150,7 +150,7 @@
                                             <!-- <p id="datalist" hidden></p> -->
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-control" name="first_name" id="livebox" readonly></div>
+                                            <div class="form-control" name="first_name" id="livebox" readonly>{{name}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -162,7 +162,7 @@
                                             <label for="member_type" class="col-form-label text-blue">ประเภทสมาชิก</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-control" id="member_type" readonly></div>
+                                            <div class="form-control" id="member_type" readonly>{{member_type}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
@@ -174,7 +174,7 @@
                                             <label for="expiry_date" class="col-form-label text-blue">วันที่หมดอายุ</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-control" id="expiry_date" readonly></div>
+                                            <div class="form-control" id="expiry_date" readonly>{{df_expi}}</div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
