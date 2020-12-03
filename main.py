@@ -48,53 +48,79 @@ def video_feed(id):
 
 @app.route('/checkin')  # checkin
 def checkin():
-    mycursor = mysql.connection.cursor()
-    query = "select * from test_log "
-    mycursor.execute(query)
-    result = mycursor.fetchall()
-    timeIn = str(result[0][7])
-    dateIn = str(result[0][8])
-    license_plate = result[0][2]
-    timeOut = str(result[0][14])
-    dateOut = str(result[0][15])
-    province = result[0][3]
-    cursor = mysql.connection.cursor()
-    sql = 'select * from member where license_plate = %s'
-    val = (license_plate,)
-    cursor.execute(sql, val)
-    mem = cursor.fetchone()
-    print(mem)
-    # if mem :
-    memberType = mem[2]
-    expi = mem[11]
-    df_expi = str(expi.day) +"/"+ str(expi.month) +"/"+ str(expi.year)
-    return render_template('checkin.html',timeIn=timeIn, license_plate=license_plate,memberType=memberType,df_expi=df_expi)
+        cursor = mysql.connection.cursor()
+        sql = 'select * from test_log where id = 0'
+        cursor.execute(sql)
+        info = cursor.fetchone()
+        car_out = info[2]  # license_plate
+
+        cursor3 = mysql.connection.cursor()
+        sql3 = 'select * from member where license_plate = %s'
+        val = (car_out,)
+        cursor3.execute(sql3, val)
+        member = cursor3.fetchone()
+
+        if member:
+            mem_type = member[2]
+            expiry_date = member[11]
+            licenseP = info[2]
+            time_in = str(info[8])+" "+str(info[7])
+            dt = info[15]
+            amount = info[26]
+        
+        else:
+            mem_type = "visitors"
+            expiry_date = "-"
+            licenseP = " "
+            time_in = str(info[8])
+            date_in = str(info[7])
+
+        return render_template('checkin.html', mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, car_out=car_out)
 
 
 @app.route('/checkout')  # checkout
 def checkout():
-    mycursor = mysql.connection.cursor()
-    query = "select * from test_log "
-    mycursor.execute(query)
-    result = mycursor.fetchall()
-    timeIn = str(result[0][7])
-    license_plate = result[0][2]
-    timeOut = str(result[0][14])
-    province = result[0][3]
-    cursor = mysql.connection.cursor()
-    sql = 'select * from member where license_plate = %s'
-    val = (license_plate,)
-    cursor.execute(sql, val)
-    mem = cursor.fetchone()
-    memberType = mem[2]
-    expi = mem[11]
-    df_expi = str(expi.day) +"/"+ str(expi.month) +"/"+ str(expi.year)
-    price = member()
-    dt_dateIn = result[0][8]
-    dt_dateOut= result[0][15]
-    dateIn =  str(dt_dateIn.day) +"/"+ str(dt_dateIn.month) +"/"+ str(dt_dateIn.year)
-    dateOut =  str(dt_dateOut.day) +"/"+ str(dt_dateOut.month) +"/"+ str(dt_dateOut.year)
-    return render_template('checkout.html', price=price, timeIn=timeIn, license_plate=license_plate, province=province,dateIn=dateIn,dateOut=dateOut, timeOut=timeOut, memberType=memberType,df_expi=df_expi)
+        cursor = mysql.connection.cursor()
+        sql = 'select * from test_log where id = 0'
+        cursor.execute(sql)
+        info = cursor.fetchone()
+        car_out = info[2]  # license_plate
+
+        cursor3 = mysql.connection.cursor()
+        sql3 = 'select * from member where license_plate = %s'
+        val = (car_out,)
+        cursor3.execute(sql3, val)
+        member1 = cursor3.fetchone()
+
+        price = member()
+        print(price)
+        if member1:
+            mem_type = member1[2]
+            expiry_date = member1[11]
+            licenseP = info[2]
+            time_in = str(info[8])+" "+str(info[7])
+            dt = info[15]
+            amount = info[26]
+            time_in = str(info[7])
+            time_out = str(info[14])
+            date_in = info[8]
+            date_out = info[15]
+            dateIn =  str(date_in.day) +"/"+ str(date_in.month) +"/"+ str(date_in.year)
+            dateOut =  str(date_out.day) +"/"+ str(date_out.month) +"/"+ str(date_out.year)
+
+        
+        else:
+            mem_type = "visitors"
+            expiry_date = "-"
+            licenseP = " "
+            time_in = str(info[7])
+            time_out = str(info[14])
+            date_in = info[8]
+            date_out = info[15]
+            dateIn =  str(date_in.day) +"/"+ str(date_in.month) +"/"+ str(date_in.year)
+            dateOut =  str(date_out.day) +"/"+ str(date_out.month) +"/"+ str(date_out.year)
+            
+        return render_template('checkout.html',price=price ,time_out=time_out, dateOut=dateOut, car_out=car_out, dateIn=dateIn, time_in=time_in, mem_type=mem_type, expiry_date=expiry_date)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
@@ -225,12 +251,6 @@ def maindown():
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
 
-        cursor2 = mysql.connection.cursor()
-        sql2 = "update parking_log SET amount = %s WHERE license_plate = %s"
-        val = (price, car_out)
-        cursor2.execute(sql2, val)
-        mysql.connection.commit()
-        cursor2.close()
 
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
@@ -242,22 +262,20 @@ def maindown():
             name = member1[4]+" "+member1[5]
             mem_type = member1[2]
             expiry_date = member1[11]
-            licenseP = info[2]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
             time_out =  str(dt.day) +"/"+ str(dt.month) +"/"+ str(dt.year)+" "+str(info[14])
             amount = info[26]
         
         else:
-            name = " "
-            mem_type = " "
-            expiry_date = " "
-            licenseP = " "
-            time_in = " "
-            time_out = " "
-            amount = " "
+            name = "-"
+            mem_type = "visitors"
+            expiry_date = "-"
+            time_in = str(info[7])
+            time_out = str(info[14])
+            amount = info[26]
 
-    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/report')  # รายงาน
