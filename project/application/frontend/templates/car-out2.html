@@ -76,8 +76,8 @@
                             <div class="row g-2 mt-2">
                                 <div class="col-md-6 text-center">
                                     <h5 class="text-blue">ป้ายทะเบียนรถ</h5>
-                                    <span class="license-font text-blue mb-1">{{car_out}}</span>
-                                    <div class="fw-normal">{{province}}</div>
+                                    <input type="text" class="form-control input-parking-fee text-blue shadow" id="car_out">
+                                    <div class="h5 mb-0">กทม.</div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
@@ -86,7 +86,6 @@
                                     </div>
                                     <div class="form-floating mb-2">
                                         <input type="text" class="form-control" id="time_total" value="{{time_total}}" readonly>
-                                        <!-- {{time_out}} -->
                                         <label for="insert_date">เวลาจอด</label>
                                     </div>
                                 </div>
