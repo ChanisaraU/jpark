@@ -12,12 +12,13 @@ import socket
 import io
 import xlwt
 import pdfkit
-# path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-# config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
 
 def find_camera(id):
-    cameras = ['rtsp://admin:Jpark*2020*@172.20.1.138', 'rtsp://admin:Jpark*2020*@172.20.1.138']
+    cameras = ['rtsp://admin:ap123456789@172.16.6.4',
+               'rtsp://admin:ap123456789@172.16.6.5']
     return cameras[int(id)]
 
 # camera = cv2.VideoCapture('rtsp://admin:Jpark*2020*@172.20.1.138')  # use 0 for web camera
@@ -48,79 +49,82 @@ def video_feed(id):
 
 @app.route('/checkin')  # checkin
 def checkin():
-        cursor = mysql.connection.cursor()
-        sql = 'select * from test_log where id = 0'
-        cursor.execute(sql)
-        info = cursor.fetchone()
-        car_out = info[2]  # license_plate
+    cursor = mysql.connection.cursor()
+    sql = 'select * from test_log where id = 0'
+    cursor.execute(sql)
+    info = cursor.fetchone()
+    car_out = info[2]  # license_plate
 
-        cursor3 = mysql.connection.cursor()
-        sql3 = 'select * from member where license_plate = %s'
-        val = (car_out,)
-        cursor3.execute(sql3, val)
-        member = cursor3.fetchone()
+    cursor3 = mysql.connection.cursor()
+    sql3 = 'select * from member where license_plate = %s'
+    val = (car_out,)
+    cursor3.execute(sql3, val)
+    member = cursor3.fetchone()
 
-        if member:
-            mem_type = member[2]
-            expiry_date = member[11]
-            licenseP = info[2]
-            time_in = str(info[8])+" "+str(info[7])
-            dt = info[15]
-            amount = info[26]
-        
-        else:
-            mem_type = "visitors"
-            expiry_date = "-"
-            licenseP = " "
-            time_in = str(info[8])
-            date_in = str(info[7])
+    if member:
+        mem_type = member[2]
+        expiry_date = member[11]
+        licenseP = info[2]
+        time_in = str(info[8])+" "+str(info[7])
+        dt = info[15]
+        amount = info[26]
 
-        return render_template('checkin.html', mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, car_out=car_out)
+    else:
+        mem_type = "visitors"
+        expiry_date = "-"
+        licenseP = " "
+        time_in = str(info[8])
+        date_in = str(info[7])
+
+    return render_template('checkin.html', mem_type=mem_type, expiry_date=expiry_date, licenseP=licenseP, time_in=time_in, car_out=car_out)
 
 
 @app.route('/checkout')  # checkout
 def checkout():
-        cursor = mysql.connection.cursor()
-        sql = 'select * from test_log where id = 0'
-        cursor.execute(sql)
-        info = cursor.fetchone()
-        car_out = info[2]  # license_plate
+    cursor = mysql.connection.cursor()
+    sql = 'select * from test_log where id = 0'
+    cursor.execute(sql)
+    info = cursor.fetchone()
+    car_out = info[2]  # license_plate
 
-        cursor3 = mysql.connection.cursor()
-        sql3 = 'select * from member where license_plate = %s'
-        val = (car_out,)
-        cursor3.execute(sql3, val)
-        member1 = cursor3.fetchone()
+    cursor3 = mysql.connection.cursor()
+    sql3 = 'select * from member where license_plate = %s'
+    val = (car_out,)
+    cursor3.execute(sql3, val)
+    member1 = cursor3.fetchone()
 
-        price = member()
-        print(price)
-        if member1:
-            mem_type = member1[2]
-            expiry_date = member1[11]
-            licenseP = info[2]
-            time_in = str(info[8])+" "+str(info[7])
-            dt = info[15]
-            amount = info[26]
-            time_in = str(info[7])
-            time_out = str(info[14])
-            date_in = info[8]
-            date_out = info[15]
-            dateIn =  str(date_in.day) +"/"+ str(date_in.month) +"/"+ str(date_in.year)
-            dateOut =  str(date_out.day) +"/"+ str(date_out.month) +"/"+ str(date_out.year)
+    price = member()
+    print(price)
+    if member1:
+        mem_type = member1[2]
+        expiry_date = member1[11]
+        licenseP = info[2]
+        time_in = str(info[8])+" "+str(info[7])
+        dt = info[15]
+        amount = info[26]
+        time_in = str(info[7])
+        time_out = str(info[14])
+        date_in = info[8]
+        date_out = info[15]
+        dateIn = str(date_in.day) + "/" + str(date_in.month) + \
+            "/" + str(date_in.year)
+        dateOut = str(date_out.day) + "/" + \
+            str(date_out.month) + "/" + str(date_out.year)
 
-        
-        else:
-            mem_type = "visitors"
-            expiry_date = "-"
-            licenseP = " "
-            time_in = str(info[7])
-            time_out = str(info[14])
-            date_in = info[8]
-            date_out = info[15]
-            dateIn =  str(date_in.day) +"/"+ str(date_in.month) +"/"+ str(date_in.year)
-            dateOut =  str(date_out.day) +"/"+ str(date_out.month) +"/"+ str(date_out.year)
-            
-        return render_template('checkout.html',price=price ,time_out=time_out, dateOut=dateOut, car_out=car_out, dateIn=dateIn, time_in=time_in, mem_type=mem_type, expiry_date=expiry_date)
+    else:
+        mem_type = "visitors"
+        expiry_date = "-"
+        licenseP = " "
+        time_in = str(info[7])
+        time_out = str(info[14])
+        date_in = info[8]
+        date_out = info[15]
+        dateIn = str(date_in.day) + "/" + str(date_in.month) + \
+            "/" + str(date_in.year)
+        dateOut = str(date_out.day) + "/" + \
+            str(date_out.month) + "/" + str(date_out.year)
+
+    return render_template('checkout.html', price=price, time_out=time_out, dateOut=dateOut, car_out=car_out, dateIn=dateIn, time_in=time_in, mem_type=mem_type, expiry_date=expiry_date)
 
 
 @app.route('/', methods=['GET', 'POST'])  # ระบบ Login
@@ -140,7 +144,8 @@ def login():
             ip_address = socket.gethostbyname(hostname)
             login_date = now.strftime('%Y-%m-%d %H:%M:%S')
             sql = "INSERT INTO login_history(user_name,user_ip,system,login_date,status) VALUES (%s, %s, %s, %s, %s)"
-            val = (account[8], ip_address, "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
+            val = (account[8], ip_address,
+                   "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
@@ -193,7 +198,8 @@ def livesearch():
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5],data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5],
+               data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -224,33 +230,50 @@ def car_in():
         return render_template('car-in.html')
 
 
-@app.route('/car-out', methods=["POST"] )
-def current() :
-    discount = request.form.get("discount") #คูปอง
-    fines = request.form.get("fines") #ค่าปรับ
-    original_amount = request.form.get("original_amount") #ค่าจอดรถรวม vat แล้ว
-    receieve = request.form.get("receieve") #เงินที่ได้รับ
-    changes = request.form.get("changes") #เงินทอน
-    print(discount)
+@app.route('/car-out1', methods=["POST"])
+def current1():
+    discount = request.form.get("discount")  # คูปอง
+    fines = request.form.get("fines")  # ค่าปรับ
+    original_amount = request.form.get(
+        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    receieve = request.form.get("receieve")  # เงินที่ได้รับ
+    changes = request.form.get("changes")  # เงินทอน
+
     cal_discount(discount)
     cal_fines(fines)
     cal_receieve(receieve)
     cal_changes(changes)
-    
+
     return maindown()
 
 
-@app.route('/car-out', methods=["GET"])  # ข้อมูลรถออกลานจอด
-def maindown():
+@app.route('/car-out2', methods=["POST"])
+def current2():
+    discount = request.form.get("discount")  # คูปอง
+    fines = request.form.get("fines")  # ค่าปรับ
+    original_amount = request.form.get(
+        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    receieve = request.form.get("receieve")  # เงินที่ได้รับ
+    changes = request.form.get("changes")  # เงินทอน
+
+    cal_discount(discount)
+    cal_fines(fines)
+    cal_receieve(receieve)
+    cal_changes(changes)
+
+    return maindown()
+
+
+@app.route('/car-out1', methods=["GET"])  # ข้อมูลรถออกลานจอด
+def maindown1():
     if session['username'] != " ":
         price = member()
-        
+
         cursor = mysql.connection.cursor()
         sql = 'select * from test_log where id = 0'
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-        province = info[3]
 
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
@@ -264,9 +287,10 @@ def maindown():
             expiry_date = member1[11]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
-            time_out =  str(dt.day) +"/"+ str(dt.month) +"/"+ str(dt.year)+" "+str(info[14])
-            amount = price
-        
+            time_out = str(dt.day) + "/" + str(dt.month) + \
+                "/" + str(dt.year)+" "+str(info[14])
+            amount = info[26]
+
         else:
             name = "-"
             mem_type = "visitors"
@@ -275,7 +299,45 @@ def maindown():
             time_out = str(info[14])
             amount = info[26]
 
-    return render_template('car-out.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out1.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+
+
+@app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
+def maindown2():
+    if session['username'] != " ":
+        price = member()
+
+        cursor = mysql.connection.cursor()
+        sql = 'select * from test_log where id = 0'
+        cursor.execute(sql)
+        info = cursor.fetchone()
+        car_out = info[2]  # license_plate
+
+        cursor3 = mysql.connection.cursor()
+        sql3 = 'select * from member where license_plate = %s'
+        val = (car_out,)
+        cursor3.execute(sql3, val)
+        member1 = cursor3.fetchone()
+
+        if member1:
+            name = member1[4]+" "+member1[5]
+            mem_type = member1[2]
+            expiry_date = member1[11]
+            time_in = str(info[8])+" "+str(info[7])
+            dt = info[15]
+            time_out = str(dt.day) + "/" + str(dt.month) + \
+                "/" + str(dt.year)+" "+str(info[14])
+            amount = info[26]
+
+        else:
+            name = "-"
+            mem_type = "visitors"
+            expiry_date = "-"
+            time_in = str(info[7])
+            time_out = str(info[14])
+            amount = info[26]
+
+    return render_template('car-out2.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/report')  # รายงาน
@@ -442,7 +504,7 @@ def invoice():
     options = {'disable-smart-shrinking': ''}
     pdf = pdfkit.from_string(
         rendered, False, configuration=config, options=options)
-    response = make_response(pdf, False)
+    response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
     return response
