@@ -5,6 +5,12 @@
   {% include "comp/includecss.html" %}
 </head>
 
+<style>
+  .form-control {
+    font-size: 1rem !important;
+  }
+</style>
+
 <body id="page-top">
   <div id="wrapper">
     {% include "comp/sidebar.html" %}
@@ -14,130 +20,27 @@
         {% include "comp/header.html" %}
 
         <div class="container-fluid">
-          <div class="row text-center">
-            <div class="col-lg-3">
-              <div class="card border-left-primary shadow">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        รายการการตรวจสอบ
-                      </div>
-                      <div class="h4 mb-0 font-weight-bold text-gray-800">5</div>
+          <div class="row">
+            <div class="card">
+              <div class="card-body">
+                  <form method="POST" action="#">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fa fa-search"></i></span>
+                      <input type="text" aria-label="ค้นหา" class="form-control">
+                      <select class="form-select" id="search">
+                        <option selected>รายงาน</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
                     </div>
-                    <div class="col-4 text-right">
-                      <img src="{{url_for('static', filename='image/report.svg')}}" width="50">
-                    </div>
-                  </div>
-                </div>
+                  </form>
               </div>
-            </div>
-
-            <div class="col-lg-3">
-              <div class="card border-left-primary shadow">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        จำนวนช่องจอดว่าง
-                      </div>
-                      <div class="h4 mb-0 font-weight-bold text-gray-800">39</div>
-                    </div>
-                    <div class="col-4 text-right">
-                      <img src="{{url_for('static', filename='image/parking2.svg')}}" width="50">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3">
-              <div class="card border-left-primary shadow">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        รายได้ประจำวัน
-                      </div>
-                      <div class="h4 mb-0 font-weight-bold text-gray-800">3,568</div>
-                    </div>
-                    <div class="col-4 text-right">
-                      <img src="{{url_for('static', filename='image/thai-baht.svg')}}" width="50">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3">
-              <div class="card border-left-primary shadow">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        รายได้ประจำเดือน
-                      </div>
-                      <div class="h4 mb-0 font-weight-bold text-gray-800">24,000</div>
-                    </div>
-                    <div class="col-4 text-right">
-                      <img src="{{url_for('static', filename='image/thai-baht.svg')}}" width="50">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div class="row mt-3">
-            <div class="col-lg-6 mb-3"></div>
-            <div class="col-lg-6 mb-3">
-              <div class="row">
-                <!-- <div class="col">
-                  <input class="form-control form-control-sm" name="dates" />
-                </div> -->
-                <div class="col">
-                  <p class="mb-1">วันที่เริ่มต้น</p>
-                  <input type="date" class="form-control form-control-sm" name="" id="startDate"></input>
-                </div>
-                <div class="col">
-                  <p class="mb-1">วันที่สิ้นสุด</p>
-                  <input type="date" class="form-control form-control-sm" name="" id="endDate"></input>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">รายได้ Vistor</h6>
-                </div>
-                <div class="card-body">
-                  <canvas id="chart" width="600" height="400"></canvas>
-                </div>
-              </div>
-            </div>
 
-            <div class="col-lg-6">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">จำนวนรถที่จอดคงค้าง</h6>
-                </div>
-                <div class="card-body">
-                  <canvas id="linechart" width="600" height="400"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">สัดส่วน Vistor : Member</h6>
-                </div>
-                <div class="card-body">
-
-                </div>
-              </div>
-            </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -145,130 +48,6 @@
 
   <!-- กราฟแท่งแสดงรายได้ Vistor -->
   <script>
-    var chartData = {
-      labels: [{% for item in values %} "{{ item }}", {% endfor %}],
-    datasets:
-    [
-      {
-        label: '{{ tabname }}',
-        backgroundColor: "#4e73df",
-        hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
-        data: [{% for item in labels %} {{ item }}, {% endfor %}]
-          }
-        ],
-    tooltips: {
-      callbacks: {
-        label: function(tooltipItem) {
-          console.log(tooltipItem)
-          return tooltipItem.yLabel;
-        }
-      }
-    }
-    }
-
-    Chart.defaults.global.animationSteps = 50;
-    Chart.defaults.global.tooltipYPadding = 16;
-    Chart.defaults.global.tooltipCornerRadius = 0;
-    Chart.defaults.global.tooltipTitleFontStyle = "normal";
-    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
-    Chart.defaults.global.animationEasing = "easeOutBounce";
-    Chart.defaults.global.responsive = false;
-    Chart.defaults.global.legend.display = false;
-    Chart.defaults.global.scaleLineColor = "black";
-    Chart.defaults.global.scaleFontSize = 16;
-
-    var ctx = document.getElementById('chart').getContext('2d');
-    steps = 10
-    max = 40
-
-    var myNewChart = new Chart(ctx, {
-      type: "bar",
-      data: chartData,
-      scaleOverride: true,
-      scaleSteps: steps,
-      scaleStepWidth: Math.ceil(max / steps),
-      scaleStartValue: 0,
-      scaleShowVerticalLines: true,
-      scaleShowGridLines: true,
-      barShowStroke: true,
-      scaleShowLabels: true,
-      bezierCurve: false,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-
-    var circleData = {
-      labels: [{% for item in values %} "{{ item }}", {% endfor %}],
-    datasets:
-    [
-      {
-        label: '{{ tabname }}',
-        backgroundColor: "#4e73df",
-        hoverBackgroundColor: "#2e59d9",
-        borderColor: "#4e73df",
-        data: [{% for item in labels %}"{{ item }}",{% endfor %}]
-        }
-      ],
-    tooltips: {
-      callbacks: {
-        label: function(tooltipItem) {
-          console.log(tooltipItem)
-          return tooltipItem.yLabel;
-        }
-      }
-    }
-  }
-
-    Chart.defaults.global.animationSteps = 50;
-    Chart.defaults.global.tooltipYPadding = 16;
-    Chart.defaults.global.tooltipCornerRadius = 0;
-    Chart.defaults.global.tooltipTitleFontStyle = "normal";
-    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
-    Chart.defaults.global.animationEasing = "easeOutBounce";
-    Chart.defaults.global.responsive = false;
-    Chart.defaults.global.legend.display = false;
-    Chart.defaults.global.scaleLineColor = "black";
-    Chart.defaults.global.scaleFontSize = 16;
-
-    var ctx = document.getElementById('linechart').getContext('2d');
-    steps = 10
-    max = 40
-
-    var myNewChart = new Chart(ctx, {
-      type: "line",
-      data: circleData,
-      scaleOverride: true,
-      scaleSteps: steps,
-      scaleStepWidth: Math.ceil(max / steps),
-      scaleStartValue: 0,
-      scaleShowVerticalLines: true,
-      scaleShowGridLines: true,
-      barShowStroke: true,
-      scaleShowLabels: true,
-      bezierCurve: false,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-
     $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
