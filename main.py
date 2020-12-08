@@ -231,7 +231,7 @@ def current() :
     original_amount = request.form.get("original_amount") #ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve") #เงินที่ได้รับ
     changes = request.form.get("changes") #เงินทอน
-    
+    print(discount)
     cal_discount(discount)
     cal_fines(fines)
     cal_receieve(receieve)
@@ -250,7 +250,7 @@ def maindown():
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-
+        province = info[3]
 
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
@@ -265,7 +265,7 @@ def maindown():
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
             time_out =  str(dt.day) +"/"+ str(dt.month) +"/"+ str(dt.year)+" "+str(info[14])
-            amount = info[26]
+            amount = price
         
         else:
             name = "-"
@@ -275,7 +275,7 @@ def maindown():
             time_out = str(info[14])
             amount = info[26]
 
-    return render_template('car-out.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/report')  # รายงาน
