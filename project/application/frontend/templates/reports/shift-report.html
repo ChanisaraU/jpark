@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Receipt : JPARK</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <style>
+        @font-face{
+        font-family: 'Cordia New';
+            src: {{ url_for('static',filename='font/Cordia New Regular.ttf') }} ;
+        }
+        @font-face {
+            font-family: 'Cordia New';
+            font-weight: bold;
+            src: {{ url_for('static',filename='font/Cordia New Bold.ttf') }} ;
+        }
+        body {
+            font-family: 'Cordia New' !important;
+        }
+        @page { size: 58mm 91mm }
+        body.receipt .sheet { width: 58mm; height: 91mm }
+        @media print { body.receipt { width: 58mm } }
+        .text-header {
+            font-size: 1rem;
+            margin-bottom: 0.15rem !important;
+        }
+      </style>
+    <div id="invoice-POS">
+    
+        <center id="">
+          <div class="logo"></div>
+          <div class="info"> 
+            <p class="mt-2 mb-0">บันทึกการปฏิบัติงาน</p><br>
+          </div><!--End Info-->
+        </center><!--End InvoiceTop-->
+        
+        <div id="bot headOrder1">
+            <div id="table">
+                <table>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">ชื่อ :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">นายทดสอบ ปริ้นเตอร์</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">เวลาเข้า :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">09/12/2563 01:43:56</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">เวลาออก :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">09/12/2563 11:00:05</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">รายได้ :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">1,000 บาท</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">ส่วนลด :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">0 บาท</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">ยกไม้กั้น :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">0 ครั้ง</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">รถเข้า :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">0 คัน</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">รถออก :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">0 คัน</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem"><p class="itemtext">รถคงค้าง :</p></td>
+                        <td class="tableitem"></td>
+                        <td class="tableitem"><p class="itemtext">0 คัน</p></td>
+                    </tr>
+                </table>
+            </div><!--End Table-->
+            <p class="text-center mt-2 mb-1" id="headOrder2">==============================</p>
+            <table class="text-center">
+                <thead>
+                    <tr>
+                        <td class="tableitem" style="border-right: 1px solid #000;"><p class="itemtext">ธนบัตร/เหรียญ</p></td>
+                        <td class="tableitem" style="border-right: 1px solid #000;">จำนวน</td>
+                        <td class="tableitem"><p class="itemtext">รวมเงิน</p></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">1,000</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000">500</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">100</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">50</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">20</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">10</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">5</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">2</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" style="border-right: 1px solid #000;">1</th>
+                        <th class="tableitem" style="border-right: 1px solid #000;">________</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                    <tr>
+                        <th class="tableitem" colspan="2" style="border-right: 1px solid #000;">รวมจํานวนเงินที่เก็บได้</th>
+                        <th class="tableitem">________</th>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody class="text-center">
+                    <p class="mt-2 mb-1" id="headOrder2">==============================</p>
+                    <tr>
+                        <td class="tableitem" colspan="2" style="border-right: 1px solid #000;">ยอดเงินคอมพิวเตอร์ (ปิดกะ)</td>
+                        <td class="tableitem">________</td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem" colspan="2" style="border-right: 1px solid #000;">ปรับปรุง (ขาด/เกิน)</td>
+                        <td class="tableitem">________</td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem" colspan="2" style="border-right: 1px solid #000;">รวมรายได้ทั้งหมด</td>
+                        <td class="tableitem">________</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <p class="mt-2 mb-1" id="headOrder2">==============================</p>
+                    <tr>
+                        <td class="tableitem">หมายเหตุ : _____________________________<br>_______________________________________</td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem">ลงชื่อ________________________ผู้รับผิดชอบ</td>
+                    </tr>
+                    <tr>
+                        <td class="tableitem">ลงชื่อ________________________ผู้ตรวจสอบ</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- <div id="legalcopy">
+                <p class="legal text-center"><strong>ขอบคุณที่ใช้บริการ Thank you</strong> 
+                </p>
+            </div> -->
+        </div>
+      </div>
+</body>
+
+</html>

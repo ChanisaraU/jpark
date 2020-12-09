@@ -542,5 +542,10 @@ def proinout():
     return response
 
 
+@app.route('/shift-report')
+def shift():
+    return render_template('reports/shift-report.html')
+
+
 if __name__ == "__main__":
     app.run(host='localhost')

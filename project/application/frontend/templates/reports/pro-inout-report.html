@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานการเข้าออกของรถแสดงโปรโมชั่น : JPARK</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <meta name="pdfkit-page-size" content="Legal"/>
+    <meta name="pdfkit-orientation" content="Landscape"/>
+</head>
+<style>
+    @font-face{
+        font-family: 'Cordia New';
+        src: {{ url_for('static',filename='font/Cordia New Regular.ttf') }} ;
+    }
+
+    @font-face {
+        font-family: 'Cordia New';
+        font-weight: bold;
+        src: {{ url_for('static',filename='font/Cordia New Bold.ttf') }} ;
+    }
+    body {
+        font-family: 'Cordia New' !important;
+    }
+    .col-print-1 {
+        width: 8%;
+        float: left;
+    }
+    .col-print-2 {
+        width: 16%;
+        float: left;
+    }
+    .col-print-3 {
+        width: 25%;
+        float: left;
+    }
+    .col-print-4 {
+        width: 33%;
+        float: left;
+    }
+    .col-print-5 {
+        width: 42%;
+        float: left;
+    }
+    .col-print-6 {
+        width: 50%;
+        float: left;
+    }
+    .col-print-7 {
+        width: 58%;
+        float: left;
+    }
+    .col-print-8 {
+        width: 66%;
+        float: left;
+    }
+    .col-print-9 {
+        width: 75%;
+        float: left;
+    }
+    .col-print-10 {
+        width: 83%;
+        float: left;
+    }
+    .col-print-11 {
+        width: 92%;
+        float: left;
+    }
+    .col-print-12 {
+        width: 100%;
+        float: left;    
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th {
+        font-weight: bold;
+        border: 1px solid #000;
+    }
+    td {
+        border: 1px solid #000;
+    }
+    .bold-1 {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+</style>
+<body>
+        <div class="col-lg-12 text-center bold-1">
+            บริษัท เจนก้องไกล จำกัด (สาขา 00005)<br>
+            รายงานการเข้าออกของรถ จากวันที่ 3 ธันวาคม 2020 เวลา 00:00:00 ถึงวันที่ 3 ธันวาคม 2020 เวลา 23:59:59
+        </div>
+        <div class="col-print-6">
+            <small>พิมพ์วันที่ 3/12/2020</small>
+        </div>
+        <div class="col-print-6 text-right">
+            <small>หน้า 1 จาก 1</small>
+        </div>
+        <table style="font-size: 1rem;">
+            <thead>
+              <tr>
+                <th style="width: 70px;">ลำดับ</th>
+                <th style="width: 70px;">ประเภท</th>
+                <th style="width: 70px;">ทะเบียนรถ</th>
+                <th style="width: 140px;">เวลาเข้า</th>
+                <th style="width: 140px;">เจ้าหน้าที่ขาเข้า</th>
+                <th style="width: 140px;">เจ้าหน้าที่ขาออก</th>
+                <th style="width: 140px;">เวลาออก</th>
+                <th style="width: 140px;">ชม.จอด</th>
+                <th style="width: 70px;">ชม.โปรโมชั่น</th>
+                <th style="width: 70px;">ชม.ลด</th>
+                <th style="width: 70px;">ชม.จ่าย</th>
+                <th style="width: 70px;">ค่าปรับข้ามวัน</th>
+                <th style="width: 70px;">รายได้</th>
+                <th style="width: 70px;">ส่วนลด</th>
+                <th style="width: 70px;">E-Stamp</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              
+            </tbody>
+          </table>
+</body>
+
+</html>

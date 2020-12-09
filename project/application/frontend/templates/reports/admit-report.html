@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+    <title>รายงานรถค้าง</title>
+
+    <meta name="pdfkit-margin-left" content="0mm" />
+    <meta name="pdfkit-margin-right" content="0mm" />
+    <meta name="pdfkit-margin-bottom" content="0mm" />
+    <meta name="pdfkit-margin-top" content="1mm" />
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap');
+    body.receipt .sheet { width: 58mm; height: 100mm } /* change height as you like */
+    @media print { body.receipt { width: 58mm } } /* this line is needed for fixing Chrome's bug */
+    body {
+        font-family: 'Sarabun', sans-serif;
+    }
+    span { font-size: 0.85rem; margin-top: 0;}
+    .p { font-size: 1rem; margin-top: 0;}
+    table {
+        border-collapse: collapse;
+    }
+    th {
+        font-weight: bold;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+    tfoot {
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+</style>
+<body class="receipt">
+    <section class="sheet padding-10mm">
+        <span class="p">รายงานรถค้าง</span><br>
+        <span>ลานจอด : Main</span><br>
+        <span>พนักงาน : Admin</span><br>
+        <span>วันที่พิมพ์ : 03/12/2020 15:59:58</span>
+        <table>
+            <thead style="font-size: 0.85rem;">
+                <tr>
+                    <th style="width: 100px;">ทะเบียน</th>
+                    <th style="width: 100px;">ประเภท</th>
+                    <th style="width: 150px;">วัน เวลาเข้า</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.75rem;line-height: 18px;">
+                <tr>
+                    <td>8088</td>
+                    <td>ทั่วไป</td>
+                    <td>27/03/2019 09:03:43</td>
+                </tr>
+                <tr>
+                    <td>1กต1150</td>
+                    <td>Member</td>
+                    <td>20/05/2019 20:29:32</td>
+                </tr>
+                <tr>
+                    <td>ถว0550</td>
+                    <td>นิสิต</td>
+                    <td>15/05/2020 20:07:31</td>
+                </tr>
+            </tbody>
+            <tfoot style="font-size: 0.75rem;text-align: center;display: table-footer-group;
+            vertical-align: middle;
+            border-color: inherit;">
+                <tr>
+                    <td>รวมรถค้าง</td>
+                    <td>3 คัน</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+  </body>
+</html>

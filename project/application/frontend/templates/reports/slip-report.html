@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+    <title>Slip ทางออก</title>
+
+    <meta name="pdfkit-margin-left" content="0mm" />
+    <meta name="pdfkit-margin-right" content="0mm" />
+    <meta name="pdfkit-margin-bottom" content="0mm" />
+    <meta name="pdfkit-margin-top" content="1mm" />
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap');
+    body.receipt .sheet { width: 58mm; height: 100mm } /* change height as you like */
+    @media print { body.receipt { width: 58mm } } /* this line is needed for fixing Chrome's bug */
+    body {
+        font-family: 'Sarabun', sans-serif;
+    }
+    p { font-size: 0.7rem;}
+    td { font-size: 0.6rem; margin-top: 0.05px;}
+    .logo {
+        height: 50px;
+        width: 50px;
+        background: url('{{ url_for('static', filename='image/logo-j-small-black.png', _external=True) }}');
+        background-size: 50px 50px;
+    }   
+</style>
+<body class="receipt">
+    <section class="sheet padding-10mm">
+        <center>
+            <div class="logo"></div>
+            <p>บริษัท เจนก้องไกล จํากัด (สาขา 00005)<br>
+                เลขที่ 254 ถนนพญาไท แขวงวังใหม่<br>
+                เขตปทุมวัน กรุงเทพฯ 13330<br>
+                Tax : 0735541000291
+            </p>
+        </center>
+        <div id="table">
+            <table>
+                <tr>
+                    <td>วันที่/Date :</td>
+                    <td>15/06/2020</td>
+                </tr>
+                <tr>
+                    <td>ทะเบียนรถ/License :</td>
+                    <td>6กฆ2527</td>
+                </tr>
+                <tr>
+                    <td>เวลาเข้า/In :</td>
+                    <td>15/06/2020 14:43:37</td>
+                </tr>
+                <tr>
+                    <td>เวลาออก/Out :</td>
+                    <td>15/06/2020 16:55:51</td>
+                </tr>
+                <tr>
+                    <td>รวมเวลาเข้า-ออก/In-Out :</td>
+                    <td>2 ชม. 12 นาที</td>
+                </tr>
+                <tr>
+                    <td>ค่าบริการ/Amount :</td>
+                    <td>15 บาท</td>
+                </tr>
+                <tr>
+                    <td>ส่วนลด/Discount :</td>
+                    <td>0 บาท</td>
+                </tr>
+                <tr>
+                    <td>รหัสโปรโมชั่น :</td>
+                    <td>(5001) นิสิต</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Cashier :</td>
+                    <td>น.ส.เบญจพร โพชะโน</td>
+                    <td></td>
+                </tr>
+            </table>
+            <center>
+                <p>ขอบคุณที่ใช้บริการ/Thank you</p>
+            </center>
+        </div>
+        
+    </section>
+  </body>
+</html>
