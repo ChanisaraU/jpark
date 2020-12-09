@@ -13,47 +13,78 @@
 <body>
     <style>
         /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap'); */
-        @font-face{
-        font-family: 'Cordia New';
-            src: {{ url_for('static',filename='font/Cordia New Regular.ttf') }} ;
+        @font-face {
+            font-family: 'Cordia New';
+
+            src: {
+                    {
+                    url_for('static', filename='font/Cordia New Regular.ttf')
+                }
+            }
+
+            ;
         }
 
         @font-face {
             font-family: 'Cordia New';
             font-weight: bold;
-            src: {{ url_for('static',filename='font/Cordia New Bold.ttf') }} ;
+
+            src: {
+                    {
+                    url_for('static', filename='font/Cordia New Bold.ttf')
+                }
+            }
+
+            ;
         }
+
         body {
             font-family: 'Cordia New' !important;
         }
-        @page { size: 58mm 91mm }
-        body.receipt .sheet { width: 58mm; height: 91mm }
-        @media print { body.receipt { width: 58mm } }
+
+        @page {
+            size: 58mm 91mm
+        }
+
+        body.receipt .sheet {
+            width: 58mm;
+            height: 91mm
+        }
+
+        @media print {
+            body.receipt {
+                width: 58mm
+            }
+        }
+
         .text-header {
             font-size: 1rem;
             margin-bottom: 0.15rem !important;
         }
-      </style>
+    </style>
     <div id="invoice-POS">
-    
+
         <center id="top">
-          <div class="logo"></div>
-          <div class="info"> 
-            <p class="mt-2 mb-0">บริษัท เจนก้องไกล จำกัด</p>
-            <p class="mb-2">(สาขาสวนรถไฟ)</p>
-          </div><!--End Info-->
-        </center><!--End InvoiceTop-->
-        
+            <div class="logo"></div>
+            <div class="info">
+                <p class="mt-2 mb-0">บริษัท เจนก้องไกล จำกัด</p>
+                <p class="mb-2">(สาขาสวนรถไฟ)</p>
+            </div>
+            <!--End Info-->
+        </center>
+        <!--End InvoiceTop-->
+
         <div id="mid">
-          <div class="info">
-            <!-- <h2>Contact Info</h2> -->
-            <p class="text-center text-header"> 
-                เลขที่ 448 ถนนพระราม 1 แขวงปทุมวัน <br>
-                เขตปทุมวัน กรุงเทพฯ 10330 <br>
-            </p>
-          </div>
-        </div><!--End Invoice Mid-->
-        
+            <div class="info">
+                <!-- <h2>Contact Info</h2> -->
+                <p class="text-center text-header">
+                    เลขที่ 448 ถนนพระราม 1 แขวงปทุมวัน <br>
+                    เขตปทุมวัน กรุงเทพฯ 10330 <br>
+                </p>
+            </div>
+        </div>
+        <!--End Invoice Mid-->
+
         <div id="bot headOrder1">
             <div id="table">
                 <table>
@@ -63,100 +94,171 @@
                         <td class="tableitem"></td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">TAX ID :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">TAX ID :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">0735541000291</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">0735541000291</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">Tel. :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">Tel. :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">02-546-XXXX</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">02-546-XXXX</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">POS ID. :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">POS ID. :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">P002020</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">P002020</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">REG ID. :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">REG ID. :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">123451000000</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">123451000000</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">Cashier :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">Cashier :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">ศิรินทรา สมสลิต</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">ศิรินทรา สมสลิต</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">Cashier box :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">Cashier box :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">ทางออก 1</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">ทางออก 1</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="tableitem"><p class="itemtext">วันที่ Date :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">วันที่ Date :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">03/09/2563 14:58</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">03/09/2563 14:58</p>
+                        </td>
                     </tr>
                     <tr class="service">
-                        <td class="tableitem"><p class="itemtext">เลขที่ Receipt No. :</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">เลขที่ Receipt No. :</p>
+                        </td>
                         <td class="tableitem"></td>
-                        <td class="tableitem"><p class="itemtext">SSQSSQ1200901001271</p></td>
+                        <td class="tableitem">
+                            <p class="itemtext">SSQSSQ+1200901001271</p>
+                        </td>
                     </tr>
                 </table>
-            </div><!--End Table-->
+            </div>
+            <!--End Table-->
             <p class="text-center mt-2 mb-1" id="headOrder2">ค่าบริการจอดรถ Parking Fee</p>
             <table>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ทะเบียน License :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ทะเบียน License :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">3656</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">3656</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">เวลาเข้า IN :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">เวลาเข้า IN :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">03/09/2563 12:22</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">03/09/2563 12:22</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">เวลาออก OUT :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">เวลาออก OUT :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">03/09/2563 14:58</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">03/09/2563 14:58</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ระยะเวลาเข้าออก IN-OUT :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ระยะเวลาเข้าออก IN-OUT :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">02:36 Hrs.</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">02:36 Hrs.</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ค่าจอดรถ :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ค่าจอดรถ :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">60.00 Baht</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">60.00 Baht</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ค่าบริการจอดค้างคืน :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ค่าบริการจอดค้างคืน :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">0.00 Baht</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">0.00 Baht</p>
+                    </td>
                 </tr>
                 <tr class="tabletitle">
-                    <td class="tableitem"><p class="itemtext">ส่วนลด :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ส่วนลด :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">60.00 Baht</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">60.00 Baht</p>
+                    </td>
                 </tr>
                 <tr class="tabletitle">
-                    <td class="tableitem"><p class="itemtext">จำนวนเงิน Amount :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">จำนวนเงิน Amount :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">0.00 Baht</p></td>
-                </tr>                
+                    <td class="tableitem">
+                        <p class="itemtext">0.00 Baht</p>
+                    </td>
+                </tr>
                 <tr>
-                    <td class="tableitem"><p class="itemtext">ช่องทางชำระเงิน :</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">ช่องทางชำระเงิน :</p>
+                    </td>
                     <td class="tableitem"></td>
-                    <td class="tableitem"><p class="itemtext">เงินสด</p></td>
+                    <td class="tableitem">
+                        <p class="itemtext">เงินสด</p>
+                    </td>
                 </tr>
             </table>
             <div id="legalcopy">
-                <p class="legal text-center"><strong>ขอบคุณที่ใช้บริการ Thank you</strong> 
+                <p class="legal text-center"><strong>ขอบคุณที่ใช้บริการ Thank you</strong>
                 </p>
             </div>
-        </div><!--End InvoiceBot-->
-      </div><!--End Invoice-->
+        </div>
+        <!--End InvoiceBot-->
+    </div>
+    <!--End Invoice-->
 </body>
 </html>

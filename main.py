@@ -231,7 +231,7 @@ def car_in():
 
 
 @app.route('/car-out1', methods=["POST"])
-def current1():
+def current():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
     original_amount = request.form.get(
@@ -261,11 +261,11 @@ def current2():
     cal_receieve(receieve)
     cal_changes(changes)
 
-    return maindown()
+    return maindown_two()
 
 
 @app.route('/car-out1', methods=["GET"])  # ข้อมูลรถออกลานจอด
-def maindown1():
+def maindown():
     if session['username'] != " ":
         price = member()
 
@@ -298,13 +298,13 @@ def maindown1():
             expiry_date = "-"
             time_in = str(info[7])
             time_out = str(info[14])
-            amount = info[26]
+            amount = info[29]
 
     return render_template('car-out1.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
-def maindown2():
+def maindown_two():
     if session['username'] != " ":
         price = member()
 
@@ -337,7 +337,7 @@ def maindown2():
             expiry_date = "-"
             time_in = str(info[7])
             time_out = str(info[14])
-            amount = info[26]
+            amount = info[29]
 
     return render_template('car-out2.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
