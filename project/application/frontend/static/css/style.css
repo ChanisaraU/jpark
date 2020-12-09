@@ -52,7 +52,7 @@
   line-height: 2em;
 }
 #invoice-POS p {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #000;
   line-height: 1.2rem;
   margin-bottom: 0.5rem;
@@ -101,7 +101,7 @@
   border-collapse: collapse;
 }
 #invoice-POS .tabletitle {
-  font-size: 0.5em;
+  font-size: 1em;
   background: #eee;
 }
 #invoice-POS .service {
@@ -111,7 +111,7 @@
   width: 24mm;
 }
 #invoice-POS .itemtext {
-  font-size: 0.5em;
+  font-size: 1em;
   margin-bottom: 0rem;
 }
 #invoice-POS #legalcopy {

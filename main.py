@@ -340,32 +340,14 @@ def maindown2():
     return render_template('car-out2.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
-@app.route('/report')  # รายงาน
+@app.route('/report', methods=['GET', 'POST'])  # รายงาน
 def report():
     if session['username'] != " ":
-        legend = "Data A"
-        cursor = mysql.connection.cursor()
-        try:
-            cursor.execute("select amount from parking_log")
-            rows = cursor.fetchall()
-            labels = list()
-            i = 0
-            for row in rows:
-                labels.append(row[i])
-
-            cursor.execute("select date_out from parking_log")
-            rows = cursor.fetchall()
-            # Convert query to objects of key-value pairs
-            values = list()
-            i = 0
-            for row in rows:
-                values.append(row[i])
-            mysql.connection.commit()
-            cursor.close()
-
-        except:
-            print("Error: Unable to fetch items")
-        return render_template('report.html', values=values, labels=labels, legend=legend)
+        if request.method == "POST":
+            report_list = request.form.get("reports", None)
+            if report_list != None:
+                return render_template("report.html", report_list=report_list)
+    return render_template("report.html")
 
 
 @app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
@@ -500,19 +482,67 @@ def logout():
 
 @app.route('/invoice')
 def invoice():
-    rendered = render_template("comp/invoice.html")
+    rendered = render_template("reports/invoice.html")
     options = {'disable-smart-shrinking': ''}
     pdf = pdfkit.from_string(
         rendered, False, configuration=config, options=options)
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=invoice.pdf'
     return response
 
 
 @app.route('/receipt')
 def receipt():
     return render_template('comp/receipt.html')
+
+
+@app.route('/slip-report')
+def slip():
+    rendered = render_template("reports/slip-report.html")
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=slip-report.pdf'
+    return response
+
+
+@app.route('/admit-report')
+def admit():
+    rendered = render_template("reports/admit-report.html")
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=admit-report.pdf'
+    return response
+
+
+@app.route('/inout-report')
+def inout():
+    rendered = render_template("reports/inout-report.html")
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=inout-report.pdf'
+    return response
+
+
+@app.route('/pro-inout-report')
+def proinout():
+    rendered = render_template("reports/pro-inout-report.html")
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=pro-inout-report.pdf'
+    return response
 
 
 if __name__ == "__main__":

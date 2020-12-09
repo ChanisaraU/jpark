@@ -84,7 +84,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
                                         <input type="text" class="form-control" id="time_out" value="{{time_out}}" readonly>
-                                        <label for="time_out">เวลาออก</label>
+                                        <label for="time_out">เวลาเข้า</label>
                                     </div>
                                     <div class="form-floating mb-2">
                                         <input type="text" class="form-control" id="time_total" value="{{time_total}}" readonly>
@@ -163,7 +163,7 @@
                                             <div class="form-control-test p" id="expiry_date" value="{{expiry_date}}">{{ expiry_date }}</div>
                                         </div>
                                         <div class="col-md-4 m-0 p-0">
-                                            <a href="{{ url_for('invoice') }}" target="_blank" type="button" class="btn btn-primary floating-button">
+                                            <a href="{{ url_for('receipt') }}" target="_blank" type="button" class="btn btn-primary floating-button">
                                                 <i class="fas fa-print"></i> พิมพ์ใบเสร็จ
                                             </a>
                                         </div>

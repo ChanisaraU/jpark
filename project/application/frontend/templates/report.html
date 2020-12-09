@@ -8,6 +8,7 @@
 <style>
   .form-control {
     font-size: 1rem !important;
+    text-align: start !important;
   }
 </style>
 
@@ -22,19 +23,52 @@
         <div class="container-fluid">
           <div class="row">
             <div class="card">
-              <div class="card-body">
-                  <form method="POST" action="#">
-                    <div class="input-group">
+              <div class="mx-0 my-3">
+                  <form method="POST" action="/report" method="POST" enctype="multipart/form-data">
+                    <div class="input-group flex-nowrap">
                       <span class="input-group-text"><i class="fa fa-search"></i></span>
-                      <input type="text" aria-label="ค้นหา" class="form-control">
-                      <select class="form-select" id="search">
-                        <option selected>รายงาน</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                      <input type="text" placeholder="ค้นหา" class="form-control">
+                      <select class="form-select" id="mySelect" name="reports" onchange="if(this.value)window.location.href=this.value">
+                        <option value="/report">รายงาน</option>
+                        <option value="/slip-report">การเข้าออกของรถ</option>
+                        <option value="/invoice">รายงานภาษีขาย</option>
+                        <option value="/admit-report">รถค้าง</option>
                       </select>
+                      <button class="btn btn-primary test"><i class="fas fa-stream"></i> แสดงผล</button>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-lg-2">
+                        <label class="form-label mb-0">เริ่มวันที่</label>
+                        <input type="date" class="form-control" id="date_start">
+                      </div>
+                      <div class="col-lg-2">
+                        <label class="form-label mb-0">ถึงวันที่</label>
+                        <input type="date" class="form-control" id="date_end">
+                      </div>
+                      <div class="col-lg-2">
+                        <label class="form-label mb-0">ประเภทสมาชิก</label>
+                        <select class="form-select" id="search">
+                          <option selected>-- ค้นหาสมาชิก --</option>
+                          <option value="1">Member</option>
+                          <option value="2">VIP</option>
+                          <option value="3">Vistor</option>
+                        </select>
+                      </div>
+                      <div class="col-lg-6 mt-4">
+                        <a href="#" class="m-2">Clear All</a>
+                        <button class="btn btn-excel"><i class="far fa-file-excel"></i> Export to Excel</button>
+                        <button class="btn btn-danger"><i class="far fa-file-pdf"></i> Export to PDF</button>
+                        <button class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
+                      </div>
                     </div>
                   </form>
+
+                  <!-- <div id="result">
+                    {% if report_list is defined %}
+                        You have selected: {{ report_list }}
+                    {% endif %}
+                  </div> -->
               </div>
           </div>
 
@@ -46,7 +80,7 @@
     </div>
   </div>
 
-  <!-- กราฟแท่งแสดงรายได้ Vistor -->
+  
   <script>
     $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
       $("body").toggleClass("sidebar-toggled");
