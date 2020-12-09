@@ -144,8 +144,7 @@ def login():
             ip_address = socket.gethostbyname(hostname)
             login_date = now.strftime('%Y-%m-%d %H:%M:%S')
             sql = "INSERT INTO login_history(user_name,user_ip,system,login_date,status) VALUES (%s, %s, %s, %s, %s)"
-            val = (account[8], ip_address,
-                   "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
+            val = (account[8], ip_address, "ระบบลานจอดรถสวนรถไฟ", login_date, "signed in")
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
@@ -186,8 +185,7 @@ def livesearch():
         searchbox = request.form.get("text")
         cursor = mysql.connection.cursor()
         # This is just example query , you should replace field names with yours
-        query = "select * from member where first_name LIKE '{}%' order by insert_date".format(
-            searchbox)
+        query = "select * from member where first_name LIKE '{}%' order by insert_date".format(searchbox)
         cursor.execute(query)
         result = cursor.fetchall()
         return jsonify(result)
@@ -198,8 +196,7 @@ def livesearch():
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5],
-               data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5], data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -234,8 +231,7 @@ def car_in():
 def current1():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get(
-        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
 
@@ -251,8 +247,7 @@ def current1():
 def current2():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get(
-        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
 
@@ -274,6 +269,7 @@ def maindown1():
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
+        province = info[3]
 
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
@@ -289,7 +285,7 @@ def maindown1():
             dt = info[15]
             time_out = str(dt.day) + "/" + str(dt.month) + \
                 "/" + str(dt.year)+" "+str(info[14])
-            amount = info[26]
+            amount = price
 
         else:
             name = "-"
@@ -299,7 +295,7 @@ def maindown1():
             time_out = str(info[14])
             amount = info[26]
 
-    return render_template('car-out1.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out1.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
@@ -312,7 +308,8 @@ def maindown2():
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
-
+        province = info[3]
+        
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
         val = (car_out,)
@@ -327,7 +324,7 @@ def maindown2():
             dt = info[15]
             time_out = str(dt.day) + "/" + str(dt.month) + \
                 "/" + str(dt.year)+" "+str(info[14])
-            amount = info[26]
+            amount = price
 
         else:
             name = "-"
@@ -337,7 +334,7 @@ def maindown2():
             time_out = str(info[14])
             amount = info[26]
 
-    return render_template('car-out2.html', name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out2.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/report', methods=['GET', 'POST'])  # รายงาน
