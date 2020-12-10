@@ -149,7 +149,7 @@ def login():
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
-            return redirect(url_for('car_in'))
+            return redirect(url_for('listcar'))
         else:
             sql = 'select * from user_admin where user_name = %s'
             cursor.execute(sql, (username,))
@@ -553,4 +553,4 @@ def shift():
 
 
 if __name__ == "__main__":
-    app.run(host='localhost')
+    app.run(host='0.0.0.0', debug=True)
