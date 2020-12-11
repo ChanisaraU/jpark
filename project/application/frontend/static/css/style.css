@@ -124,3 +124,7 @@
 #headOrder2 {
   order: 2;
 }
+
+.modal-full {
+  width: 100%;
+}

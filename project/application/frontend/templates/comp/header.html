@@ -2,13 +2,11 @@
 <html lang="en">
 
 <head>
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
-
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js"></script>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-  <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script> -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
@@ -40,14 +38,6 @@
       <button type="button" class="btn btn-barrier btn-sm mx-1">ไม้กั้น 1</button>
       <button type="button" class="btn btn-barrier btn-sm mx-1">ไม้กั้น 2</button>
       <button type="button" class="btn btn-secondary btn-sm mx-1" disabled>ไม้กั้น 3</button>
-      <!-- <div class="input-group">
-          <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
-              <i class="fas fa-search fa-sm"></i>
-            </button>
-          </div>
-      </div> -->
     </form>
 
     <!-- Topbar Navbar -->
@@ -56,10 +46,6 @@
       <li class="nav-item"> <p class="my-4 px-2 text-blue" id="date"></p> </li>
       <!-- Nav Item - Search Dropdown (Visible Only XS) -->
       <li class="nav-item dropdown no-arrow d-sm-none">
-        <!-- <a class="nav-link dropdown-toggle" href="home" id="searchDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-search fa-fw"></i>
-        </a> -->
         <!-- Dropdown - Messages -->
         <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
           <form class="form-inline mr-auto w-100 navbar-search">
@@ -85,33 +71,36 @@
           <img class="img-profile rounded-circle"
             src="https://www.pngkit.com/png/full/281-2812821_user-account-management-logo-user-icon-png.png">
           <span class="ml-2 d-none d-lg-inline text-gray-600 small">{{session['username']}}</span>
-
         </a>
-        <!-- Dropdown - User Information -->
-        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-            ข้อมูลส่วนตัว
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-            การตั้งค่า
-          </a>
-          <a class="dropdown-item" href="#">
-            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-            Activity Log
-          </a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="logout">
-            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            ออกจากระบบ
-          </a>
-        </div>
+          
       </li>
-
+      
     </ul>
+    <button class="btn btn-danger btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <i class="fas fa-sign-out-alt"></i>
+      ออกจากระบบ
+    </button>  
 
   </nav>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content modal-full">
+        <div class="modal-header">
+          <h5 class="modal-title">ออกจากระบบ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          คุณต้องการออกจากระบบ ?
+        </div>
+        <div class="modal-footer footer-center">
+          <a class="btn btn-secondary col-3 text-white" data-bs-dismiss="modal">ไม่ใช่</a>
+          <a class="btn btn-success-2 col-3" href="shift-report">ใช่</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- End of Topbar -->
 
   <script>
