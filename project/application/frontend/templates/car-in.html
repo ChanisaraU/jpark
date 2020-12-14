@@ -8,6 +8,7 @@
 
 <body id="page-top">
     <div id="wrapper">
+        {% include "comp/sidebar.html" %}
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
@@ -187,6 +188,22 @@
 
     <!-- Jquery-->
     <script>
+        $(document).ready(function () {
+        $(function () {
+            var current_page_URL = location.href;
+            $("a").each(function () {
+            if ($(this).attr("href") !== "#") {
+                var target_URL = $(this).prop("href");
+                if (target_URL == current_page_URL) {
+                $('nav a').parents('li, ul').removeClass('active');
+                $(this).parent('li').addClass('active');
+                return false;
+                }
+            }
+            });
+        });
+        });
+
         var display = setInterval(function () { Time() }, 0);
         function Time() {
             var date = new Date();
