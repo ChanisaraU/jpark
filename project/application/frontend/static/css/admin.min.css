@@ -9422,6 +9422,7 @@ a:focus {
   width: 6.5rem;
   min-height: 100vh;
   z-index: 2000;
+  transition: all 0.2s ease-in;
 }
 .sidebar .nav-item {
   position: relative;
@@ -9518,6 +9519,7 @@ a:focus {
 .sidebar.toggled {
   width: 0 !important;
   overflow: hidden;
+  transition: all 0.2s ease-out;
 }
 .sidebar-brand.toggled {
   display: none;
