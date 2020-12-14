@@ -1,6 +1,7 @@
 from member import member
 from current import *
-
+import pandas 
+import sqlalchemy
 # from current import cal_current
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
 from app import app
@@ -550,6 +551,15 @@ def proinout():
 @app.route('/shift-report')
 def shift():
     return render_template('reports/shift-report.html')
+
+
+@app.route('/report/table-car')
+def table_car():
+    # engine = sqlalchemy.create_engine('mysql://root:@localhost:3306/car_trmp?charset=utf8')
+    # pandas.set_option('colheader_justify', 'center')
+    # df = pandas.read_sql("select * from parking_log", con = engine, )
+    # df = pandas.DataFrame(df, columns=['license_plate','time_in','date_in','total_amount','ssdsd'])
+    return render_template('table-report/table_car.html')
 
 
 if __name__ == "__main__":
