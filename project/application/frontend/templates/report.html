@@ -2,7 +2,22 @@
 <html lang="en">
 
 <head>
+		
+
   {% include "comp/includecss.html" %}
+  
+  
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 </head>
 
 <style>
@@ -24,15 +39,15 @@
           <div class="row">
             <div class="card">
               <div class="mx-0 my-3">
-                <form method="POST" action="/report" method="POST" enctype="multipart/form-data">
+                <form action="/report" method="GET" enctype="multipart/form-data">
                   <div class="input-group flex-nowrap">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
                     <input type="text" placeholder="ค้นหา" class="form-control">
                     <select class="form-select" id="mySelect" name="reports" >
-                      <option type="button" value="/report">รายงาน</option>
-                      <option type="button" value="/report/table-car">การเข้าออกของรถ</option>
-                      <option type="button" value="#">รายงานภาษีขาย</option>
-                      <option type="button" value="#">รถค้าง</option>
+                      <option disabled selected>รายงาน</option>
+                      <option value="car">การเข้าออกของรถ</option>
+                      <option value="salestax">รายงานภาษีขาย</option>
+                      <option value="vat">รถค้าง</option>
                     </select>
                     <button class="btn btn-primary test"><i class="fas fa-stream"></i> แสดงผล</button>
                   </div>
@@ -40,11 +55,11 @@
                   <div class="row mt-2">
                     <div class="col-lg-2">
                       <label class="form-label mb-0">เริ่มวันที่</label>
-                      <input type="date" class="form-control" id="date_start">
+                      <input type="date" class="form-control" id="date_start" name="date_start">
                     </div>
                     <div class="col-lg-2">
                       <label class="form-label mb-0">ถึงวันที่</label>
-                      <input type="date" class="form-control" id="date_end">
+                      <input type="date" class="form-control" id="date_end" name="date_end">
                     </div>
                     <div class="col-lg-2">
                       <label class="form-label mb-0">ประเภทสมาชิก</label>
@@ -57,13 +72,35 @@
                     </div>
                     <div class="col-lg-6 mt-4">
                       <a href="#" class="m-2">Clear All</a>
-                      <button class="btn btn-excel"><i class="far fa-file-excel"></i> Export to Excel</button>
-                      <button class="btn btn-danger"><i class="far fa-file-pdf"></i> Export to PDF</button>
-                      <button class="btn btn-primary"><i class="fas fa-print"></i> Print</button>
+                      <div id="exportbtn"></div>
+                      <button type="button" class="btn btn-excel" id="export-excel"><i class="far fa-file-excel"></i> Export to Excel</button>
+                      <button type="button" class="btn btn-danger" id="export-pdf"><i class="far fa-file-pdf"></i> Export to PDF</button>
+                      <button type="button" class="btn btn-primary" id="export-print"><i class="fas fa-print"></i> Print</button>
                     </div>
                   </div>
                 </form>
 
+                <p id="areatodisplay"></p>
+                <div>
+                <table class="table table-bordered" id="monitorTable">
+                  <thead>
+                    <tr>
+                      {% for x in table_header %}
+                        <th>{{x}}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      {% for x in table_header %}
+                        <th>{{x}}</th>
+                      {% endfor %}
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  </tbody>
+                </table>
+                we</div>
                 <!-- <div id="result">
                     {% if report_list is defined %}
                         You have selected: {{ report_list }}
@@ -71,7 +108,6 @@
                   </div> -->
               </div>
             </div>
-            <p id="table-show"></p>
 
           </div>
         </div>
@@ -80,7 +116,47 @@
   </div>
 
 
-  <script>
+  <script type="text/javascript">
+			//คำสั่ง Jquery เริ่มทำงาน เมื่อ โหลดหน้า Page เสร็จ 
+			$(document).ready(function(){
+        $.noConflict();
+				//กำหนดให้  Plug-in dataTable ทำงาน ใน ตาราง Html ที่มี id เท่ากับ example
+				var table = $('#monitorTable').DataTable({
+          "dom": 'Bfrtip',
+          "buttons": [
+              'excel',
+              'pdf',
+              'print'
+          ],
+					"processing": true,
+					"ajax": {
+            url: "{{api}}", // "{{api}}{{api_param}} /report/table-car/datatable?date_in=aaaa&date_out=aaa&type=aaa
+						dataSrc: "data"
+					}
+				}
+					
+        );
+        
+        table.buttons().container().appendTo($('#exportbtn'));
+        $('#exportbtn').hide();
+        $("#export-excel").click(function(){
+          $(".dt-button.buttons-excel").click();
+        });
+
+        $("#export-pdf").click(function(){
+          $(".dt-button.buttons-pdf").click();
+        });
+
+        $("#export-print").click(function(){
+          $(".dt-button.buttons-print").click();
+        });
+
+			});
+
+    function calldropdown(mySelect) {
+      document.getElementById("areatodisplay").innerHTML = mySelect;
+}
+
     $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");

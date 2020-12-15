@@ -2,6 +2,7 @@ from member import member
 from current import *
 import pandas 
 import sqlalchemy
+import json
 # from current import cal_current
 from flask import Flask, jsonify, request, render_template, Response, redirect, url_for, session, Blueprint, make_response
 from app import app
@@ -193,14 +194,12 @@ def livesearch():
         result = cursor.fetchall()
         return jsonify(result)
     else:
-        mycursor = mysql.connection.cursor()
         cursor2 = mysql.connection.cursor()
         query2 = "select * from parking_log order by time_in DESC,date_in DESC"
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5],
-               data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5], data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -342,6 +341,37 @@ def maindown_two():
 
     return render_template('car-out2.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
+report_header_definition = {
+    "car": {
+        "api": "/report/table-car/datatable",
+        "header": [
+            "id",
+            "code",
+            "member_type",
+            "title_name",
+            "first_name",
+            ]
+    },
+    "salestax": {
+        "api": "/report/table-salestax/datatable",
+        "header": [
+            "id",
+            "code",
+            "member_type",
+            "title_name",
+            ]
+    },
+    "vat": {
+        "api": "/report/table-vat/datatable",
+        "header": [
+            "id",
+            "code",
+            "member_type"
+            ]
+    },
+    
+}
+
 
 @app.route('/report', methods=['GET', 'POST'])  # รายงาน
 def report():
@@ -350,7 +380,23 @@ def report():
             report_list = request.form.get("reports", None)
             if report_list != None:
                 return render_template("report.html", report_list=report_list)
-    return render_template("report.html")
+
+        report_name = request.args.get('reports')
+        if not report_name:
+            report_name = list(report_header_definition.keys())[0]
+        table_header = report_header_definition[report_name]['header']
+        api = report_header_definition[report_name]['api']
+        
+        # api_param = "?"
+        # params = []
+        # if date_in:
+        #     params.append("date_in=" + date_in) # date_in=2020-10-10
+        # if date_out:
+        #     params.append("date_out=" + date_out) # date_out=2020-10-10
+            
+        # api_param += "&".join(params)
+        # ?date_in=2020-10-10&date_out=2020-10-10
+    return render_template("report.html", table_header=table_header, api=api)
 
 
 @app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
@@ -555,12 +601,52 @@ def shift():
 
 @app.route('/report/table-car')
 def table_car():
-    # engine = sqlalchemy.create_engine('mysql://root:@localhost:3306/car_trmp?charset=utf8')
-    # pandas.set_option('colheader_justify', 'center')
-    # df = pandas.read_sql("select * from parking_log", con = engine, )
-    # df = pandas.DataFrame(df, columns=['license_plate','time_in','date_in','total_amount','ssdsd'])
     return render_template('table-report/table_car.html')
 
+
+@app.route('/report/table-car/datatable')
+def table_car_datatable():    
+    cursor = mysql.connection.cursor()
+    sql = 'select * from member'
+    cursor.execute(sql)
+    info = cursor.fetchall()
+    data = jsonify({'data': info})
+    return data
+
+
+@app.route('/report/table-salestax/datatable')
+def table_salestax_datatable():
+    cursor = mysql.connection.cursor()
+    sql = 'select time_in, time_out, date_out, date_in from parking_log'
+    cursor.execute(sql)
+    info = cursor.fetchall()
+    out = []
+    for element in info:
+        newelement = []
+        for x in element:
+            newelement.append(str(x))
+        out.append(newelement)
+    data = jsonify({'data': out})
+    return data
+
+
+@app.route('/report/table-vat/datatable')
+def table_vat_datatable():
+    cursor = mysql.connection.cursor()
+    sql = 'select * from member'
+    cursor.execute(sql)
+    info = cursor.fetchall()
+    data = jsonify({'data': info})
+    return data
+
+@app.route('/report/table-salestax')
+def table_salestax():
+    return render_template('table-report/table_salestax.html')
+
+
+@app.route('/report/table-vat')
+def table_vat():
+    return render_template('table-report/table_vat.html')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
