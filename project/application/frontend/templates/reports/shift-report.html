@@ -14,27 +14,21 @@
     <style>
         @font-face {
             font-family: 'Cordia New';
-
             src: {
                     {
                     url_for('static', filename='fonts/Cordia New Regular.ttf')
                 }
-            }
-
-            ;
+            };
         }
 
         @font-face {
             font-family: 'Cordia New';
             font-weight: bold;
-
             src: {
                     {
                     url_for('static', filename='fonts/Cordia New Bold.ttf')
                 }
-            }
-
-            ;
+            };
         }
 
         body {
@@ -60,6 +54,12 @@
             font-size: 1rem;
             margin-bottom: 0.15rem !important;
         }
+        .logo {
+            height: 50px;
+            width: 50px;
+            background: url('{{ url_for('static', filename='image/logo-j-small-black.png', _external=True) }}');
+            background-size: 50px 50px;
+        }   
     </style>
     <div id="invoice-POS">
 

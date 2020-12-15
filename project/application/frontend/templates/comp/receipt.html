@@ -9,61 +9,53 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
-<body>
-    <style>
-        /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap'); */
-        @font-face {
-            font-family: 'Cordia New';
-
-            src: {
-                    {
-                    url_for('static', filename='fonts/Cordia New Regular.ttf')
-                }
+<style>
+    /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap'); */
+    @font-face {
+        font-family: 'Cordia New';
+        src: {
+                {
+                url_for('static', filename='fonts/Cordia New Regular.ttf')
             }
+        };
+    }
 
-            ;
-        }
-
-        @font-face {
-            font-family: 'Cordia New';
-            font-weight: bold;
-
-            src: {
-                    {
-                    url_for('static', filename='fonts/Cordia New Bold.ttf')
-                }
+    @font-face {
+        font-family: 'Cordia New';
+        font-weight: bold;
+        src: {
+                {
+                url_for('static', filename='fonts/Cordia New Bold.ttf')
             }
+        };
+    }
 
-            ;
-        }
+    body {
+        font-family: 'Cordia New' !important;
+    }
 
-        body {
-            font-family: 'Cordia New' !important;
-        }
+    @page {
+        size: 58mm 91mm
+    }
 
-        @page {
-            size: 58mm 91mm
-        }
+    body.receipt .sheet {
+        width: 58mm;
+        height: 91mm
+    }
 
-        body.receipt .sheet {
-            width: 58mm;
-            height: 91mm
+    @media print {
+        body.receipt {
+            width: 58mm
         }
+    }
 
-        @media print {
-            body.receipt {
-                width: 58mm
-            }
-        }
-
-        .text-header {
-            font-size: 1rem;
-            margin-bottom: 0.15rem !important;
-        }
-    </style>
+    .text-header {
+        font-size: 1rem;
+        margin-bottom: 0.15rem !important;
+    }
+</style>
+<body onload="window.print()">
     <div id="invoice-POS">
-
         <center id="top">
             <div class="logo"></div>
             <div class="info">
