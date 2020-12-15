@@ -396,6 +396,7 @@ def report():
             
         # api_param += "&".join(params)
         # ?date_in=2020-10-10&date_out=2020-10-10
+        
     return render_template("report.html", table_header=table_header, api=api)
 
 
