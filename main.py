@@ -595,6 +595,18 @@ def proinout():
     return response
 
 
+@app.route('/member-report')
+def memberreport():
+    rendered = render_template("reports/member-report.html")
+    options = {'disable-smart-shrinking': ''}
+    pdf = pdfkit.from_string(
+        rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=member-report.pdf'
+    return response
+
+
 @app.route('/shift-report')
 def shift():
     return render_template('reports/shift-report.html')
