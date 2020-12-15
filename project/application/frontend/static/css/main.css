@@ -131,12 +131,15 @@ body {
 .body-title {
   font-size: 24rem;
 }
-
+.picture-show {
+  width: 100px;
+}
 .picture-show:hover {
-  width: 1590px;
+  width: 12vw;
   height: auto;
-  -webkit-transform: scale(9) rotate(0.01deg);
-  transform: scale(9) rotate(0.01deg);
+  -webkit-transform: scale(4) rotate(0.01deg);
+  transform: scale(4) rotate(0.01deg);
+  z-index: 2000;
 }
 
 .col-print-1 {

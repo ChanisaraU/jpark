@@ -195,14 +195,14 @@
             if ($(this).attr("href") !== "#") {
                 var target_URL = $(this).prop("href");
                 if (target_URL == current_page_URL) {
-                $('nav a').parents('li, ul').removeClass('active');
-                $(this).parent('li').addClass('active');
-                return false;
+                    $('nav a').parents('li, ul').removeClass('active');
+                    $(this).parent('li').addClass('active');
+                    return false;
+                    }
                 }
-            }
             });
         });
-        });
+    });
 
         var display = setInterval(function () { Time() }, 0);
         function Time() {
@@ -210,6 +210,14 @@
             var time = date.toLocaleTimeString();
             document.getElementById("timecurrent").innerHTML = time;
         }
+
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+        if ($(".sidebar").hasClass("toggled")) {
+            $('.sidebar .collapse').collapse('hide');
+        };
+        });
     </script>
 
 </body>
