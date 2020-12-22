@@ -1,6 +1,6 @@
 from member import member
 from current import *
-import pandas 
+import pandas
 import sqlalchemy
 import json
 # from current import cal_current
@@ -199,7 +199,8 @@ def livesearch():
         cursor2.execute(query2)
         data = cursor2.fetchall()
         sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5], data[0][6], data[0][7], data[0][8], data[0][13])
+        val = (data[0][0], data[0][2], data[0][3], data[0][5],
+               data[0][6], data[0][7], data[0][8], data[0][13])
         mycursor.execute(sql, val)
         mysql.connection.commit()
         mycursor.close()
@@ -341,35 +342,71 @@ def maindown_two():
 
     return render_template('car-out2.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
+
 report_header_definition = {
     "car": {
         "api": "/report/table-car/datatable",
         "header": [
-            "id",
-            "code",
-            "member_type",
-            "title_name",
-            "first_name",
-            ]
+            "ลำดับ",
+            "ประเภท",
+            "ทะเบียนรถ",
+            "เวลาเข้า",
+            "เวลาออก",
+            "รายได้",
+            "ส่วนลด"
+        ]
     },
     "salestax": {
         "api": "/report/table-salestax/datatable",
         "header": [
-            "id",
-            "code",
-            "member_type",
-            "title_name",
-            ]
+            "ลำดับ",
+            "ใบกำกับ",
+            "ทะเบียนรถ",
+            "ประเภทสมาชิก",
+            "ชื่อผู้รับบริการ",
+            "เลขประจำตัวผู้เสียภาษี",
+            "สถานประกอบการ",
+            "มูลค่าสินค้า/บริการ",
+            "จำนวนเงิน ภาษีมูลค่า",
+            "บริการที่ได้รับยกเว้นภาษีมูลค่าเพิ่ม"
+        ]
+    },
+    "member": {
+        "api": "",
+        "header": [
+            "ลำดับ",
+            "ชื่อ-นามสกุล",
+            "ทะเบียนรถ",
+            "เลขที่ใบเสร็จ",
+            "วันที่ชำระ",
+            "วันหมดอายุ",
+            "รายได้",
+            "เจ้าหน้าที่"
+        ]
+    },
+    "staff": {
+        "api": "",
+        "header": [
+            "ลำดับ",
+            "ชื่อเจ้าหน้าที่",
+            "เวลาเข้า",
+            "เวลาออก",
+            "รายได้",
+            "ส่วนลด"
+        ]
     },
     "vat": {
         "api": "/report/table-vat/datatable",
         "header": [
-            "id",
-            "code",
-            "member_type"
-            ]
-    },
-    
+            "ลำดับ",
+            "ลานจอด",
+            "พนักงาน",
+            "ทะเบียน",
+            "ประเภทสมาชิก",
+            "วันเวลาเข้า",
+            "เวลาจอดสะสม",
+        ]
+    }
 }
 
 
@@ -386,18 +423,30 @@ def report():
             report_name = list(report_header_definition.keys())[0]
         table_header = report_header_definition[report_name]['header']
         api = report_header_definition[report_name]['api']
-        
+
         # api_param = "?"
         # params = []
         # if date_in:
         #     params.append("date_in=" + date_in) # date_in=2020-10-10
         # if date_out:
         #     params.append("date_out=" + date_out) # date_out=2020-10-10
-            
+
         # api_param += "&".join(params)
         # ?date_in=2020-10-10&date_out=2020-10-10
-        
+
     return render_template("report.html", table_header=table_header, api=api)
+
+
+@app.route('/transaction/datatable')
+def transaction_datatable():
+    # now = datetime.now()
+    # today = now.strftime('%Y-%m-%d')
+    cursor = mysql.connection.cursor()
+    sql = 'select * from parking_log'
+    cursor.execute(sql, (today,))
+    info = cursor.fetchall()
+    data = jsonify({'data': info})
+    return data
 
 
 @app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
@@ -549,26 +598,12 @@ def receipt():
 
 @app.route('/slip-report')
 def slip():
-    rendered = render_template("reports/slip-report.html")
-    options = {'disable-smart-shrinking': ''}
-    pdf = pdfkit.from_string(
-        rendered, False, configuration=config, options=options)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=slip-report.pdf'
-    return response
+    return render_template('reports/slip-report.html')
 
 
 @app.route('/admit-report')
 def admit():
-    rendered = render_template("reports/admit-report.html")
-    options = {'disable-smart-shrinking': ''}
-    pdf = pdfkit.from_string(
-        rendered, False, configuration=config, options=options)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=admit-report.pdf'
-    return response
+    return render_template('reports/admit-report.html')
 
 
 @app.route('/inout-report')
@@ -618,7 +653,7 @@ def table_car():
 
 
 @app.route('/report/table-car/datatable')
-def table_car_datatable():    
+def table_car_datatable():
     cursor = mysql.connection.cursor()
     sql = 'select * from member'
     cursor.execute(sql)
@@ -652,6 +687,7 @@ def table_vat_datatable():
     data = jsonify({'data': info})
     return data
 
+
 @app.route('/report/table-salestax')
 def table_salestax():
     return render_template('table-report/table_salestax.html')
@@ -660,6 +696,7 @@ def table_salestax():
 @app.route('/report/table-vat')
 def table_vat():
     return render_template('table-report/table_vat.html')
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

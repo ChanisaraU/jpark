@@ -44,17 +44,15 @@ body {
 }
 
 .btn-excel {
-  color: #fff;
-  background-color: #1cc88a;
-  border-color: #1cc88a;
-  /* border-radius: 20px; */
+  color: #fff !important;
+  background-color: #1cc88a !important;
+  border-color: #1cc88a !important;
 }
 
 .btn-barrier {
-  color: #fff;
-  background-color: #74543f;
-  border-color: #74543f;
-  /* border-radius: 20px; */
+  color: #fff !important;
+  background-color: #74543f !important;
+  border-color: #74543f !important;
 }
 
 .floating-button {
@@ -126,10 +124,10 @@ body {
 }
 
 .header-title {
-  font-size: 5rem;
+  font-size: calc(4vw + 4vh + 2vmin);
 }
 .body-title {
-  font-size: 24rem;
+  font-size: calc(30vw + 4vh + 4vmin);
 }
 .picture-show {
   width: 100px;
