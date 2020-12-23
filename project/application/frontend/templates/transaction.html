@@ -103,7 +103,6 @@
                                 padding: .375rem .75rem;font-size: 1rem;text-align: start;">
                             </div>
                         </div>
-                        <div>
                             <table class="table table-hover" style="font-size: 0.5rem;">
                                 <thead>
                                     <tr>
@@ -128,11 +127,12 @@
                                         <th scope="col" class="fixed" style="background: white;"></th>
                                     </tr>
                                 </thead>
-                                {% if result %}
-                                {% for row in result %}
+                                {% if transaction %}
+                                {% for row in transaction %}
                                 <tbody id="myTable">
                                     <tr>
-                                        <td>{{ row[0] }}</td>
+                                        <!-- <td>{{ row[0] }}</td> -->
+                                        <td>{{ loop.index + pagination.skip }}</td>
                                         <td>{{ row[7] }}</td>
                                         <td>{{ row[14] }}</td>
                                         <td>{{ row[16] }}</td>
@@ -213,7 +213,22 @@
                                 {% endfor %}
                                 {% endif %}
                             </table>
-                        </div>
+                            {{ pagination.links }}
+                            <!-- <nav>
+                                <ul class="pagination">
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">Previous</a>
+                                  </li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">2</a>
+                                  </li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">Next</a>
+                                  </li>
+                                </ul>
+                            </nav> -->
                     </div>
                 </div>
 
@@ -221,6 +236,7 @@
         </div>
     </div>
     <script>
+
         $('#modal-confirm').click(function () {
             // Perform the action after modal confirm button is clicked.
             $('#form-submit').click(); // submitting the form
@@ -228,13 +244,13 @@
 
         //กำหนดไอดีให้กับปุ่มแก้ไขแต่ละปุ่ม
         $(document).ready(function(){
-        $("#button1").click(function () {
-            console.log("hi")
-            var passedID = $(this).data('id');//get the id of the selected button
-            $('input[name="id"]').val(passedID);//set the id to the input on the modal
-            console.log(passedID)
+            $("#button1").click(function () {
+                console.log("hi")
+                var passedID = $(this).data('id');//get the id of the selected button
+                $('input[name="id"]').val(passedID);//set the id to the input on the modal
+                console.log(passedID)
+            });
         });
-    });
 
         $(document).ready(function () {
             $("#search").on("keyup", function () {

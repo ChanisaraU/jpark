@@ -1,3 +1,4 @@
+from flask_paginate import Pagination, get_page_parameter
 from member import member
 from current import *
 import pandas
@@ -20,7 +21,7 @@ config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
 def find_camera(id):
     cameras = ['rtsp://admin:ap123456789@172.16.6.4',
-               'rtsp://admin:ap123456789@172.16.6.5']
+               'rtsp://admin:ap123456789@172.16.6.5', 'rtsp://admin:ap123456789@172.16.6.3']
     return cameras[int(id)]
 
 # camera = cv2.VideoCapture('rtsp://admin:Jpark*2020*@172.20.1.138')  # use 0 for web camera
@@ -151,7 +152,7 @@ def login():
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
-            return redirect(url_for('listcar'))
+            return redirect(url_for('transaction'))
         else:
             sql = 'select * from user_admin where user_name = %s'
             cursor.execute(sql, (username,))
@@ -449,28 +450,38 @@ def report():
     return render_template("report.html", table_header=table_header, api=api)
 
 
-@app.route('/transaction/datatable')
-def transaction_datatable():
-    # now = datetime.now()
-    # today = now.strftime('%Y-%m-%d')
-    cursor = mysql.connection.cursor()
-    sql = 'select * from parking_log'
-    cursor.execute(sql, (today,))
-    info = cursor.fetchall()
-    data = jsonify({'data': info})
-    return data
-
-
-@app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
-def listcar():
+@app.route('/transaction', methods=['GET', 'POST'])
+def transaction():
     if session['username'] != " ":
+        page = request.args.get(get_page_parameter(), type=int, default=1)
+        limit = 5
+        offset = page*limit-limit
+        cursor = mysql.connection.cursor()
+        cursor.execute("select * from parking_log")
+
+        result = cursor.fetchall()
+        total = len(result)
         now = datetime.now()
         today = now.strftime('%Y-%m-%d')
-        cursor = mysql.connection.cursor()
-        query = "select * from parking_log where date_in = %s order by time_in DESC,date_in DESC"
-        cursor.execute(query, (today,))
-        resultt = cursor.fetchall()
-        return render_template('transaction.html', result=resultt, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
+        cur = mysql.connection.cursor()
+        que = "select * from parking_log ORDER By time_in DESC,date_in DESC LIMIT %s OFFSET %s"
+        cur.execute(que, (limit, offset))
+        data = cur.fetchall()
+        cur.close()
+
+        pagination = Pagination(page=page, per_page=limit,
+                                total=total, record_name='transaction', css_framework='bootstrap4')
+        return render_template('transaction.html', pagination=pagination, transaction=data, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
+# @app.route('/transaction', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
+# def listcar():
+#     if session['username'] != " ":
+#         now = datetime.now()
+#         today = now.strftime('%Y-%m-%d')
+#         cursor = mysql.connection.cursor()
+#         query = "select * from parking_log where date_in = %s order by time_in DESC,date_in DESC"
+#         cursor.execute(query, (today,))
+#         resultt = cursor.fetchall()
+#         return render_template('transaction.html', result=resultt, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
 
 
 @app.route('/addcar', methods=['GET', 'POST'])  # รายการรถเข้า-ออกสะสม
