@@ -3,6 +3,11 @@ import datetime
 import math
 from datetime import datetime, timedelta, date, time
 
+import socket    
+hostname = socket.gethostname()    
+IPAddr = socket.gethostbyname(hostname)  
+
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -13,12 +18,20 @@ mydb = mysql.connector.connect(
 def get_hour(delta):
     return delta.seconds/3600
 
+def IP_Address(IPAddr) :
+    if IPAddr == '172.20.1.125' :
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
+    elif IPAddr == '172.20.1.0' :    
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+    return zero
 
 def cal_Price():
     mycursor = mydb.cursor()
     # mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
-    mycursor.execute(
-        "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
+    # "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
+    
+    mycursor.execute(IP_Address())
+        
     myresult = mycursor.fetchall()
     if not myresult[0][1]:
         y = list(myresult[0])
@@ -83,13 +96,15 @@ def cal_Price():
                     last = True
             cal_amount(price)  # ค่าเงินจอดรถ
             
-        # print(price)  # ค่าเงินจอดรถที่มีค่าส่วนลด กับค่าปรับแล้ว
-        vat = price * 0.07
-        total_amount = price + vat
-        total_amount = '{0:.2f}'.format(float(total_amount))
+        print(price, 'price') # ค่าเงินจอดรถที่มีค่าส่วนลด กับค่าปรับแล้ว
+        excluding_vat = (price * 100 )/107   
+        print(excluding_vat,'excluding vat')
+        vat = price - excluding_vat
+        print(vat,'vat')
+        vat = '{0:.2f}'.format(float(vat))
+        cal_excluding_vat(excluding_vat)
         cal_vat(vat)
-        cal_total_amount(total_amount)
-        return total_amount
+        return price
 
 
 def cal_amount(price):
@@ -101,19 +116,19 @@ def cal_amount(price):
     mycursor.close()
 
 
-def cal_vat(vat):
+def cal_excluding_vat(excluding_vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set vat = %s where id = 0"
-    val = (vat,)
+    sql_parking = "update test_log set excluding_vat = %s where id = 0"
+    val = (excluding_vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
     mycursor.close()
 
 
-def cal_total_amount(total_amount):
+def cal_vat(vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set total_amount = %s where id = 0"
-    val = (total_amount,)
+    sql_parking = "update test_log set vat = %s where id = 0"
+    val = (vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
     mycursor.close()

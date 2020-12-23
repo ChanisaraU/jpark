@@ -310,7 +310,7 @@ def maindown_two():
         price = member()
 
         cursor = mysql.connection.cursor()
-        sql = 'select * from test_log where id = 0'
+        sql = 'select * from test_log where id = 1'
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
@@ -398,15 +398,21 @@ report_header_definition = {
     "vat": {
         "api": "/report/table-vat/datatable",
         "header": [
-            "ลำดับ",
-            "ลานจอด",
-            "พนักงาน",
-            "ทะเบียน",
-            "ประเภทสมาชิก",
-            "วันเวลาเข้า",
-            "เวลาจอดสะสม",
-        ]
-    }
+            "id",
+            "code",
+            "member_type"
+            ]
+    },
+    "member_income": {
+        "api": "/report/table_member_income/datatable",
+        "header": [
+            "id",
+            "code",
+            "title_name",
+            "member_type"
+            ]
+    },
+    
 }
 
 
@@ -425,6 +431,8 @@ def report():
         api = report_header_definition[report_name]['api']
 
         # api_param = "?"
+        
+        # api_param = "&"
         # params = []
         # if date_in:
         #     params.append("date_in=" + date_in) # date_in=2020-10-10
@@ -432,7 +440,11 @@ def report():
         #     params.append("date_out=" + date_out) # date_out=2020-10-10
 
         # api_param += "&".join(params)
+
         # ?date_in=2020-10-10&date_out=2020-10-10
+
+
+        # &date_in=2020-10-10&date_out=2020-10-10
 
     return render_template("report.html", table_header=table_header, api=api)
 
@@ -593,8 +605,16 @@ def invoice():
 
 @app.route('/receipt')
 def receipt():
+    cursor = mysql.connection.cursor()
+    query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, amount, discount, earn, reason from parking_log"
+    cursor.execute(query)
+    result = cursor.fetchall()
     return render_template('comp/receipt.html')
 
+@app.route('/receipt_two')
+def receipt_two():
+    
+    return render_template('comp/receipt_two.html')
 
 @app.route('/slip-report')
 def slip():
@@ -662,6 +682,11 @@ def table_car_datatable():
     return data
 
 
+@app.route('/report/table-salestax')
+def table_salestax():
+    return render_template('table-report/table_salestax.html')
+
+
 @app.route('/report/table-salestax/datatable')
 def table_salestax_datatable():
     cursor = mysql.connection.cursor()
@@ -688,6 +713,7 @@ def table_vat_datatable():
     return data
 
 
+
 @app.route('/report/table-salestax')
 def table_salestax():
     return render_template('table-report/table_salestax.html')
@@ -696,6 +722,21 @@ def table_salestax():
 @app.route('/report/table-vat')
 def table_vat():
     return render_template('table-report/table_vat.html')
+
+
+@app.route('/report/table_member_income')
+def table_member_income():
+    return render_template('table-report/table_member_income.html')
+
+
+@app.route('/report/table_member_income/datatable')
+def table_member_datatable():    
+    cursor = mysql.connection.cursor()
+    sql = 'select * from member'
+    cursor.execute(sql)
+    info = cursor.fetchall()
+    data = jsonify({'data': info})
+    return data
 
 
 if __name__ == "__main__":

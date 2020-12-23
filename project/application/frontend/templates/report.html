@@ -29,14 +29,15 @@
                 <form action="/report" method="GET" enctype="multipart/form-data">
                   <div class="input-group flex-nowrap">
                     <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    <input type="text" placeholder="ค้นหา" id="areatodisplay" class="form-control">
-                    <select class="form-select" id="mySelect" name="reports">
-                      <option value="">รายงาน</option>
-                      <option value="car">การเข้าออกของรถ</option>
+
+                    <input type="text" placeholder="ค้นหา" class="form-control">
+                    <select class="form-select" id="mySelect" name="reports" >
+                      <option disabled selected>รายงาน</option>
+                      <option value="car">รายงานการเข้าออกของรถแ</option>
                       <option value="salestax">รายงานภาษีขาย</option>
-                      <option value="member">รายได้จากสมาชิก</option>
-                      <option value="staff">การทำงานของเจ้าหน้าที่</option>
-                      <option value="vat">รถค้าง</option>
+                      <option value="vat">รายงานรถค้าง</option>
+                      <option value="member_income">รายงานรายได้จากสมาชิก</option>
+
                     </select>
                     <button class="btn btn-primary test"><i class="fas fa-stream"></i> แสดงผล</button>
                   </div>
@@ -178,7 +179,7 @@
 
         $("#export-pdf").click(function(){
           $(".dt-button.buttons-pdf").click();
-        });
+        });c
 
         $("#export-print").click(function(){
           $(".dt-button.buttons-print").click();

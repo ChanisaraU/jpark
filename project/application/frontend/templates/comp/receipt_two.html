@@ -9,53 +9,61 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<style>
-    /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap'); */
-    @font-face {
-        font-family: 'Cordia New';
-        src: {
-                {
-                url_for('static', filename='fonts/Cordia New Regular.ttf')
+
+<body>
+    <style>
+        /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400&display=swap'); */
+        @font-face {
+            font-family: 'Cordia New';
+
+            src: {
+                    {
+                    url_for('static', filename='font/Cordia New Regular.ttf')
+                }
             }
-        };
-    }
 
-    @font-face {
-        font-family: 'Cordia New';
-        font-weight: bold;
-        src: {
-                {
-                url_for('static', filename='fonts/Cordia New Bold.ttf')
-            }
-        };
-    }
-
-    body {
-        font-family: 'Cordia New' !important;
-    }
-
-    @page {
-        size: 58mm 91mm
-    }
-
-    body.receipt .sheet {
-        width: 58mm;
-        height: 91mm
-    }
-
-    @media print {
-        body.receipt {
-            width: 58mm
+            ;
         }
-    }
 
-    .text-header {
-        font-size: 1rem;
-        margin-bottom: 0.15rem !important;
-    }
-</style>
-<body onload="window.print()">
+        @font-face {
+            font-family: 'Cordia New';
+            font-weight: bold;
+
+            src: {
+                    {
+                    url_for('static', filename='font/Cordia New Bold.ttf')
+                }
+            }
+
+            ;
+        }
+
+        body {
+            font-family: 'Cordia New' !important;
+        }
+
+        @page {
+            size: 58mm 91mm
+        }
+
+        body.receipt .sheet {
+            width: 58mm;
+            height: 91mm
+        }
+
+        @media print {
+            body.receipt {
+                width: 58mm
+            }
+        }
+
+        .text-header {
+            font-size: 1rem;
+            margin-bottom: 0.15rem !important;
+        }
+    </style>
     <div id="invoice-POS">
+
         <center id="top">
             <div class="logo"></div>
             <div class="info">
@@ -154,7 +162,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">SSQSSQ+0000000000000</p>
+                            <p class="itemtext">SSQSSQ+0000000000001</p>
                         </td>
                     </tr>
                 </table>
