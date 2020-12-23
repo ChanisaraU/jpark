@@ -18,19 +18,19 @@ mydb = mysql.connector.connect(
 def get_hour(delta):
     return delta.seconds/3600
 
-def IP_Address(IPAddr) :
-    if IPAddr == '172.20.1.125' :
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
-    elif IPAddr == '172.20.1.0' :    
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
-    return zero
+# def IP_Address(IPAddr) :
+#     if IPAddr == '172.20.1.125' :
+#         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
+#     elif IPAddr == '172.20.1.0' :    
+#         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+#     return zero
 
 def cal_Price():
     mycursor = mydb.cursor()
     # mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
     # "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
     
-    mycursor.execute(IP_Address())
+    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
         
     myresult = mycursor.fetchall()
     if not myresult[0][1]:

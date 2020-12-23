@@ -693,9 +693,9 @@ def table_car_datatable():
     return data
 
 
-@app.route('/report/table-salestax')
-def table_salestax():
-    return render_template('table-report/table_salestax.html')
+# @app.route('/report/table-salestax')
+# def table_salestax():
+#     return render_template('table-report/table_salestax.html')
 
 
 @app.route('/report/table-salestax/datatable')
