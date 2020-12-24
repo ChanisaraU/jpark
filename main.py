@@ -402,7 +402,7 @@ report_header_definition = {
             "id",
             "code",
             "member_type"
-            ]
+        ]
     },
     "member_income": {
         "api": "/report/table_member_income/datatable",
@@ -411,9 +411,9 @@ report_header_definition = {
             "code",
             "title_name",
             "member_type"
-            ]
+        ]
     },
-    
+
 }
 
 
@@ -432,7 +432,7 @@ def report():
         api = report_header_definition[report_name]['api']
 
         # api_param = "?"
-        
+
         # api_param = "&"
         # params = []
         # if date_in:
@@ -444,10 +444,37 @@ def report():
 
         # ?date_in=2020-10-10&date_out=2020-10-10
 
-
         # &date_in=2020-10-10&date_out=2020-10-10
 
     return render_template("report.html", table_header=table_header, api=api)
+
+
+@app.route('/report-dash')  # รายงาน
+def reportdash():
+    if session['username'] != " ":
+        legend = "Data A"
+        cursor = mysql.connection.cursor()
+        try:
+            cursor.execute("select amount from parking_log")
+            rows = cursor.fetchall()
+            labels = list()
+            i = 0
+            for row in rows:
+                labels.append(row[i])
+
+            cursor.execute("select date_out from parking_log")
+            rows = cursor.fetchall()
+            # Convert query to objects of key-value pairs
+            values = list()
+            i = 0
+            for row in rows:
+                values.append(row[i])
+            mysql.connection.commit()
+            cursor.close()
+
+        except:
+            print("Error: Unable to fetch items")
+        return render_template('report-dash.html', values=values, labels=labels, legend=legend)
 
 
 @app.route('/transaction', methods=['GET', 'POST'])
@@ -461,8 +488,7 @@ def transaction():
 
         result = cursor.fetchall()
         total = len(result)
-        now = datetime.now()
-        today = now.strftime('%Y-%m-%d')
+        now = datetime.now().strftime('%Y-%m-%d')
         cur = mysql.connection.cursor()
         que = "select * from parking_log ORDER By time_in DESC,date_in DESC LIMIT %s OFFSET %s"
         cur.execute(que, (limit, offset))
@@ -622,10 +648,12 @@ def receipt():
     result = cursor.fetchall()
     return render_template('comp/receipt.html')
 
+
 @app.route('/receipt_two')
 def receipt_two():
-    
+
     return render_template('comp/receipt_two.html')
+
 
 @app.route('/slip-report')
 def slip():
@@ -724,7 +752,6 @@ def table_vat_datatable():
     return data
 
 
-
 @app.route('/report/table-salestax')
 def table_salestax():
     return render_template('table-report/table_salestax.html')
@@ -741,7 +768,7 @@ def table_member_income():
 
 
 @app.route('/report/table_member_income/datatable')
-def table_member_datatable():    
+def table_member_datatable():
     cursor = mysql.connection.cursor()
     sql = 'select * from member'
     cursor.execute(sql)
