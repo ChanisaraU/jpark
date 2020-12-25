@@ -71,9 +71,9 @@ body {
 }
 
 .btn-success-2 {
-  background-color: #55e23b;
-  border-color: #55e23b;
-  color: #fff;
+  background-color: #55e23b !important;
+  border-color: #55e23b !important;
+  color: #fff !important;
 }
 
 .animate-car-left {
@@ -190,7 +190,7 @@ body {
 }
 
 .footer-center {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .modal-full {
