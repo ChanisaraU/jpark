@@ -15,23 +15,37 @@ mydb = mysql.connector.connect(
     database="car_trmp"
 )
 
+
 def get_hour(delta):
     return delta.seconds/3600
 
-# def IP_Address(IPAddr) :
-#     if IPAddr == '172.20.1.125' :
-#         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
-#     elif IPAddr == '172.20.1.0' :    
-#         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
-#     return zero
+hostname = socket.gethostname()    
+IPAddr = socket.gethostbyname(hostname)  
+
+def IP_Address() :
+    # hostname = socket.gethostname()    
+    # IPAddr = socket.gethostbyname(hostname)   
+    if IPAddr == '172.16.6.33' :
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+    elif IPAddr == '172.16.6.33' :    
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+    return zero
+
+
+def Where_id() :
+    if IPAddr == '172.16.6.33' :
+        id = "where id = 1"
+    elif IPAddr == '172.16.6.33' :    
+        id = "where id = 1"
+    return id
+# print(type(Where_id()))
 
 def cal_Price():
     mycursor = mydb.cursor()
     # mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
     # "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
     
-    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0")
-        
+    mycursor.execute(IP_Address())
     myresult = mycursor.fetchall()
     if not myresult[0][1]:
         y = list(myresult[0])
@@ -94,13 +108,15 @@ def cal_Price():
 
                 if date_in >= date_out and not last:
                     last = True
+
             cal_amount(price)  # ค่าเงินจอดรถ
-            
-        print(price, 'price') # ค่าเงินจอดรถที่มีค่าส่วนลด กับค่าปรับแล้ว
+    
+        # print(price, 'price') # ค่าเงินจอดรถที่มีค่าส่วนลด กับค่าปรับแล้ว
         excluding_vat = (price * 100 )/107   
-        print(excluding_vat,'excluding vat')
+        # print(excluding_vat,'excluding vat')
+
         vat = price - excluding_vat
-        print(vat,'vat')
+        # print(vat,'vat')
         vat = '{0:.2f}'.format(float(vat))
         cal_excluding_vat(excluding_vat)
         cal_vat(vat)
@@ -109,7 +125,7 @@ def cal_Price():
 
 def cal_amount(price):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set amount = %s where id = 0"
+    sql_parking = "update test_log set amount = %s"+" "+ Where_id()
     val = (price,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
@@ -118,7 +134,7 @@ def cal_amount(price):
 
 def cal_excluding_vat(excluding_vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set excluding_vat = %s where id = 0"
+    sql_parking = "update test_log set excluding_vat = %s"+" "+ Where_id()
     val = (excluding_vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
@@ -127,11 +143,8 @@ def cal_excluding_vat(excluding_vat):
 
 def cal_vat(vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set vat = %s where id = 0"
+    sql_parking = "update test_log set vat = %s"+" "+ Where_id()
     val = (vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
     mycursor.close()
-
-
-print(cal_Price())

@@ -1,6 +1,7 @@
 from flask_paginate import Pagination, get_page_parameter
 from member import member
 from current import *
+from receipt import *
 import pandas
 import sqlalchemy
 import json
@@ -97,7 +98,6 @@ def monitorout():
     member1 = cursor3.fetchone()
 
     price = member()
-    print(price)
     if member1:
         mem_type = member1[2]
         expiry_date = member1[11]
@@ -236,16 +236,30 @@ def car_in():
 def current():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get(
-        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
+    gate = request.form.get("gate") 
+    
+    cal_discount(discount, gate)
+    cal_fines(fines, gate)
+    cal_receieve(receieve,gate)
+    cal_changes(changes,gate)
 
-    cal_discount(discount)
-    cal_fines(fines)
-    cal_receieve(receieve)
-    cal_changes(changes)
-
+    TAX_ID = request.form.get("TAX_ID") 
+    POS_ID = request.form.get("POS_ID") 
+    REG_ID = request.form.get("REG_ID") 
+    cashier_box = request.form.get("cashier_box") 
+    original_time_out = request.form.get("original_time_out") 
+    original_time_total = request.form.get("original_time_total") 
+    original_license_plate = request.form.get("original_car_out") 
+    original_time_in = request.form.get("original_time_in") 
+    original_amount = request.form.get("original_amount") 
+    cashier_box = request.form.get("cashier_box") 
+    today = datetime.today()
+    
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve)
+    
     return maindown()
 
 
@@ -253,16 +267,28 @@ def current():
 def current2():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get(
-        "original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
-
-    cal_discount(discount)
-    cal_fines(fines)
-    cal_receieve(receieve)
-    cal_changes(changes)
-
+    gate = request.form.get("gate") 
+    
+    cal_discount(discount, gate)
+    cal_fines(fines, gate)
+    cal_receieve(receieve,gate)
+    cal_changes(changes,gate)
+    
+    TAX_ID = request.form.get("TAX_ID")
+    POS_ID = request.form.get("POS_ID") 
+    REG_ID = request.form.get("REG_ID")
+    today = datetime.today() 
+    cashier_box = request.form.get("cashier_box") 
+    original_time_out = request.form.get("original_time_out")
+    original_time_total = request.form.get("original_time_total") 
+    original_license_plate = request.form.get("original_car_out") 
+    original_time_in = request.form.get("original_time_in") 
+    original_amount = request.form.get("original_amount") 
+    
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve)
     return maindown_two()
 
 
@@ -272,12 +298,13 @@ def maindown():
         price = member()
 
         cursor = mysql.connection.cursor()
-        sql = 'select * from test_log where id = 0'
+        sql = 'select * from test_log where id = 1'
         cursor.execute(sql)
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
         province = info[3]
-
+        gate = info[31]
+        
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
         val = (car_out,)
@@ -290,8 +317,9 @@ def maindown():
             expiry_date = member1[11]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
-            time_out = str(dt.day) + "/" + str(dt.month) + \
-                "/" + str(dt.year)+" "+str(info[14])
+            time_out = str(dt.day) + "/" + str(dt.month) + "/" + str(dt.year)+" "+str(info[14])
+            original_time_out = str(info[15])+" "+str(info[14])
+
             amount = price
 
         else:
@@ -302,7 +330,7 @@ def maindown():
             time_out = str(info[14])
             amount = info[29]
 
-    return render_template('car-out1.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out1.html', original_time_out=original_time_out, gate=gate, province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
@@ -316,6 +344,7 @@ def maindown_two():
         info = cursor.fetchone()
         car_out = info[2]  # license_plate
         province = info[3]
+        gate = info[31]
 
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
@@ -329,8 +358,8 @@ def maindown_two():
             expiry_date = member1[11]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
-            time_out = str(dt.day) + "/" + str(dt.month) + \
-                "/" + str(dt.year)+" "+str(info[14])
+            time_out = str(dt.day) + "/" + str(dt.month) +"/" + str(dt.year)+" "+str(info[14])
+            original_time_out = str(info[15])+" "+str(info[14])
             amount = price
 
         else:
@@ -341,7 +370,7 @@ def maindown_two():
             time_out = str(info[14])
             amount = info[29]
 
-    return render_template('car-out2.html', province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out2.html', gate=gate,original_time_out=original_time_out,  province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 report_header_definition = {

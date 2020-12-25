@@ -125,6 +125,15 @@
                                         <label for="amount" class="form-label h5">ค่าจอดรถ</label>
                                         <input type="number" class="form-control input-parking-fee shadow" id="amount" value="{{amount}}" readonly>
                                         <input type="hidden" name="original_amount" id="original_amount" value="{{amount}}" >
+                                        <input type="hidden" name="original_time_in" id="original_time_in" value="{{time_in}}" >
+                                        <input type="hidden" name="original_car_out" id="original_car_out" value="{{car_out}}" >
+                                        <input type="hidden" name="original_time_total" id="original_time_total" value="{{time_total}}" >
+                                        <input type="hidden" name="original_time_out" id="original_time_out" value="{{original_time_out}}" >
+                                        <input type="hidden" name="gate" id="gate" value="{{gate}}" >
+                                        <input type="hidden" name="TAX_ID" id="TAX_ID" value="0735541000291">
+                                        <input type="hidden" name="POS_ID" id="POS_ID" value="Ps02020-02">
+                                        <input type="hidden" name="REG_ID" id="REG_ID" value="1234567890123">
+                                        <input type="hidden" name="cashier_box" id="cashier_box" value="exit-2">
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-center text-blue">
@@ -216,6 +225,7 @@
         $(document).ready(function() {
             $('#fines, #discount, #receieve').on('keyup' ,function(){
                 var original = parseInt($('#original_amount').val());
+                var gate = parseInt($('#gate').val());
                 var fines = parseInt($('#fines').val());
                 var discount = parseInt($('#discount').val());
                 var receieve = parseInt($('#receieve').val());
