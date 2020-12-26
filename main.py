@@ -250,6 +250,8 @@ def current():
     POS_ID = request.form.get("POS_ID") 
     REG_ID = request.form.get("REG_ID") 
     cashier_box = request.form.get("cashier_box") 
+    user = request.form.get("user") 
+    
     original_time_out = request.form.get("original_time_out") 
     original_time_total = request.form.get("original_time_total") 
     original_license_plate = request.form.get("original_car_out") 
@@ -258,7 +260,7 @@ def current():
     cashier_box = request.form.get("cashier_box") 
     today = datetime.today()
     
-    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve)
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve ,user)
     
     return maindown()
 
@@ -282,13 +284,16 @@ def current2():
     REG_ID = request.form.get("REG_ID")
     today = datetime.today() 
     cashier_box = request.form.get("cashier_box") 
+    user = request.form.get("user") 
+    
     original_time_out = request.form.get("original_time_out")
     original_time_total = request.form.get("original_time_total") 
     original_license_plate = request.form.get("original_car_out") 
     original_time_in = request.form.get("original_time_in") 
     original_amount = request.form.get("original_amount") 
     
-    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve)
+    
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve ,user)
     return maindown_two()
 
 
@@ -296,7 +301,7 @@ def current2():
 def maindown():
     if session['username'] != " ":
         price = member()
-
+        user = session['username']
         cursor = mysql.connection.cursor()
         sql = 'select * from test_log where id = 1'
         cursor.execute(sql)
@@ -329,13 +334,14 @@ def maindown():
             time_in = str(info[7])
             time_out = str(info[14])
             amount = info[29]
-
-    return render_template('car-out1.html', original_time_out=original_time_out, gate=gate, province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    
+    return render_template('car-out1.html', user=user, original_time_out=original_time_out, gate=gate, province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 @app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
 def maindown_two():
     if session['username'] != " ":
+        user = session['username']
         price = member()
 
         cursor = mysql.connection.cursor()
@@ -370,7 +376,7 @@ def maindown_two():
             time_out = str(info[14])
             amount = info[29]
 
-    return render_template('car-out2.html', gate=gate,original_time_out=original_time_out,  province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
+    return render_template('car-out2.html', user=user, gate=gate, original_time_out=original_time_out,  province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
 report_header_definition = {

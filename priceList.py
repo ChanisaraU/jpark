@@ -25,7 +25,7 @@ IPAddr = socket.gethostbyname(hostname)
 def IP_Address() :
     # hostname = socket.gethostname()    
     # IPAddr = socket.gethostbyname(hostname)   
-    if IPAddr == '172.16.6.33' :
+    if IPAddr == '192.168.1.48' :
         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
     elif IPAddr == '172.16.6.33' :    
         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
@@ -33,7 +33,7 @@ def IP_Address() :
 
 
 def Where_id() :
-    if IPAddr == '172.16.6.33' :
+    if IPAddr == '192.168.1.48' :
         id = "where id = 1"
     elif IPAddr == '172.16.6.33' :    
         id = "where id = 1"
