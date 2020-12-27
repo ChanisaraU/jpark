@@ -678,15 +678,37 @@ def invoice():
 @app.route('/receipt')
 def receipt():
     cursor = mysql.connection.cursor()
-    query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, amount, discount, earn, reason from parking_log"
+    query = "select * from receipt"
     cursor.execute(query)
-    result = cursor.fetchall()
-    return render_template('comp/receipt.html')
+    result = cursor.fetchone()
+    tax_id = result[1]
+    pos_id = result[2]
+    reg_id = result[3]
+    cashier = result[4]
+    cashier_box=cashier_box = result[5]
+    today_date_time= result[6]
+    
+    license_plate= result[8]
+    datetime_in = result[9]
+    datetime_out = result[10]
+    
+    receieve = result[12]
+    discount = result[13]
+    changess = result[14]
+    amount = result[15]
+    fines = result[16]
+    
+    
+    
+    return render_template('comp/receipt.html', tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
 
 
 @app.route('/receipt_two')
 def receipt_two():
-
+    cursor = mysql.connection.cursor()
+    query = "select * from receipt"
+    cursor.execute(query)
+    result = cursor.fetchall()
     return render_template('comp/receipt_two.html')
 
 
