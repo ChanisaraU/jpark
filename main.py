@@ -19,6 +19,12 @@ import pdfkit
 path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
+now = datetime.now() # current date and time
+year = now.strftime("%Y")
+month = now.strftime("%m")
+day = now.strftime("%d")
+time = now.strftime("%H:%M:%S")
+date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
 def find_camera(id):
     cameras = ['rtsp://admin:ap123456789@172.16.6.4',
@@ -661,12 +667,17 @@ def logout():
     now = datetime.now()
     logout_date = now.strftime('%Y-%m-%d %H:%M:%S')
 
-    sql = "UPDATE login_history SET status = 'signed out', logout_date= %s WHERE user_name = %s"
-    val = (logout_date, session['username'])
-    mycursor.execute(sql, val)
-    mysql.connection.commit()
-    session.pop('username', None)
-    return redirect(url_for('login'))
+# @app.route('/logout', methods=["POST", "GET"])
+# def logout():
+#     mycursor = mysql.connection.cursor()
+#     now = datetime.now()
+#     logout_date = now.strftime('%Y-%m-%d %H:%M:%S')
+#     sql = "UPDATE login_history SET status = 'signed out', logout_date= %s WHERE user_name = %s"
+#     val = (logout_date, session['username'])
+#     mycursor.execute(sql, val)
+#     mysql.connection.commit()
+#     session.pop('username', None)
+#  return redirect(url_for('login'))
 
 
 @app.route('/invoice')
@@ -684,6 +695,34 @@ def invoice():
 @app.route('/receipt')
 def receipt():
     cursor = mysql.connection.cursor()
+    query = "select * from receipt ORDER BY id DESC LIMIT 1"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    tax_id = result[1]
+    pos_id = result[2]
+    reg_id = result[3]
+    cashier = result[4]
+    cashier_box = cashier_box = result[5]
+    today_date_time = result[6]
+    now = datetime.now()
+    no = year+month+day
+    date_now = now.strftime('%Y-%m-%d %H:%M:%S')
+    license_plate= result[8]
+    datetime_in = result[9]
+    datetime_out = result[10]
+    receieve = result[12]
+    discount = result[13]
+    changess = result[14]
+    amount = result[15]
+    fines = result[16
+    
+    return render_template('comp/receipt.html', no=no, date_now=date_now, tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
+
+
+
+@app.route('/receipt_two')
+def receipt_two():
+    cursor = mysql.connection.cursor()
     query = "select * from receipt"
     cursor.execute(query)
     result = cursor.fetchone()
@@ -693,27 +732,20 @@ def receipt():
     cashier = result[4]
     cashier_box = cashier_box = result[5]
     today_date_time = result[6]
-
-    license_plate = result[8]
+    now = datetime.now()
+    date_now = now.strftime('%Y-%m-%d %H:%M:%S')
+    license_plate= result[8]
     datetime_in = result[9]
     datetime_out = result[10]
-
+    
     receieve = result[12]
     discount = result[13]
     changess = result[14]
     amount = result[15]
     fines = result[16]
+    
+    return render_template('comp/receipt.html', date_now=date_now, tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
 
-    return render_template('comp/receipt.html', tax_id=tax_id, pos_id=pos_id, reg_id=reg_id, today_date_time=today_date_time, cashier_box=cashier_box, license_plate=license_plate, amount=amount, datetime_out=datetime_out, datetime_in=datetime_in, discount=discount, fines=fines, changess=changess, receieve=receieve, cashier=cashier)
-
-
-@app.route('/receipt_two')
-def receipt_two():
-    cursor = mysql.connection.cursor()
-    query = "select * from receipt"
-    cursor.execute(query)
-    result = cursor.fetchall()
-    return render_template('comp/receipt_two.html')
 
 
 @app.route('/slip-report')
@@ -740,8 +772,42 @@ def inout():
 
 @app.route('/shift-report')
 def shift():
-    return render_template('reports/shift-report.html')
+    if session['username'] != " ":
+        user = session['username']
+        cursor = mysql.connection.cursor()
+        query = "select * from login_history where user_name = 'mint' ORDER BY id DESC LIMIT 1"
+        cursor.execute(query)
+        result = cursor.fetchone()
+        datein = result[4]
+        
+        cursor1 = mysql.connection.cursor()
+        sql = "select *,sum(amount) FROM receipt where cashier = 'mint' "
+        cursor1.execute(sql,)
+        info = cursor1.fetchone()
+        amount = info[17]
 
+        cursor4 = mysql.connection.cursor()
+        sq4 = "select *,sum(discount) FROM receipt where cashier = 'mint' "
+        cursor4.execute(sql4,)
+        inf4 = cursor4.fetchone()
+        discount = info[17]
+        
+        cursor2 = mysql.connection.cursor()
+        sql2 = "select *,count(id) FROM receipt where cashier = 'mint' "
+        cursor2.execute(sql2,)
+        info2 = cursor2.fetchone()
+        count = info2[17]
+        
+        today = now.strftime("%m-%d-%Y")
+        cursor3 = mysql.connection.cursor()
+        sql3 = "select *,count(id) from parking_log "
+        cursor3.execute(sql3,)
+        info3 = cursor3.fetchone()
+        carin = info3[30]
+        # stale = info[17]
+        
+        stale = carin - count
+        return render_template('reports/shift-report.html', discount=discount, stale=stale, carin=carin, count=count, amount=amount, datein=datein, user=user ,date_time=date_time,)
 
 @app.route('/report/table-car')
 def table_car():

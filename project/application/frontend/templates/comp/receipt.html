@@ -91,7 +91,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">0735541000291</p>
+                            <p class="itemtext">{{tax_id}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +109,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">P002020</p>
+                            <p class="itemtext">{{pos_id}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +118,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">123451000000</p>
+                            <p class="itemtext">{{reg_id}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -127,7 +127,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">ศิรินทรา สมสลิต</p>
+                            <p class="itemtext">{{cashier}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +136,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">ทางออก 1</p>
+                            <p class="itemtext">{{cashier_box}}</p>
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +145,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">03/09/2563 14:58</p>
+                            <p class="itemtext">{{date_now}}</p>
                         </td>
                     </tr>
                     <tr class="service">
@@ -154,7 +154,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">SSQSSQ+0000000000000</p>
+                            <p class="itemtext">VBJP{{no}}0000</p>
                         </td>
                     </tr>
                 </table>
@@ -168,7 +168,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">3656</p>
+                        <p class="itemtext">{{license_plate}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -177,7 +177,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">03/09/2563 12:22</p>
+                        <p class="itemtext">{{datetime_in}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -186,7 +186,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">03/09/2563 14:58</p>
+                        <p class="itemtext">{{datetime_out}}</p>
                     </td>
                 </tr>
                 <tr>
@@ -204,7 +204,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">60.00 Baht</p>
+                        <p class="itemtext">{{amount}} Baht</p>
                     </td>
                 </tr>
                 <tr>
@@ -213,7 +213,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">0.00 Baht</p>
+                        <p class="itemtext">{{fines}} Baht</p>
                     </td>
                 </tr>
                 <tr class="tabletitle">
@@ -240,7 +240,7 @@
                     </td>
                     <td class="tableitem"></td>
                     <td class="tableitem">
-                        <p class="itemtext">{{changes}} Baht</p>
+                        <p class="itemtext">{{changess}} Baht</p>
                     </td>
                 </tr>
                 <tr>
@@ -263,10 +263,10 @@
     <!--End Invoice-->
 </body>
 </html>
-<script>
+<!-- <script>
     window.onload =  function() {
         window.print();
         window.onafterprint = function(event) { window.close() ; };
         
     }
-</script>
+</script> -->

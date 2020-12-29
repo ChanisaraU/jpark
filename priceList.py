@@ -22,20 +22,18 @@ def get_hour(delta):
 hostname = socket.gethostname()    
 IPAddr = socket.gethostbyname(hostname)  
 
-def IP_Address() :
-    # hostname = socket.gethostname()    
-    # IPAddr = socket.gethostbyname(hostname)   
-    if IPAddr == '192.168.1.48' :
+def IP_Address() :  
+    if IPAddr == '172.20.1.125' :
         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
-    elif IPAddr == '172.16.6.33' :    
+    elif IPAddr == '172.17.15.49' :    
         zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
     return zero
 
 
 def Where_id() :
-    if IPAddr == '192.168.1.48' :
+    if IPAddr == '172.20.1.125' :
         id = "where id = 1"
-    elif IPAddr == '172.16.6.33' :    
+    elif IPAddr == '172.17.15.49' :    
         id = "where id = 1"
     return id
 # print(type(Where_id()))
@@ -51,13 +49,11 @@ def cal_Price():
         y = list(myresult[0])
         y[1] = '00:00:00'
         myresult[0] = tuple(y)
-        # print(myresult)
 
     if not myresult[0][3]:
         y = list(myresult[0])
         y[3] = '00:00:00'
         myresult[0] = tuple(y)
-        # print(myresult)
 
     for (date_in, time_in, date_out, time_out) in myresult:
         checkHourIn = str(time_in).split(":")
@@ -111,12 +107,9 @@ def cal_Price():
 
             cal_amount(price)  # ค่าเงินจอดรถ
     
-        # print(price, 'price') # ค่าเงินจอดรถที่มีค่าส่วนลด กับค่าปรับแล้ว
         excluding_vat = (price * 100 )/107   
-        # print(excluding_vat,'excluding vat')
 
         vat = price - excluding_vat
-        # print(vat,'vat')
         vat = '{0:.2f}'.format(float(vat))
         cal_excluding_vat(excluding_vat)
         cal_vat(vat)
