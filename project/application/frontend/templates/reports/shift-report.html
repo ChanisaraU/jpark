@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body onload="window.print()">
+<body onload="autoLogout()">
     <style>
         @font-face {
             font-family: 'Cordia New';
@@ -62,7 +62,6 @@
         }   
     </style>
     <div id="invoice-POS">
-
         <center id="">
             <div class="logo"></div>
             <div class="info">
@@ -270,6 +269,19 @@
             </div> -->
         </div>
     </div>
+    <script>
+        window.onafterprint = function(e){
+            closePrintView();
+        };
+
+        function autoLogout(){
+            window.print();
+        }
+
+        function closePrintView() {
+            window.location.href = 'logout';   
+        }
+    </script>
 </body>
 
 </html>
