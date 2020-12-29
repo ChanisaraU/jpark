@@ -271,7 +271,7 @@
     </div>
     <script>
         window.onafterprint = function(e){
-            closePrintView();
+            setTimeout("closePrintView()", 1000);
         };
 
         function autoLogout(){
