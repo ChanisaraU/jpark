@@ -733,6 +733,7 @@ def receipt_two():
     cashier_box = cashier_box = result[5]
     today_date_time = result[6]
     now = datetime.now()
+    no = year+month+day
     date_now = now.strftime('%Y-%m-%d %H:%M:%S')
     license_plate= result[8]
     datetime_in = result[9]
@@ -744,7 +745,7 @@ def receipt_two():
     amount = result[15]
     fines = result[16]
     
-    return render_template('comp/receipt.html', date_now=date_now, tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
+    return render_template('comp/receipt.html', no=no, date_now=date_now, tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
 
 
 
@@ -787,7 +788,7 @@ def shift():
         amount = info[17]
 
         cursor4 = mysql.connection.cursor()
-        sq4 = "select *,sum(discount) FROM receipt where cashier = 'mint' "
+        sql4 = "select *,sum(discount) FROM receipt where cashier = 'mint' "
         cursor4.execute(sql4,)
         inf4 = cursor4.fetchone()
         discount = info[17]
@@ -882,4 +883,4 @@ def table_member_datatable():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='localhost', port="8171", debug=True)
