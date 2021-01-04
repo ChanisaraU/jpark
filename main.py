@@ -236,32 +236,34 @@ def car_in():
 def current():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get(
+        "original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
-    gate = request.form.get("gate") 
-    
+    gate = request.form.get("gate")
+
     cal_discount(discount, gate)
     cal_fines(fines, gate)
-    cal_receieve(receieve,gate)
-    cal_changes(changes,gate)
+    cal_receieve(receieve, gate)
+    cal_changes(changes, gate)
 
-    TAX_ID = request.form.get("TAX_ID") 
-    POS_ID = request.form.get("POS_ID") 
-    REG_ID = request.form.get("REG_ID") 
-    cashier_box = request.form.get("cashier_box") 
-    user = request.form.get("user") 
-    
-    original_time_out = request.form.get("original_time_out") 
-    original_time_total = request.form.get("original_time_total") 
-    original_license_plate = request.form.get("original_car_out") 
-    original_time_in = request.form.get("original_time_in") 
-    original_amount = request.form.get("original_amount") 
-    cashier_box = request.form.get("cashier_box") 
+    TAX_ID = request.form.get("TAX_ID")
+    POS_ID = request.form.get("POS_ID")
+    REG_ID = request.form.get("REG_ID")
+    cashier_box = request.form.get("cashier_box")
+    user = request.form.get("user")
+
+    original_time_out = request.form.get("original_time_out")
+    original_time_total = request.form.get("original_time_total")
+    original_license_plate = request.form.get("original_car_out")
+    original_time_in = request.form.get("original_time_in")
+    original_amount = request.form.get("original_amount")
+    cashier_box = request.form.get("cashier_box")
     today = datetime.today()
-    
-    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve ,user)
-    
+
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box, original_license_plate, original_amount,
+                   original_time_out, original_time_in, discount, fines, changes, receieve, user)
+
     return maindown()
 
 
@@ -269,31 +271,32 @@ def current():
 def current2():
     discount = request.form.get("discount")  # คูปอง
     fines = request.form.get("fines")  # ค่าปรับ
-    original_amount = request.form.get("original_amount")  # ค่าจอดรถรวม vat แล้ว
+    original_amount = request.form.get(
+        "original_amount")  # ค่าจอดรถรวม vat แล้ว
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
-    gate = request.form.get("gate") 
-    
+    gate = request.form.get("gate")
+
     cal_discount(discount, gate)
     cal_fines(fines, gate)
-    cal_receieve(receieve,gate)
-    cal_changes(changes,gate)
-    
+    cal_receieve(receieve, gate)
+    cal_changes(changes, gate)
+
     TAX_ID = request.form.get("TAX_ID")
-    POS_ID = request.form.get("POS_ID") 
+    POS_ID = request.form.get("POS_ID")
     REG_ID = request.form.get("REG_ID")
-    today = datetime.today() 
-    cashier_box = request.form.get("cashier_box") 
-    user = request.form.get("user") 
-    
+    today = datetime.today()
+    cashier_box = request.form.get("cashier_box")
+    user = request.form.get("user")
+
     original_time_out = request.form.get("original_time_out")
-    original_time_total = request.form.get("original_time_total") 
-    original_license_plate = request.form.get("original_car_out") 
-    original_time_in = request.form.get("original_time_in") 
-    original_amount = request.form.get("original_amount") 
-    
-    
-    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box,original_license_plate,original_amount ,original_time_out,original_time_in ,discount ,fines ,changes ,receieve ,user)
+    original_time_total = request.form.get("original_time_total")
+    original_license_plate = request.form.get("original_car_out")
+    original_time_in = request.form.get("original_time_in")
+    original_amount = request.form.get("original_amount")
+
+    record_receipt(TAX_ID, POS_ID, REG_ID, today, cashier_box, original_license_plate, original_amount,
+                   original_time_out, original_time_in, discount, fines, changes, receieve, user)
     return maindown_two()
 
 
@@ -309,7 +312,7 @@ def maindown():
         car_out = info[2]  # license_plate
         province = info[3]
         gate = info[31]
-        
+
         cursor3 = mysql.connection.cursor()
         sql3 = 'select * from member where license_plate = %s'
         val = (car_out,)
@@ -322,7 +325,8 @@ def maindown():
             expiry_date = member1[11]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
-            time_out = str(dt.day) + "/" + str(dt.month) + "/" + str(dt.year)+" "+str(info[14])
+            time_out = str(dt.day) + "/" + str(dt.month) + \
+                "/" + str(dt.year)+" "+str(info[14])
             original_time_out = str(info[15])+" "+str(info[14])
 
             amount = price
@@ -334,7 +338,7 @@ def maindown():
             time_in = str(info[7])
             time_out = str(info[14])
             amount = info[29]
-    
+
     return render_template('car-out1.html', user=user, original_time_out=original_time_out, gate=gate, province=province, name=name, mem_type=mem_type, expiry_date=expiry_date, time_in=time_in, time_out=time_out, amount=amount, car_out=car_out)
 
 
@@ -364,7 +368,8 @@ def maindown_two():
             expiry_date = member1[11]
             time_in = str(info[8])+" "+str(info[7])
             dt = info[15]
-            time_out = str(dt.day) + "/" + str(dt.month) +"/" + str(dt.year)+" "+str(info[14])
+            time_out = str(dt.day) + "/" + str(dt.month) + \
+                "/" + str(dt.year)+" "+str(info[14])
             original_time_out = str(info[15])+" "+str(info[14])
             amount = price
 
@@ -467,7 +472,6 @@ def report():
         api = report_header_definition[report_name]['api']
 
         # api_param = "?"
-
         # api_param = "&"
         # params = []
         # if date_in:
@@ -476,9 +480,7 @@ def report():
         #     params.append("date_out=" + date_out) # date_out=2020-10-10
 
         # api_param += "&".join(params)
-
         # ?date_in=2020-10-10&date_out=2020-10-10
-
         # &date_in=2020-10-10&date_out=2020-10-10
 
     return render_template("report.html", table_header=table_header, api=api)
@@ -649,6 +651,28 @@ def download_report():
     return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition": "attachment;filename=transaction_report.xls"})
 
 
+@app.route('/member-detail', methods=['GET', 'POST'])
+def memberdetail():
+    if session['username'] != " ":
+        page = request.args.get(get_page_parameter(), type=int, default=1)
+        limit = 10
+        offset = page*limit-limit
+        cursor = mysql.connection.cursor()
+        cursor.execute("select * from member_new")
+
+        result = cursor.fetchall()
+        total = len(result)
+        cur = mysql.connection.cursor()
+        que = "select * from member_new LIMIT %s OFFSET %s"
+        cur.execute(que, (limit, offset))
+        data = cur.fetchall()
+        cur.close()
+
+        pagination = Pagination(page=page, per_page=limit,
+                                total=total, record_name='mdetail', css_framework='bootstrap4')
+        return render_template('member-detail.html', pagination=pagination, mdetail=data)
+
+
 @app.route('/logout', methods=["POST", "GET"])
 def logout():
     mycursor = mysql.connection.cursor()
@@ -685,22 +709,20 @@ def receipt():
     pos_id = result[2]
     reg_id = result[3]
     cashier = result[4]
-    cashier_box=cashier_box = result[5]
-    today_date_time= result[6]
-    
-    license_plate= result[8]
+    cashier_box = cashier_box = result[5]
+    today_date_time = result[6]
+
+    license_plate = result[8]
     datetime_in = result[9]
     datetime_out = result[10]
-    
+
     receieve = result[12]
     discount = result[13]
     changess = result[14]
     amount = result[15]
     fines = result[16]
-    
-    
-    
-    return render_template('comp/receipt.html', tax_id=tax_id ,pos_id=pos_id,reg_id=reg_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,datetime_out=datetime_out ,datetime_in=datetime_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve ,cashier=cashier)
+
+    return render_template('comp/receipt.html', tax_id=tax_id, pos_id=pos_id, reg_id=reg_id, today_date_time=today_date_time, cashier_box=cashier_box, license_plate=license_plate, amount=amount, datetime_out=datetime_out, datetime_in=datetime_in, discount=discount, fines=fines, changess=changess, receieve=receieve, cashier=cashier)
 
 
 @app.route('/receipt_two')
@@ -734,30 +756,6 @@ def inout():
     return response
 
 
-@app.route('/pro-inout-report')
-def proinout():
-    rendered = render_template("reports/pro-inout-report.html")
-    options = {'disable-smart-shrinking': ''}
-    pdf = pdfkit.from_string(
-        rendered, False, configuration=config, options=options)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=pro-inout-report.pdf'
-    return response
-
-
-@app.route('/member-report')
-def memberreport():
-    rendered = render_template("reports/member-report.html")
-    options = {'disable-smart-shrinking': ''}
-    pdf = pdfkit.from_string(
-        rendered, False, configuration=config, options=options)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline;filename=member-report.pdf'
-    return response
-
-
 @app.route('/shift-report')
 def shift():
     return render_template('reports/shift-report.html')
@@ -771,10 +769,16 @@ def table_car():
 @app.route('/report/table-car/datatable')
 def table_car_datatable():
     cursor = mysql.connection.cursor()
-    sql = 'select * from member'
+    sql = 'select id, car_type, license_plate, time_in, time_out, amount, fines from parking_log'
     cursor.execute(sql)
     info = cursor.fetchall()
-    data = jsonify({'data': info})
+    out = []
+    for element in info:
+        newelement = []
+        for x in element:
+            newelement.append(str(x))
+        out.append(newelement)
+    data = jsonify({'data': out})
     return data
 
 

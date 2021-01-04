@@ -109,7 +109,7 @@
         $.noConflict();
 				//กำหนดให้  Plug-in dataTable ทำงาน ใน ตาราง Html ที่มี id เท่ากับ example
 				var table = $('#monitorTable').DataTable({
-          "dom": 'tip',
+          "dom": 'Btip',
           "paging": true,
           "autoWidth": true,
           "buttons": [
@@ -163,19 +163,12 @@
 					}
 				}
 					);
-        
-          oTable = $('#monitorTable').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
-          $('#myInputTextField').keyup(function(){
-                oTable.search($(this).val()).draw() ;
-          })
-          
-          
 
-        // Re-draw the table when the a date range filter changes
-        // $('.date-range-filter').change(function() {
-        //   table.draw();
-        // });
-
+        oTable = $('#monitorTable').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
+        $('#myInputTextField').keyup(function(){
+            oTable.search($(this).val()).draw() ;
+        })
+          
         table.buttons().container().appendTo($('#exportbtn'));
         $('#exportbtn').hide();
         $("#export-excel").click(function(){

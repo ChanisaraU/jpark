@@ -98,41 +98,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col text-right">
+                            <!-- <div class="col text-right">
                                 <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
                                 padding: .375rem .75rem;font-size: 1rem;text-align: start;">
-                            </div>
+                            </div> -->
                         </div>
-                            <table class="table table-hover" style="font-size: 0.5rem;">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="fixed" style="background: white;">ลำดับ</th>
-                                        <th scope="col" class="fixed" style="background: white;">เวลาเข้า</th>
-                                        <th scope="col" class="fixed" style="background: white;">เวลาออก</th>
-                                        <th scope="col" class="fixed" style="background: white;">เวลาจอดรวม</th>
-                                        <th scope="col" class="fixed" style="background: white;">ยอดเงิน</th>
-                                        <th scope="col" class="fixed" style="background: white;">VAT</th>
-                                        <th scope="col" class="fixed" style="background: white;">ยอดรวม VAT</th>
-                                        <th scope="col" class="fixed" style="background: white;">ทะเบียนรถเข้า</th>
-                                        <th scope="col" class="fixed" style="background: white;">จังหวัดรถเข้า</th>
-                                        <th scope="col" class="fixed" style="background: white;">ทะเบียนรถออก</th>
-                                        <th scope="col" class="fixed" style="background: white;">จังหวัดรถออก</th>
-                                        <th scope="col" class="fixed" style="background: white;">ทะเบียนรถเข้า(รูป)</th>
-                                        <th scope="col" class="fixed" style="background: white;">ทะเบียนรถออก (รูป)</th>
-                                        <th scope="col" class="fixed" style="background: white;">ประเภทรถ</th>
-                                        <th scope="col" class="fixed" style="background: white;">ประวัติการแก้ไข
-                                        </th>
-                                        <th scope="col" class="fixed" style="background: white;;">หมายเหตุ
-                                        </th>
-                                        <th scope="col" class="fixed" style="background: white;"></th>
-                                    </tr>
-                                </thead>
+                        <table class="table table-hover" style="font-size: 0.5rem;">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="fixed" style="background: white;">ลำดับ</th>
+                                    <th scope="col" class="fixed" style="background: white;">เวลาเข้า</th>
+                                    <th scope="col" class="fixed" style="background: white;">เวลาออก</th>
+                                    <th scope="col" class="fixed" style="background: white;">เวลาจอดรวม</th>
+                                    <th scope="col" class="fixed" style="background: white;">ยอดเงิน</th>
+                                    <th scope="col" class="fixed" style="background: white;">VAT</th>
+                                    <th scope="col" class="fixed" style="background: white;">ยอดรวม VAT</th>
+                                    <th scope="col" class="fixed" style="background: white;">ทะเบียนรถเข้า</th>
+                                    <th scope="col" class="fixed" style="background: white;">จังหวัดรถเข้า</th>
+                                    <th scope="col" class="fixed" style="background: white;">ทะเบียนรถออก</th>
+                                    <th scope="col" class="fixed" style="background: white;">จังหวัดรถออก</th>
+                                    <th scope="col" class="fixed" style="background: white;">ทะเบียนรถเข้า(รูป)</th>
+                                    <th scope="col" class="fixed" style="background: white;">ทะเบียนรถออก (รูป)</th>
+                                    <th scope="col" class="fixed" style="background: white;">ประเภทรถ</th>
+                                    <th scope="col" class="fixed" style="background: white;">ประวัติการแก้ไข</th>
+                                    <th scope="col" class="fixed" style="background: white;;">หมายเหตุ </th>
+                                    <th scope="col" class="fixed" style="background: white;"></th>
+                                </tr>
+                            </thead>
                                 {% if transaction %}
                                 {% for row in transaction %}
                                 <tbody id="myTable">
                                     <tr>
-                                        <!-- <td>{{ row[0] }}</td> -->
-                                        <td>{{ loop.index + pagination.skip }}</td>
+                                        <td>{{ row[0] }}</td>
+                                        <!-- <td>{{ loop.index + pagination.skip }}</td> -->
                                         <td>{{ row[7] }}</td>
                                         <td>{{ row[14] }}</td>
                                         <td>{{ row[16] }}</td>
@@ -143,7 +141,6 @@
                                         <td>{{ row[3] }}</td>
                                         <td>{{ row[2] }}</td>
                                         <td>{{ row[3] }}</td>
-
                                         <td><img class="picture-show"
                                                 src="data:image/jpeg;charset=utf-8;base64,{{ row[5] }}" /></td>
                                         <td><img class="picture-show"
@@ -213,22 +210,7 @@
                                 {% endfor %}
                                 {% endif %}
                             </table>
-                            {{ pagination.links }}
-                            <!-- <nav>
-                                <ul class="pagination">
-                                  <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">Previous</a>
-                                  </li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">2</a>
-                                  </li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                  <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0);">Next</a>
-                                  </li>
-                                </ul>
-                            </nav> -->
+                        {{ pagination.links }}
                     </div>
                 </div>
 

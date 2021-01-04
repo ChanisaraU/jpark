@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>J-Parking Management</title>
+    {% include "comp/includecss.html" %}
+    {% include "comp/includedbtables.html" %}
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        {% include "comp/sidebar.html" %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                {% include "comp/header.html" %}
+                <div class="container-fluid">
+                    <div class="col-lg-12">
+                        <div class="row my-2">
+                            <h4 class="text-blue">ข้อมูลสมาชิก</h4>
+                                <div id="tabs">
+                                    <!-- <div id="switcher">
+                                        <div onclick="showTab(0)" class="tab-switch active-switch">Member</div>
+                                        <div onclick="showTab(1)" class="tab-switch mr-2">VIP</div>
+                                        <button class="btn btn-add-member" data-bs-toggle="modal" data-bs-target="#newMemberModal"><i class="fas fa-plus"></i> สมัครสมาชิก</button>
+                                        <button class="btn btn-add-member" data-bs-toggle="modal" data-bs-target="#newVIPModal"><i class="fas fa-plus"></i> เพิ่ม VIP</button>
+                                        <div class="ml-auto">
+                                            <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
+                                            padding: .375rem .75rem;font-size: 1rem;text-align: start;">
+                                        </div>
+                                    </div> -->
+                                    <ul id="myTab" class="nav nav-pills">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="mem">Member</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="vip">VIP</a>
+                                        </li>
+                                        <li class="ml-2">
+                                            <button class="btn btn-add-member" id="member" data-bs-toggle="modal" data-bs-target="#newMemberModal"><i class="fas fa-plus"></i> สมัครสมาชิก</button>
+                                            <button class="btn btn-add-member" id="vips" data-bs-toggle="modal" data-bs-target="#newVIPModal"><i class="fas fa-plus"></i> เพิ่ม VIP</button>
+                                        </li>
+                                        <div class="ml-auto">
+                                            <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
+                                            padding: .375rem .75rem;font-size: 1rem;text-align: start;">
+                                        </div>
+                                    </ul>
+                                   
+                                    <div class="mt-3">
+                                      <div id="member2">
+                                            <table class="table table-hover" style="font-size: 0.75rem;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" style="min-width: 6vw;">รหัสสมาชิก</th>
+                                                        <th style="min-width: 7vw;">ชื่อ</th>
+                                                        <th style="min-width: 7vw;">นามสกุล</th>
+                                                        <th style="min-width: 7vw;">เบอร์โทรศัพท์</th>
+                                                        <th style="min-width: 6vw;">ทะเบียนรถ</th>
+                                                        <th style="min-width: 7vw;">จังหวัด</th>
+                                                        <th style="min-width: 7vw;">ประเภทรถ</th>
+                                                        <th style="min-width: 8vw;">ประเภท Package</th>
+                                                        <th style="min-width: 6vw;">วันหมดอายุ</th>
+                                                        <th class="text-center" style="min-width: 7vw;">Status</th>
+                                                        <th style="min-width: 10vw;"></th>
+                                                    </tr>
+                                                </thead>
+                                                {% if mdetail %}
+                                                {% for row in mdetail %}
+                                                <tbody id="myTable">
+                                                    <tr>
+                                                        <td class="text-center">{{ row[2] }}</td>
+                                                        <td>{{ row[5] }}</td>
+                                                        <td>{{ row[6] }}</td>
+                                                        <td>{{ row[8] }}</td>
+                                                        <td>{{ row[10] }}</td>
+                                                        <td>{{ row[11] }}</td>
+                                                        <td>{{ row[9] }}</td>
+                                                        <td>{{ row[7] }}</td>
+                                                        <td>{{ row[14] }}</td>
+                                                        <td class="text-center">{{ row[18] }}</td>
+                                                        <td><button class="btn btn-renew btn-sm" data-bs-toggle="modal" data-bs-target="#renewMemberModal"><i class="fas fa-cash-register"></i> ต่ออายุ</button> <button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="fas fa-edit"></i></button></td>
+                                                    </tr>
+                                                </tbody>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </table>
+                                            {{ pagination.links }}
+                                      </div>
+                                      <div id="vips2">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" style="font-size: 0.75rem;" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="min-width: 6vw;">รหัสสมาชิก</th>
+                                                        <th style="min-width: 6vw;">ชื่อ</th>
+                                                        <th style="min-width: 6vw;">นามสกุล</th>
+                                                        <th style="min-width: 6vw;">เบอร์โทรศัพท์</th>
+                                                        <th style="min-width: 6vw;">ทะเบียนรถ</th>
+                                                        <th style="min-width: 6vw;">จังหวัด</th>
+                                                        <th style="min-width: 6vw;">ประเภทรถ</th>
+                                                        <th style="min-width: 6vw;">หน่วยงาน</th>
+                                                        <th style="min-width: 6vw;">สังกัด</th>
+                                                        <th style="min-width: 6vw;">หน้าที่</th>
+                                                        <th style="min-width: 6vw;">วันหมดอายุ</th>
+                                                        <th style="min-width: 6vw;">Status</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="myTable">
+                                                    <tr>
+                                                        <td>V00001</td>
+                                                        <td>สมศรี</td>
+                                                        <td>สวัสดีวันจันทร์</td>
+                                                        <td>061-558-9963</td>
+                                                        <td>1กข-1523</td>
+                                                        <td>สมุทรสาคร</td>
+                                                        <td>รถยนต์</td>
+                                                        <td>มูลนิธิมิราเคิล</td>
+                                                        <td>-</td>
+                                                        <td>แม่บ้าน</td>
+                                                        <td>-</td>
+                                                        <td>Active</td>
+                                                        <td><button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editVIPModal"><i class="fas fa-edit"></i> แก้ไข</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <!-- Modal 1 : Member -->
+                                    <div class="modal fade" id="newMemberModal" tabindex="-1" aria-labelledby="newMemberModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content modal-content-jpark">
+                                            <div class="modal-header modal-header-jpark">
+                                              <h5 class="modal-title" id="newMemberModalLabel">สมัครสมาชิกใหม่</h5>
+                                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="bg-blue-modal">
+                                                <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 text-center">
+                                                        <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                        <input type="file" id="myfile" style="display: none;"/>
+                                                        <h4>M000000</h4>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label><span class="text-red">*</span> คำนำหน้า</label>
+                                                                <input type="text" class="form-control-modal" required>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
+                                                                <input type="text" class="form-control-modal" required>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
+                                                                <input type="text" class="form-control-modal" required>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                                <select class="form-select form-select-sm">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <label><span class="text-red">*</span> ทะเบียนรถ</label>
+                                                        <input type="text" class="form-control-modal" required>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <label><span class="text-red">*</span> จังหวัด</label>
+                                                        <input type="text" class="form-control-modal" required>
+                                                    </div>
+                                                </div>
+                                                <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียด Package Member</h6>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label><span class="text-red">*</span> ประเภทรถ Package</label>
+                                                        <select class="form-select form-select-sm">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> จำนวนเดือน</label>
+                                                        <input type="text" class="form-control-modal" required>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> ช่องทางการชำระ</label>
+                                                        <select class="form-select form-select-sm">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label>จำนวนเงิน</label>
+                                                        <input type="text" class="form-control-modal" required>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label>วันหมดอายุ</label>
+                                                        <input type="text" class="form-control-modal" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <div class="col-9 text-right">
+                                                        <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
+                                                    </div>
+                                                    <div class="col-3 mt-1 text-right">
+                                                        <button type="button" class="btn btn-receipt btn-sm"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+
+                                   <!-- Modal 2 : Member -->
+                                   <div class="modal fade" id="renewMemberModal" tabindex="-1" aria-labelledby="renewMemberModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content modal-content-jpark">
+                                        <div class="modal-header modal-header-jpark">
+                                          <h5 class="modal-title" id="renewMemberModalLabel">ต่ออายุสมาชิก</h5>
+                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="bg-blue-modal">
+                                            <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-3 text-center">
+                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                    <input type="file" id="myfile" style="display: none;"/>
+                                                    <h4>M000000</h4>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label><span class="text-red">*</span> คำนำหน้า</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                            <select class="form-select form-select-sm">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <label><span class="text-red">*</span> ทะเบียนรถ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <label><span class="text-red">*</span> จังหวัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                            </div>
+                                            <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียดการต่ออายุ</h6>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label><span class="text-red">*</span> ประเภทรถ Package</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> จำนวนเดือน</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> ช่องทางการชำระ</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>จำนวนเงิน</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>วันหมดอายุ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col-9 text-right">
+                                                    <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
+                                                </div>
+                                                <div class="col-3 mt-1 text-right">
+                                                    <button type="button" class="btn btn-receipt btn-sm"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                   <!-- Modal 3 : Member -->
+                                   <div class="modal fade" id="editMemberModal" tabindex="-1" aria-labelledby="editMemberModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content modal-content-jpark modal-width">
+                                        <div class="modal-header modal-header-jpark">
+                                          <h5 class="modal-title" id="editMemberModalLabel">จัดการข้อมูล Member</h5>
+                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="bg-blue-modal">
+                                            <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-7 mb-2">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            สมาชิก
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-3 align-self-center">
+                                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="100" style="border-radius:50%"/>
+                                                                    <input type="file" id="myfile" style="display: none;"/>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <div class="row mb-2">
+                                                                        <label class="col-sm-4">ประเภท</label>
+                                                                        <input type="text" class="col-sm-8 form-control-modal" required>
+                                                                    </div>
+                                                                    <div class="row mb-2">
+                                                                        <label class="col-sm-4">สถานะ</label>
+                                                                        <select class="col-sm-8 form-select form-select-sm">
+                                                                            <option value=""></option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <h2 class="text-center">M000000</h2>
+
+                                                                    <div class="row">
+                                                                        <label class="col-sm-4">วันหมดอายุ</label>
+                                                                        <input type="text" class="col-sm-8 form-control-modal" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label>คำนำหน้า</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label>ชื่อ</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label>นามสกุล</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>ประเภทรถ</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>ทะเบียนรถ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>จังหวัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <label>หมายเหตุ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer footer-center">
+                                            <button type="button" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Modal 1 : VIP -->
+                                  <div class="modal fade" id="newVIPModal" tabindex="-1" aria-labelledby="newVIPModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content modal-content-jpark">
+                                        <div class="modal-header modal-header-jpark">
+                                          <h5 class="modal-title" id="newVIPModalLabel">เพิ่มข้อมูล VIP</h5>
+                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="bg-blue-modal">
+                                            <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-3 text-center">
+                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                    <input type="file" id="myfile" style="display: none;"/>
+                                                    <h4>M000000</h4>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <label><span class="text-red">*</span> คำนำหน้า</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                            <select class="form-select form-select-sm">
+                                                                <option value=""></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> ทะเบียนรถ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> จังหวัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                            </div>
+                                            <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียดหน่วยงาน</h6>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label><span class="text-red">*</span> หน่วยงาน</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> สังกัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label><span class="text-red">*</span> หน้าที่</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer footer-center">
+                                            <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ยืนยันข้อมูล</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Modal 2 : VIP -->
+                                  <div class="modal fade" id="editVIPModal" tabindex="-1" aria-labelledby="editVIPModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content modal-content-jpark modal-width">
+                                        <div class="modal-header modal-header-jpark">
+                                          <h5 class="modal-title" id="editVIPModalLabel">จัดการข้อมูล VIP</h5>
+                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="bg-blue-modal">
+                                            <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-6 mb-2">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            สมาชิก
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-3 align-self-center">
+                                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="88" style="border-radius:50%"/>
+                                                                    <input type="file" id="myfile" style="display: none;"/>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <div class="row mb-2">
+                                                                        <label class="col-sm-4">หน่วยงาน</label>
+                                                                        <select class="col-sm-8 form-select form-select-sm">
+                                                                            <option value=""></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="row mb-2">
+                                                                        <label class="col-sm-4">สถานะ</label>
+                                                                        <select class="col-sm-8 form-select form-select-sm">
+                                                                            <option value=""></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <h2 class="text-center">V000000</h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label>คำนำหน้า</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label>ชื่อ</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label>นามสกุล</label>
+                                                            <input type="text" class="form-control-modal" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>ประเภทรถ</label>
+                                                    <select class="form-select form-select-sm">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>ทะเบียนรถ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>จังหวัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>สังกัด</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>หน้าที่</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <label>หมายเหตุ</label>
+                                                    <input type="text" class="form-control-modal" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer footer-center">
+                                            <button type="button" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Search
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        // Tab
+        // function showTab(tabnumber) {
+        //     var tabs = document.getElementsByClassName('tab-content');
+        //     var switches = document.getElementsByClassName('tab-switch');
+        //     for(var i = 0; i<tabs.length; i++){
+        //         tabs[i].classList.remove('active-tab');
+        //         switches[i].classList.remove('active-switch');
+        //     }
+        //     tabs[tabnumber].classList.add('active-tab');
+        //     switches[tabnumber].classList.add('active-switch');
+        // }
+        $(function() {
+            $('#member').show();
+            $('#vips').hide();
+           
+
+            $('#myTab a').click(function(e) {
+                e.preventDefault();
+                if (($(this).attr('id') == 'mem')) {
+                    $('#search_location').hide();
+                    $('#search_value').show();
+                    $('#member').show();
+                    $('#member2').show();
+                    $('#vips').hide();
+                    $('#vips2').hide();
+                }
+                if (($(this).attr('id') == 'vip')) {
+                    $('#search_location').hide();
+                    $('#search_value').show();
+                    $('#vips').show();
+                    $('#vips2').show();
+                    $('#member').hide();
+                    $('#member2').hide();
+                }
+                $(this).tab('show');
+            })
+        })
+
+
+
+        // Upload Image
+        $('#image').click(function(){
+            $('#myfile').click()
+        })
+
+        // ควบคุม Sidebar
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+        if ($(".sidebar").hasClass("toggled")) {
+            $('.sidebar .collapse').collapse('hide');
+        };
+        });
+
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function () {
+        if ($(window).width() < 768) {
+            $('.sidebar .collapse').collapse('hide');
+        };
+
+        // Toggle the side navigation when window is resized below 480px
+        if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+            $("body").addClass("sidebar-toggled");
+            $(".sidebar").addClass("toggled");
+            $('.sidebar .collapse').collapse('hide');
+        };
+        });
+
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+        if ($(window).width() > 768) {
+            var e0 = e.originalEvent,
+            delta = e0.wheelDelta || -e0.detail;
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+        }
+        });
+
+        // Scroll to top button appear
+        $(document).on('scroll', function () {
+        var scrollDistance = $(this).scrollTop();
+        if (scrollDistance > 100) {
+            $('.scroll-to-top').fadeIn();
+        } else {
+            $('.scroll-to-top').fadeOut();
+        }
+        });
+
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function (e) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top)
+        }, 1000, 'easeInOutExpo');
+        e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
