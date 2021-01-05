@@ -165,49 +165,6 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route('/home')  # หน้า Dashboard
-def dashboard():
-    if session['username'] != " ":
-        mycursor = mysql.connection.cursor()
-        query = "select * from parking"
-        mycursor.execute(query)
-        result = mycursor.fetchall()
-        total_car = result[0][2]
-
-    if total_car < 500:
-        diff = 500 - total_car
-        colored = {'color': 'green'}
-    else:
-        diff = "FULL"
-        colored = {'color': 'red'}
-    return render_template('home.html', diff=diff, colored=colored)
-
-
-@app.route("/livesearch", methods=["POST", "GET"])
-def livesearch():
-    if request.method == 'POST':
-        searchbox = request.form.get("text")
-        cursor = mysql.connection.cursor()
-        # This is just example query , you should replace field names with yours
-        query = "select * from member where first_name LIKE '{}%' order by insert_date".format(
-            searchbox)
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return jsonify(result)
-    else:
-        cursor2 = mysql.connection.cursor()
-        query2 = "select * from parking_log order by time_in DESC,date_in DESC"
-        cursor2.execute(query2)
-        data = cursor2.fetchall()
-        sql = "INSERT INTO lately_comein(id,license_plate,province,car_type,img_license_plate_in,time_in,date_in,img_license_plate_out) VALUES (%s, %s, %s, %s, %s, %s, %s,%s)"
-        val = (data[0][0], data[0][2], data[0][3], data[0][5],
-               data[0][6], data[0][7], data[0][8], data[0][13])
-        mycursor.execute(sql, val)
-        mysql.connection.commit()
-        mycursor.close()
-        return 'success'
-
-
 @app.route('/showled')  # แสดงจำนวนรถที่ว่าง
 def showled():
     if session['username'] != " ":
@@ -470,7 +427,6 @@ def report():
             report_name = list(report_header_definition.keys())[0]
         table_header = report_header_definition[report_name]['header']
         api = report_header_definition[report_name]['api']
-
         # api_param = "?"
         # api_param = "&"
         # params = []
@@ -482,7 +438,6 @@ def report():
         # api_param += "&".join(params)
         # ?date_in=2020-10-10&date_out=2020-10-10
         # &date_in=2020-10-10&date_out=2020-10-10
-
     return render_template("report.html", table_header=table_header, api=api)
 
 
@@ -654,23 +609,50 @@ def download_report():
 @app.route('/member-detail', methods=['GET', 'POST'])
 def memberdetail():
     if session['username'] != " ":
+        # โชว์เฉพาะ Member
         page = request.args.get(get_page_parameter(), type=int, default=1)
         limit = 10
         offset = page*limit-limit
         cursor = mysql.connection.cursor()
-        cursor.execute("select * from member_new")
+        cursor.execute("select * from member where member_type='Member'")
 
         result = cursor.fetchall()
         total = len(result)
         cur = mysql.connection.cursor()
-        que = "select * from member_new LIMIT %s OFFSET %s"
+        que = "select * from member where member_type='Member' LIMIT %s OFFSET %s"
         cur.execute(que, (limit, offset))
         data = cur.fetchall()
         cur.close()
-
         pagination = Pagination(page=page, per_page=limit,
                                 total=total, record_name='mdetail', css_framework='bootstrap4')
-        return render_template('member-detail.html', pagination=pagination, mdetail=data)
+
+        # โชว์เฉพาะ VIP
+        page2 = request.args.get(get_page_parameter(), type=int, default=1)
+        limit2 = 10
+        offset2 = page2*limit2-limit2
+        cursor2 = mysql.connection.cursor()
+        cursor2.execute("select * from member where member_type='VIP'")
+
+        result2 = cursor.fetchall()
+        total2 = len(result2)
+        cur2 = mysql.connection.cursor()
+        que2 = "select * from member where member_type='VIP' LIMIT %s OFFSET %s"
+        cur2.execute(que2, (limit, offset2))
+        data2 = cur2.fetchall()
+        cur2.close()
+        pagination2 = Pagination(page2=page2, per_page=limit2,
+                                 total=total2, record_name2='vdetail', css_framework='bootstrap4')
+
+        return render_template('member-detail.html', pagination=pagination, mdetail=data, pagination2=pagination2, vdetail=data2)
+
+
+@app.route('/newmember-receipt')
+def newmember_receipt():
+    cursor = mysql.connection.cursor()
+    query = "select * from member"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return render_template('comp/newmember-receipt.html')
 
 
 @app.route('/logout', methods=["POST", "GET"])
@@ -780,11 +762,6 @@ def table_car_datatable():
         out.append(newelement)
     data = jsonify({'data': out})
     return data
-
-
-# @app.route('/report/table-salestax')
-# def table_salestax():
-#     return render_template('table-report/table_salestax.html')
 
 
 @app.route('/report/table-salestax/datatable')

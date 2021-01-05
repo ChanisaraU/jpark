@@ -6,7 +6,6 @@
     {% include "comp/includecss.html" %}
     {% include "comp/includedbtables.html" %}
 </head>
-
 <body id="page-top">
     <div id="wrapper">
         {% include "comp/sidebar.html" %}
@@ -18,16 +17,6 @@
                         <div class="row my-2">
                             <h4 class="text-blue">ข้อมูลสมาชิก</h4>
                                 <div id="tabs">
-                                    <!-- <div id="switcher">
-                                        <div onclick="showTab(0)" class="tab-switch active-switch">Member</div>
-                                        <div onclick="showTab(1)" class="tab-switch mr-2">VIP</div>
-                                        <button class="btn btn-add-member" data-bs-toggle="modal" data-bs-target="#newMemberModal"><i class="fas fa-plus"></i> สมัครสมาชิก</button>
-                                        <button class="btn btn-add-member" data-bs-toggle="modal" data-bs-target="#newVIPModal"><i class="fas fa-plus"></i> เพิ่ม VIP</button>
-                                        <div class="ml-auto">
-                                            <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
-                                            padding: .375rem .75rem;font-size: 1rem;text-align: start;">
-                                        </div>
-                                    </div> -->
                                     <ul id="myTab" class="nav nav-pills">
                                         <li class="nav-item">
                                             <a class="nav-link active" id="mem">Member</a>
@@ -60,24 +49,25 @@
                                                         <th style="min-width: 8vw;">ประเภท Package</th>
                                                         <th style="min-width: 6vw;">วันหมดอายุ</th>
                                                         <th class="text-center" style="min-width: 7vw;">Status</th>
-                                                        <th style="min-width: 10vw;"></th>
+                                                        <th style="min-width: 12vw;"></th>
                                                     </tr>
                                                 </thead>
                                                 {% if mdetail %}
                                                 {% for row in mdetail %}
                                                 <tbody id="myTable">
                                                     <tr>
-                                                        <td class="text-center">{{ row[2] }}</td>
+                                                        <td class="text-center">{{ row[1] }}</td>
+                                                        <td>{{ row[4] }}</td>
                                                         <td>{{ row[5] }}</td>
                                                         <td>{{ row[6] }}</td>
                                                         <td>{{ row[8] }}</td>
-                                                        <td>{{ row[10] }}</td>
-                                                        <td>{{ row[11] }}</td>
                                                         <td>{{ row[9] }}</td>
                                                         <td>{{ row[7] }}</td>
-                                                        <td>{{ row[14] }}</td>
-                                                        <td class="text-center">{{ row[18] }}</td>
-                                                        <td><button class="btn btn-renew btn-sm" data-bs-toggle="modal" data-bs-target="#renewMemberModal"><i class="fas fa-cash-register"></i> ต่ออายุ</button> <button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="fas fa-edit"></i></button></td>
+                                                        <td>{{ row[12] }}</td>
+                                                        <td>{{ row[11] }}</td>
+                                                        <td class="text-center">{{ row[19] }}</td>
+                                                        <td><button class="btn btn-renew btn-sm" data-bs-toggle="modal" data-bs-target="#renewMemberModal"><i class="fas fa-cash-register"></i> ต่ออายุ</button> <button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="fas fa-edit"></i></button>
+                                                            <a href="{{ url_for('newmember_receipt') }}" type="button" class="btn btn-receipt btn-sm" target="_blank"><i class="fas fa-print"></i></a></td>
                                                     </tr>
                                                 </tbody>
                                                 {% endfor %}
@@ -86,44 +76,47 @@
                                             {{ pagination.links }}
                                       </div>
                                       <div id="vips2">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover" style="font-size: 0.75rem;" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="min-width: 6vw;">รหัสสมาชิก</th>
-                                                        <th style="min-width: 6vw;">ชื่อ</th>
-                                                        <th style="min-width: 6vw;">นามสกุล</th>
-                                                        <th style="min-width: 6vw;">เบอร์โทรศัพท์</th>
-                                                        <th style="min-width: 6vw;">ทะเบียนรถ</th>
-                                                        <th style="min-width: 6vw;">จังหวัด</th>
-                                                        <th style="min-width: 6vw;">ประเภทรถ</th>
-                                                        <th style="min-width: 6vw;">หน่วยงาน</th>
-                                                        <th style="min-width: 6vw;">สังกัด</th>
-                                                        <th style="min-width: 6vw;">หน้าที่</th>
-                                                        <th style="min-width: 6vw;">วันหมดอายุ</th>
-                                                        <th style="min-width: 6vw;">Status</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="myTable">
-                                                    <tr>
-                                                        <td>V00001</td>
-                                                        <td>สมศรี</td>
-                                                        <td>สวัสดีวันจันทร์</td>
-                                                        <td>061-558-9963</td>
-                                                        <td>1กข-1523</td>
-                                                        <td>สมุทรสาคร</td>
-                                                        <td>รถยนต์</td>
-                                                        <td>มูลนิธิมิราเคิล</td>
-                                                        <td>-</td>
-                                                        <td>แม่บ้าน</td>
-                                                        <td>-</td>
-                                                        <td>Active</td>
-                                                        <td><button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editVIPModal"><i class="fas fa-edit"></i> แก้ไข</button></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <table class="table table-hover" style="font-size: 0.75rem;" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="min-width: 6vw;">รหัสสมาชิก</th>
+                                                    <th style="min-width: 6vw;">ชื่อ</th>
+                                                    <th style="min-width: 6vw;">นามสกุล</th>
+                                                    <th style="min-width: 6vw;">เบอร์โทรศัพท์</th>
+                                                    <th style="min-width: 6vw;">ทะเบียนรถ</th>
+                                                    <th style="min-width: 6vw;">จังหวัด</th>
+                                                    <th style="min-width: 6vw;">ประเภทรถ</th>
+                                                    <th style="min-width: 6vw;">หน่วยงาน</th>
+                                                    <th style="min-width: 6vw;">สังกัด</th>
+                                                    <th style="min-width: 6vw;">หน้าที่</th>
+                                                    <th style="min-width: 6vw;">วันหมดอายุ</th>
+                                                    <th style="min-width: 6vw;">Status</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            {% if vdetail %}
+                                            {% for row in vdetail %}
+                                            <tbody id="myTable">
+                                                <tr>
+                                                    <td>{{row[1]}}</td>
+                                                    <td>{{row[4]}}</td>
+                                                    <td>{{row[5]}}</td>
+                                                    <td>{{row[6]}}</td>
+                                                    <td>{{row[8]}}</td>
+                                                    <td>{{row[9]}}</td>
+                                                    <td>{{row[7]}}</td>
+                                                    <td>{{row[12]}}</td>
+                                                    <td>{{row[21]}}</td>
+                                                    <td>{{row[20]}}</td>
+                                                    <td>{{row[11]}}</td>
+                                                    <td>{{row[19]}}</td>
+                                                    <td><button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editVIPModal"><i class="fas fa-edit"></i> แก้ไข</button></td>
+                                                </tr>
+                                            </tbody>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </table>
+                                        {{ pagination2.links }}
                                       </div>
                                     </div>
 
@@ -138,6 +131,7 @@
                                             <div class="bg-blue-modal">
                                                 <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
                                             </div>
+                                            <form method="POST" id="addMemberForm">
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-sm-3 text-center">
@@ -209,11 +203,9 @@
                                                     <div class="col-9 text-right">
                                                         <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
                                                     </div>
-                                                    <div class="col-3 mt-1 text-right">
-                                                        <button type="button" class="btn btn-receipt btn-sm"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
-                                                    </div>
                                                 </div> 
                                             </div>
+                                            </form>
                                           </div>
                                         </div>
                                       </div>
@@ -300,9 +292,6 @@
                                             <div class="row">
                                                 <div class="col-9 text-right">
                                                     <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
-                                                </div>
-                                                <div class="col-3 mt-1 text-right">
-                                                    <button type="button" class="btn btn-receipt btn-sm"><i class="fas fa-print"></i> พิมพ์ใบเสร็จ</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -600,34 +589,20 @@
         });
 
         // Tab
-        // function showTab(tabnumber) {
-        //     var tabs = document.getElementsByClassName('tab-content');
-        //     var switches = document.getElementsByClassName('tab-switch');
-        //     for(var i = 0; i<tabs.length; i++){
-        //         tabs[i].classList.remove('active-tab');
-        //         switches[i].classList.remove('active-switch');
-        //     }
-        //     tabs[tabnumber].classList.add('active-tab');
-        //     switches[tabnumber].classList.add('active-switch');
-        // }
         $(function() {
             $('#member').show();
             $('#vips').hide();
-           
+            $('#vips2').hide();
 
             $('#myTab a').click(function(e) {
                 e.preventDefault();
                 if (($(this).attr('id') == 'mem')) {
-                    $('#search_location').hide();
-                    $('#search_value').show();
                     $('#member').show();
                     $('#member2').show();
                     $('#vips').hide();
                     $('#vips2').hide();
                 }
                 if (($(this).attr('id') == 'vip')) {
-                    $('#search_location').hide();
-                    $('#search_value').show();
                     $('#vips').show();
                     $('#vips2').show();
                     $('#member').hide();
