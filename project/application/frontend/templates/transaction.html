@@ -16,12 +16,13 @@
                     <div class="col-lg-12">
                         <div class="row my-2">
                             <div class="col">
-                                <h4 class="text-blue">รายการรถเข้า-ออกสะสม</h4>
+                                <h4 class="text-blue">รายการรถเข้า-ออกสะสม {{roles}}</h4>
                                 <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal">
                                     <i class="fas fa-plus"></i> เพิ่ม
                                 </button>
-                                <a class="btn btn-excel mb-2 ml-3" href="{{ url_for('.download_report') }}"><i class="far fa-file-excel"></i> Export to Excel</a>
-                                
+                                <a class="btn btn-excel mb-2 ml-3" href="{{ url_for('.download_report') }}"><i
+                                        class="far fa-file-excel"></i> Export to Excel</a>
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel"
                                     aria-hidden="true">
@@ -35,9 +36,11 @@
                                             <form action="{{url_for('addcar')}}" method="POST" id="addForm">
                                                 <div class="modal-body">
                                                     <div class="row mb-3">
-                                                        <label for="exampleInputEmail1" class="form-label col-2">เข้า/ออก
+                                                        <label for="exampleInputEmail1"
+                                                            class="form-label col-2">เข้า/ออก
                                                             <span class="text-red">*</span> </label>
-                                                        <select class="form-select form-select-sm col-9" name="comp_select">
+                                                        <select class="form-select form-select-sm col-9"
+                                                            name="comp_select">
                                                             {% for o in data %}
                                                             <option value="{{ o.in_out }}">{{ o.in_out }}</option>
                                                             {% endfor %}
@@ -46,13 +49,15 @@
                                                     <div class="row mb-3">
                                                         <label for="carregis" class="form-label col-2">ทะเบียนรถ <span
                                                                 class="text-red">*</span> </label>
-                                                        <input type="text" class="form-control-modal col-9" name="carregis" value="{{
+                                                        <input type="text" class="form-control-modal col-9"
+                                                            name="carregis" value="{{
                                                             request.form.carregis }}" required>
                                                     </div>
                                                     <div class="row mb-3">
                                                         <label for="province" class="form-label col-2">จังหวัด<span
                                                                 class="text-red">*</span> </label>
-                                                        <input type="text" class="form-control-modal col-9" name="province" value="{{
+                                                        <input type="text" class="form-control-modal col-9"
+                                                            name="province" value="{{
                                                             request.form.province }}" required>
                                                     </div>
                                                     <div class="row mb-3">
@@ -64,8 +69,8 @@
                                                     <div class="row mb-3">
                                                         <label for="timeinout" class="form-label col-2">เวลา <span
                                                                 class="text-red">*</span> </label>
-                                                        <input type="text" class="form-control-modal col-9" name="timeinout"
-                                                            value="{{
+                                                        <input type="text" class="form-control-modal col-9"
+                                                            name="timeinout" value="{{
                                                             request.form.timeinout }}" required>
                                                     </div>
                                                     <div class="row mb-3">
@@ -84,8 +89,10 @@
                                                             rows="3"></textarea>
                                                     </div>
                                                     <div class="row mb-3">
-                                                        <label for="amountmoney" class="form-label col-2">จำนวนเงิน</label>
-                                                        <input type="text" class="form-control-modal col-9" name="amountmoney">
+                                                        <label for="amountmoney"
+                                                            class="form-label col-2">จำนวนเงิน</label>
+                                                        <input type="text" class="form-control-modal col-9"
+                                                            name="amountmoney">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -98,10 +105,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col text-right">
-                                <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา" style="min-height: calc(1.5em + .75rem + 2px);
+                            <div class="col text-right">
+                                <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา"
+                                    style="min-height: calc(1.5em + .75rem + 2px);
                                 padding: .375rem .75rem;font-size: 1rem;text-align: start;">
-                            </div> -->
+                            </div>
                         </div>
                         <table class="table table-hover" style="font-size: 0.5rem;">
                             <thead>
@@ -120,97 +128,123 @@
                                     <th scope="col" class="fixed" style="background: white;">ทะเบียนรถเข้า(รูป)</th>
                                     <th scope="col" class="fixed" style="background: white;">ทะเบียนรถออก (รูป)</th>
                                     <th scope="col" class="fixed" style="background: white;">ประเภทรถ</th>
-                                    <th scope="col" class="fixed" style="background: white;">ประวัติการแก้ไข</th>
-                                    <th scope="col" class="fixed" style="background: white;;">หมายเหตุ </th>
+                                    {% if roles != "Groupleader" %}
+                                    <th scope="col" class="fixed" style="background: white;">ประวัติการแก้ไข
+                                    {% endif %}
+                                    </th>
+                                    <th scope="col" class="fixed" style="background: white;;">หมายเหตุ
+                                    </th>
                                     <th scope="col" class="fixed" style="background: white;"></th>
                                 </tr>
                             </thead>
-                                {% if transaction %}
-                                {% for row in transaction %}
-                                <tbody id="myTable">
-                                    <tr>
-                                        <td>{{ row[0] }}</td>
-                                        <!-- <td>{{ loop.index + pagination.skip }}</td> -->
-                                        <td>{{ row[7] }}</td>
-                                        <td>{{ row[14] }}</td>
-                                        <td>{{ row[16] }}</td>
-                                        <td>{{ row[19] }}</td>
-                                        <td>{{ row[27] }}</td>
-                                        <td>{{ row[26] }}</td>
-                                        <td>{{ row[2] }}</td>
-                                        <td>{{ row[3] }}</td>
-                                        <td>{{ row[2] }}</td>
-                                        <td>{{ row[3] }}</td>
-                                        <td><img class="picture-show"
-                                                src="data:image/jpeg;charset=utf-8;base64,{{ row[5] }}" /></td>
-                                        <td><img class="picture-show"
-                                                src="data:image/jpeg;charset=utf-8;base64,{{ row[13] }}" /></td>
-                                        <td>{{ row[6] }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <button data-id="{{ row[0] }}" type="button" id="button1" class="btn btn-primary"
-                                            data-toggle="modal" data-target="#editModal">
+                            {% if transaction %}
+                            {% for row in transaction %}
+                            <tbody id="myTable">
+                                <tr>
+                                    <!-- <td>{{ row[0] }}</td> -->
+                                    <td>{{ loop.index + pagination.skip }}</td>
+                                    <td>{{ row[7] }}</td>
+                                    <td>{{ row[14] }}</td>
+                                    <td>{{ row[16] }}</td>
+                                    <td>{{ row[19] }}</td>
+                                    <td>{{ row[27] }}</td>
+                                    <td>{{ row[26] }}</td>
+                                    <td>{{ row[2] }}</td>
+                                    <td>{{ row[3] }}</td>
+                                    <td>{{ row[2] }}</td>
+                                    <td>{{ row[3] }}</td>
+
+                                    <td><img class="picture-show"
+                                            src="data:image/jpeg;charset=utf-8;base64,{{ row[5] }}" /></td>
+                                    <td><img class="picture-show"
+                                            src="data:image/jpeg;charset=utf-8;base64,{{ row[13] }}" /></td>
+                                    <td>{{ row[6] }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        {% if roles != "Groupleader" %}
+                                        <button data-id="{{ row[0] }}" type="button" id="button1"
+                                            class="btn btn-primary" data-toggle="modal" data-target="#editModal">
                                             <i class="fas fa-edit"></i> แก้ไข
-                                          </button >
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="editModal" tabindex="-1"
-                                                aria-labelledby="editModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel">แก้ไขรายการ</h5>
-                                                            <button type="button" class="btn-close" data-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                        </div>
-                                                        <form action="{{url_for('edit')}}" method="POST">
-                                                            <div class="modal-body">
-                                                                <div class="row mb-3">
-                                                                    <label class="form-label col-2">Id:</label>
-                                                                    <input type="text" class="form-control-modal col-9"
-                                                                        name='id' id='id' readonly>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <label for="carregis_"
-                                                                        class="form-label col-2">ทะเบียนรถ</label>
-                                                                    <input type="text" class="form-control-modal col-9"
-                                                                        name="carregis_"
-                                                                        value="{{request.form.carregis_}}" required>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <label for="province_"
-                                                                        class="form-label col-2">จังหวัด</label>
-                                                                    <input type="text" class="form-control-modal col-9"
-                                                                        name="province_"
-                                                                        value="{{request.form.province_}}" required>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <label for="typecar_"
-                                                                        class="form-label col-2">ประเภทรถ</label>
-                                                                    <select class="form-select form-select-sm col-9"
-                                                                        name="typecar_">
-                                                                        {% for t in type %}
-                                                                        <option value="{{ t.typecar }}">{{ t.typecar }}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                                                                <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                                                            </div>
-                                                        </form>
+                                        </button>
+                                        {% endif %}
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="editModal" tabindex="-1"
+                                            aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel">แก้ไขรายการ</h5>
+                                                        <button type="button" class="btn-close" data-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
+
+                                                    <form action="{{url_for('edit')}}" method="POST">
+                                                        <div class="modal-body">
+                                                            <div class="row mb-3">
+                                                                <label class="form-label col-2">Id:</label>
+                                                                <input type="text" class="form-control-modal col-9"
+                                                                    name='id' id='id' readonly>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label for="carregis_"
+                                                                    class="form-label col-2">ทะเบียนรถ</label>
+                                                                <input type="text" class="form-control-modal col-9"
+                                                                    name="carregis_" value="{{request.form.carregis_}}"
+                                                                    required>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label for="province_"
+                                                                    class="form-label col-2">จังหวัด</label>
+                                                                <input type="text" class="form-control-modal col-9"
+                                                                    name="province_" value="{{request.form.province_}}"
+                                                                    required>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label for="typecar_"
+                                                                    class="form-label col-2">ประเภทรถ</label>
+                                                                <select class="form-select form-select-sm col-9"
+                                                                    name="typecar_">
+                                                                    {% for t in type %}
+                                                                    <option value="{{ t.typecar }}">{{ t.typecar }}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">ยกเลิก</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">ยืนยัน</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                {% endfor %}
-                                {% endif %}
-                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                            {% endif %}
+                        </table>
                         {{ pagination.links }}
+                        <!-- <nav>
+                                <ul class="pagination">
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">Previous</a>
+                                  </li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">2</a>
+                                  </li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                                  <li class="page-item">
+                                    <a class="page-link" href="javascript:void(0);">Next</a>
+                                  </li>
+                                </ul>
+                            </nav> -->
                     </div>
                 </div>
 
@@ -225,7 +259,7 @@
         });
 
         //กำหนดไอดีให้กับปุ่มแก้ไขแต่ละปุ่ม
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#button1").click(function () {
                 console.log("hi")
                 var passedID = $(this).data('id');//get the id of the selected button
@@ -245,54 +279,54 @@
 
         // ควบคุม Sidebar
         $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
-        $("body").toggleClass("sidebar-toggled");
-        $(".sidebar").toggleClass("toggled");
-        if ($(".sidebar").hasClass("toggled")) {
-            $('.sidebar .collapse').collapse('hide');
-        };
+            $("body").toggleClass("sidebar-toggled");
+            $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+                $('.sidebar .collapse').collapse('hide');
+            };
         });
 
         // Close any open menu accordions when window is resized below 768px
         $(window).resize(function () {
-        if ($(window).width() < 768) {
-            $('.sidebar .collapse').collapse('hide');
-        };
+            if ($(window).width() < 768) {
+                $('.sidebar .collapse').collapse('hide');
+            };
 
-        // Toggle the side navigation when window is resized below 480px
-        if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
-            $("body").addClass("sidebar-toggled");
-            $(".sidebar").addClass("toggled");
-            $('.sidebar .collapse').collapse('hide');
-        };
+            // Toggle the side navigation when window is resized below 480px
+            if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+                $("body").addClass("sidebar-toggled");
+                $(".sidebar").addClass("toggled");
+                $('.sidebar .collapse').collapse('hide');
+            };
         });
 
         // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
         $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
-        if ($(window).width() > 768) {
-            var e0 = e.originalEvent,
-            delta = e0.wheelDelta || -e0.detail;
-            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-            e.preventDefault();
-        }
+            if ($(window).width() > 768) {
+                var e0 = e.originalEvent,
+                    delta = e0.wheelDelta || -e0.detail;
+                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+                e.preventDefault();
+            }
         });
 
         // Scroll to top button appear
         $(document).on('scroll', function () {
-        var scrollDistance = $(this).scrollTop();
-        if (scrollDistance > 100) {
-            $('.scroll-to-top').fadeIn();
-        } else {
-            $('.scroll-to-top').fadeOut();
-        }
+            var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+                $('.scroll-to-top').fadeIn();
+            } else {
+                $('.scroll-to-top').fadeOut();
+            }
         });
 
         // Smooth scrolling using jQuery easing
         $(document).on('click', 'a.scroll-to-top', function (e) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top)
-        }, 1000, 'easeInOutExpo');
-        e.preventDefault();
+            var $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: ($($anchor.attr('href')).offset().top)
+            }, 1000, 'easeInOutExpo');
+            e.preventDefault();
         });
     </script>
 </body>

@@ -116,7 +116,7 @@
                         </td>
                         <td class="tableitem"></td>
                         <td class="tableitem">
-                            <p class="itemtext">0 บาท</p>
+                            <p class="itemtext">มูลค่าคูปอง {{discount}} บาท</p>
                         </td>
                     </tr>
                     <tr>
@@ -262,26 +262,20 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- <div id="legalcopy">
-                <p class="legal text-center"><strong>ขอบคุณที่ใช้บริการ Thank you</strong> 
-                </p>
-            </div> -->
         </div>
     </div>
-    <script>
-        window.onafterprint = function(e){
-            setTimeout("closePrintView()", 1000);
-        };
-
-        function autoLogout(){
-            window.print();
-        }
-
-        function closePrintView() {
-            window.location.href = 'logout';   
-        }
-    </script>
 </body>
+<script>
+    window.onafterprint = function(e){
+        setTimeout("closePrintView()", 1000);
+    };
 
+    function autoLogout(){
+        window.print();
+    }
+
+    function closePrintView() {
+        window.location.href = 'logout';   
+    }
+</script>
 </html>
