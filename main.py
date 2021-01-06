@@ -610,6 +610,27 @@ def newmember_receipt():
     return render_template('comp/newmember-receipt.html')
 
 
+@app.route('/member-detail', methods=['GET', 'POST'])
+def memberdetail():
+    if session['username'] != " ":
+        page = request.args.get(get_page_parameter(), type=int, default=1)
+        limit = 10
+        offset = page*limit-limit
+        cursor = mysql.connection.cursor()
+        cursor.execute("select * from member_new")
+
+        result = cursor.fetchall()
+        total = len(result)
+        cur = mysql.connection.cursor()
+        que = "select * from member_new LIMIT %s OFFSET %s"
+        cur.execute(que, (limit, offset))
+        data = cur.fetchall()
+        cur.close()
+
+        pagination = Pagination(page=page, per_page=limit,
+                                total=total, record_name='mdetail', css_framework='bootstrap4')
+        return render_template('member-detail.html', pagination=pagination, mdetail=data)
+
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction():
     if session['username'] != " ":

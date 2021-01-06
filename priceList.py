@@ -24,9 +24,9 @@ IPAddr = socket.gethostbyname(hostname)
 
 def IP_Address() :  
     if IPAddr == '192.168.1.48' :
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where gate = 0"
     elif IPAddr == '172.17.15.49' :    
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 1"
+        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where gate = 1"
     return zero
 
 
