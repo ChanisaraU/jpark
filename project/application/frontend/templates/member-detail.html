@@ -65,9 +65,16 @@
                                                         <td>{{ row[7] }}</td>
                                                         <td>{{ row[12] }}</td>
                                                         <td>{{ row[11] }}</td>
-                                                        <td class="text-center">{{ row[19] }}</td>
-                                                        <td><button class="btn btn-renew btn-sm" data-bs-toggle="modal" data-bs-target="#renewMemberModal"><i class="fas fa-cash-register"></i> ต่ออายุ</button> <button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="fas fa-edit"></i></button>
-                                                            <a href="{{ url_for('newmember_receipt') }}" type="button" class="btn btn-receipt btn-sm" target="_blank"><i class="fas fa-print"></i></a></td>
+                                                        {% if row[19] == 0 %}
+                                                            <td class="text-center"><i class="fas fa-circle fa-xs" style="color: #10FF28;"></i> Active</td>
+                                                            {% else %}
+                                                            <td class="text-center"><i class="fas fa-circle fa-xs" style="color: #ff0000"></i> Inactive</td>
+                                                        {% endif %}
+                                                        <!-- <td class="text-center">{{ row[19] }}</td> -->
+                                                        <td><button class="btn btn-renew btn-sm mem-no" data-bs-toggle="modal" id="mem_api" data-mem-no="{{row[1]}}" data-bs-target="#renewMemberModal"><i class="fas fa-cash-register"></i> ต่ออายุ</button> 
+                                                            <button class="btn btn-edit-2 btn-sm remem-no" data-bs-toggle="modal" data-remem-no="{{row[1]}}"  data-bs-target="#editMemberModal"><i class="fas fa-edit"></i></button>
+                                                            <a href="{{ url_for('newmember_receipt') }}" type="button" class="btn btn-receipt btn-sm" target="_blank"><i class="fas fa-print"></i></a>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                                 {% endfor %}
@@ -79,7 +86,7 @@
                                         <table class="table table-hover" style="font-size: 0.75rem;" width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th style="min-width: 6vw;">รหัสสมาชิก</th>
+                                                    <th class="text-center" style="min-width: 6vw;">รหัสสมาชิก</th>
                                                     <th style="min-width: 6vw;">ชื่อ</th>
                                                     <th style="min-width: 6vw;">นามสกุล</th>
                                                     <th style="min-width: 6vw;">เบอร์โทรศัพท์</th>
@@ -90,7 +97,7 @@
                                                     <th style="min-width: 6vw;">สังกัด</th>
                                                     <th style="min-width: 6vw;">หน้าที่</th>
                                                     <th style="min-width: 6vw;">วันหมดอายุ</th>
-                                                    <th style="min-width: 6vw;">Status</th>
+                                                    <th class="text-center" style="min-width: 6vw;">Status</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -98,7 +105,7 @@
                                             {% for row in vdetail %}
                                             <tbody id="myTable">
                                                 <tr>
-                                                    <td>{{row[1]}}</td>
+                                                    <td class="text-center">{{row[1]}}</td>
                                                     <td>{{row[4]}}</td>
                                                     <td>{{row[5]}}</td>
                                                     <td>{{row[6]}}</td>
@@ -109,8 +116,115 @@
                                                     <td>{{row[21]}}</td>
                                                     <td>{{row[20]}}</td>
                                                     <td>{{row[11]}}</td>
-                                                    <td>{{row[19]}}</td>
-                                                    <td><button class="btn btn-edit-2 btn-sm" data-bs-toggle="modal" data-bs-target="#editVIPModal"><i class="fas fa-edit"></i> แก้ไข</button></td>
+                                                    {% if row[19] == 0 %}
+                                                        <td class="text-center"><i class="fas fa-circle fa-xs" style="color: #10FF28;"></i> Active</td>
+                                                        {% else %}
+                                                        <td class="text-center"><i class="fas fa-circle fa-xs" style="color: #ff0000"></i> Inactive</td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <button type="button" id="button1" class="btn btn-edit-2 btn-sm btn-renew vip-no" data-vip-no="{{row[1]}}" data-bs-toggle="modal" data-bs-target="#editVIPModal"><i class="fas fa-edit"></i> แก้ไข</button>
+                                                        <!-- Modal 2 : VIP -->
+                                                        <div class="modal fade" id="editVIPModal" tabindex="-1" aria-labelledby="editVIPModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                            <div class="modal-content modal-content-jpark modal-width">
+                                                                <div class="modal-header modal-header-jpark">
+                                                                <h5 class="modal-title" id="editVIPModalLabel">จัดการข้อมูล VIP</h5>
+                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="bg-blue-modal">
+                                                                    <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
+                                                                </div>
+                                                                <form action="{{url_for('editvip')}}" method="POST" id="editvipForm">
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6 mb-2">
+                                                                                <div class="card">
+                                                                                    <div class="card-header">
+                                                                                        สมาชิก
+                                                                                    </div>
+                                                                                    <div class="card-body">
+                                                                                        <div class="row">
+                                                                                            <div class="col-3 align-self-center">
+                                                                                                <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="88" style="border-radius:50%"/>
+                                                                                                <input type="file" id="myfile" style="display: none;"/>
+                                                                                            </div>
+                                                                                            <div class="col-9">
+                                                                                                <div class="row mb-2">
+                                                                                                    <label class="col-sm-4">หน่วยงาน</label>
+                                                                                                    <select class="col-sm-8 form-select form-select-sm">
+                                                                                                        <option value=""></option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="row mb-2">
+                                                                                                    <label class="col-sm-4">สถานะ</label>
+                                                                                                    <select class="col-sm-8 form-select form-select-sm">
+                                                                                                        <option value=""></option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <h2 class="text-center" id="vip_no">V000000</h2>
+                                                                                                <input type="hidden" name="vip_memberno" id="vip_memberno" value="{{mem_no}}" >
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12 mb-2">
+                                                                                        <label>คำนำหน้า</label>
+                                                                                        <input type="text" class="form-control-modal" id="title_name"  name="title_name" value="" required>
+                                                                                    </div>
+                                                                                    <div class="col-sm-12">
+                                                                                        <label>ชื่อ</label>
+                                                                                        <input type="text" class="form-control-modal" id="first_name" name="first_name" value="" required>
+                                                                                    </div>
+                                                                                    <div class="col-sm-12">
+                                                                                        <label>นามสกุล</label>
+                                                                                        <input type="text" class="form-control-modal" id="last_name" name="last_name"  value="" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>เบอร์โทรศัพท์</label>
+                                                                                <input type="text" class="form-control-modal" id="phone" name="phone"  value="" required>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>ประเภทรถ</label>
+                                                                                <select class="form-select form-select-sm">
+                                                                                    <option value=""></option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>ทะเบียนรถ</label>
+                                                                                <input type="text" class="form-control-modal" id="license_plate" name="license_plate"  value="" required>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>จังหวัด</label>
+                                                                                <input type="text" class="form-control-modal" id="province" name="province" value="" required>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>สังกัด</label>
+                                                                                <input type="text" class="form-control-modal" id="member_package" name="member_package" value="" required>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <label>หน้าที่</label>
+                                                                                <input type="text" class="form-control-modal" id="position" name="position" value="" required>
+                                                                            </div>
+                                                                            <div class="col-sm-12">
+                                                                                <label>หมายเหตุ</label>
+                                                                                <input type="text" class="form-control-modal" id="remark" name="remark" value="" required>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer footer-center">
+                                                                        <button type="submit" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                             {% endfor %}
@@ -120,7 +234,7 @@
                                       </div>
                                     </div>
 
-                                    <!-- Modal 1 : Member -->
+                                    <!-- Modal 1 : Member สมัครสมาชิกใหม่ -->
                                     <div class="modal fade" id="newMemberModal" tabindex="-1" aria-labelledby="newMemberModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                           <div class="modal-content modal-content-jpark">
@@ -131,81 +245,147 @@
                                             <div class="bg-blue-modal">
                                                 <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
                                             </div>
-                                            <form method="POST" id="addMemberForm">
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-sm-3 text-center">
-                                                        <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
-                                                        <input type="file" id="myfile" style="display: none;"/>
-                                                        <h4>M000000</h4>
+                                            <form id='addmemberForm' action="{{url_for('addmember')}}" method="POST">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-3 text-center">
+                                                            <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                            <input type="file" id="myfile" style="display: none;"/>
+                                                            <h4>M000000</h4>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <div class="row">
+                                                                <div class="col-sm-4 mb-2">
+                                                                    <label><span class="text-red">*</span> คำนำหน้า</label>
+                                                                    <input type="text" class="form-control-modal" name="title_name" value="" required>
+                                                                </div>
+                                                                <div class="col-sm-8 mb-2">
+                                                                    <label><span class="text-red">*</span> ชื่อ</label>
+                                                                    <input type="text" class="form-control-modal" name="first_name" value="" required>
+                                                                </div>
+                                                                <div class="col-sm-8 mb-2">
+                                                                    <label><span class="text-red">*</span> นามสกุล</label>
+                                                                    <input type="text" class="form-control-modal" name="last_name" value="" required>
+                                                                </div>
+                                                                <div class="col-sm-6 mb-2">
+                                                                    <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
+                                                                    <input type="text" class="form-control-modal" name="phone" value="" required>
+                                                                </div>
+                                                                <div class="col-sm-6 mb-2">
+                                                                    <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                                    <select class="form-select form-select-sm" name="car_type">
+                                                                        <option value="car">รถยนต์</option>
+                                                                        <option value="Motorcycles">จักรยานยนต์</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-7 mb-2">
+                                                            <label><span class="text-red">*</span> ทะเบียนรถ</label>
+                                                            <input type="text" class="form-control-modal" name="license_plate" value="" required>
+                                                        </div>
+                                                        <div class="col-sm-5 mb-2">
+                                                            <label><span class="text-red">*</span> จังหวัด</label>
+                                                            <input type="text" class="form-control-modal" name="province" value="" required>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-9">
-                                                        <div class="row">
-                                                            <div class="col-sm-4">
-                                                                <label><span class="text-red">*</span> คำนำหน้า</label>
-                                                                <input type="text" class="form-control-modal" required>
+                                                    <h6 class="mt-4 mb-2 text-center bg-label">รายละเอียด Package Member</h6>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 mb-2">
+                                                            <label><span class="text-red">*</span> ประเภทรถ Package</label>
+                                                            <select class="form-select form-select-sm" name="Package">
+                                                                {% for c in result %}
+                                                                <OPTION value={{c[3]}}>{{c[2]}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-7 mb-2">
+                                                            <div class="btn-group" role="group">
+                                                                <div class="row mt-1">
+                                                                    <div class="col-12 mb-2">
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio12" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio12">มกราคม</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio22">กุมภาพันธ์</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio32" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio32">มีนาคม</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio42" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio42">เมษายน</label>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-12 mb-2">
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio52" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio52">พฤษภาคม</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio62" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio62">มิถุนายน</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio72" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio7">กรกฏาคม</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio82" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio82">สิงหาคม</label>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-12 mb-2">
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio92" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio92">กันยายน</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio102" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio102">ตุลาคม</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio112" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio112">พฤศจิกายน</label>
+                                                                        </span>
+                                                                        <span>
+                                                                            <input type="checkbox" class="btn-check" name="btnradio" id="btnradio122" autocomplete="off">
+                                                                            <label class="btn-outline-months width-btn-month" for="btnradio122">ธันวาคม</label>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <button type="submit" class="btn btn-danger col-12" >ชำระเงิน</button>
+                                                                    </div>
+                                                                </div>
+                                                                
                                                             </div>
-                                                            <div class="col-sm-8">
-                                                                <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
-                                                                <input type="text" class="form-control-modal" required>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
-                                                                <input type="text" class="form-control-modal" required>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                        </div>
+                                                        <div class="col-sm-5 mb-2">
+                                                            <div class="mb-2">
+                                                                <label><span class="text-red">*</span> ช่องทางการชำระ</label>
                                                                 <select class="form-select form-select-sm">
-                                                                    <option value=""></option>
+                                                                    <option value="cash">เงินสด</option>
                                                                 </select>
+                                                            </div>
+                                                            
+                                                            <div class="mb-2">
+                                                                <label>จำนวนเงิน</label>
+                                                                <input type="text" class="form-control-modal" id="grand_amount" readonly>
+                                                            </div>
+                                                            
+                                                            <div>
+                                                                <label>วันหมดอายุ</label>
+                                                                <input type="date" class="form-control-modal" id="expiry_date" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-7">
-                                                        <label><span class="text-red">*</span> ทะเบียนรถ</label>
-                                                        <input type="text" class="form-control-modal" required>
-                                                    </div>
-                                                    <div class="col-sm-5">
-                                                        <label><span class="text-red">*</span> จังหวัด</label>
-                                                        <input type="text" class="form-control-modal" required>
-                                                    </div>
                                                 </div>
-                                                <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียด Package Member</h6>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <label><span class="text-red">*</span> ประเภทรถ Package</label>
-                                                        <select class="form-select form-select-sm">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label><span class="text-red">*</span> จำนวนเดือน</label>
-                                                        <input type="text" class="form-control-modal" required>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label><span class="text-red">*</span> ช่องทางการชำระ</label>
-                                                        <select class="form-select form-select-sm">
-                                                            <option value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>จำนวนเงิน</label>
-                                                        <input type="text" class="form-control-modal" required>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>วันหมดอายุ</label>
-                                                        <input type="text" class="form-control-modal" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="row">
-                                                    <div class="col-9 text-right">
-                                                        <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
-                                                    </div>
-                                                </div> 
-                                            </div>
+
                                             </form>
+
                                           </div>
                                         </div>
                                       </div>
@@ -222,79 +402,143 @@
                                         <div class="bg-blue-modal">
                                             <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-sm-3 text-center">
-                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
-                                                    <input type="file" id="myfile" style="display: none;"/>
-                                                    <h4>M000000</h4>
+                                        <form action="{{url_for('remember')}}" method="POST" id="renewMemberForm">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 text-center">
+                                                        <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                        <input type="file" id="myfile" style="display: none;"/>
+                                                        <h4 id="mem_no">M000000</h4>
+                                                        <input type="hidden" name="memberno" id="memberno" value="" >
+                                                    </div>
+                                                    <div class="col-sm-9 mb-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 mb-2">
+                                                                <label>คำนำหน้า</label>
+                                                                <input type="text" class="form-control-modal" id="title_name" readonly>
+                                                            </div>
+                                                            <div class="col-sm-8 mb-2">
+                                                                <label>ชื่อ-นามสกุล</label>
+                                                                <input type="text" class="form-control-modal" id="first_name" readonly>
+                                                            </div>
+                                                            <div class="col-sm-6 mb-2">
+                                                                <label>เบอร์โทรศัพท์</label>
+                                                                <input type="text" class="form-control-modal" id="phone" readonly>
+                                                            </div>
+                                                            <div class="col-sm-6 mb-2">
+                                                                <label>ประเภทรถ</label>
+                                                                <input type="text" class="form-control-modal" id="car_type" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-7 mb-2">
+                                                        <label>ทะเบียนรถ</label>
+                                                        <input type="text" class="form-control-modal" id="license_plate" readonly>
+                                                    </div>
+                                                    <div class="col-sm-5 mb-2">
+                                                        <label>จังหวัด</label>
+                                                        <input type="text" class="form-control-modal" id="province" readonly>
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-9">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <label><span class="text-red">*</span> คำนำหน้า</label>
-                                                            <input type="text" class="form-control-modal" required>
+                                                <h6 class="mt-4 mb-2 text-center bg-label">รายละเอียดการต่ออายุ</h6>
+                                                <div class="row">
+                                                    <div class="col-sm-12 mb-2">
+                                                        <label><span class="text-red">*</span> ประเภทรถ Package</label>
+                                                        <select class="form-select form-select-sm">
+                                                            {% for c in result %}
+                                                                <OPTION value={{c[3]}}>{{c[2]}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-7 mb-2">
+                                                        <div class="btn-group" role="group">
+                                                            <div class="row mt-1">
+                                                                <div class="col-12 mb-2">
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio1">มกราคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio2">กุมภาพันธ์</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio3">มีนาคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio4">เมษายน</label>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-12 mb-2">
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio5" value="" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio5">พฤษภาคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio6" value="มิถุนายน" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio6">มิถุนายน</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio7">กรกฏาคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio8">สิงหาคม</label>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-12 mb-2">
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio9" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio9">กันยายน</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio10" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio10">ตุลาคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio11">พฤศจิกายน</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="btnradio125" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month" for="btnradio125">ธันวาคม</label>
+                                                                    </span>
+                                                                    <span>
+                                                                        <input type="checkbox" class="btn-check" name="btnradio" id="member200" autocomplete="off">
+                                                                        <label class="btn-outline-months width-btn-month col-12" for="member200">ค่าบัตรสมาชิก 200 บาท</label>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button type="button" class="btn btn-danger col-12" data-bs-dismiss="modal">ชำระเงิน</button>
+                                                                </div>
+                                                            </div>
+                                                            
                                                         </div>
-                                                        <div class="col-sm-8">
-                                                            <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                    </div>
+                                                    <div class="col-sm-5 mb-2">
+                                                        <div class="mb-2">
+                                                            <label><span class="text-red">*</span> ช่องทางการชำระ</label>
                                                             <select class="form-select form-select-sm">
-                                                                <option value=""></option>
+                                                                <option value="cash">เงินสด</option>
                                                             </select>
+                                                        </div>
+                                                        
+                                                        <div class="mb-2">
+                                                            <label>จำนวนเงิน</label>
+                                                            <input type="text" class="form-control-modal" id="grand_amount" readonly>
+                                                        </div>
+                                                        
+                                                        <div>
+                                                            <label>วันหมดอายุ</label>
+                                                            <input type="date" class="form-control-modal" id="expiry_date" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-7">
-                                                    <label><span class="text-red">*</span> ทะเบียนรถ</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <label><span class="text-red">*</span> จังหวัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
                                             </div>
-                                            <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียดการต่ออายุ</h6>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <label><span class="text-red">*</span> ประเภทรถ Package</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> จำนวนเดือน</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> ช่องทางการชำระ</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>จำนวนเงิน</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>วันหมดอายุ</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <div class="row">
-                                                <div class="col-9 text-right">
-                                                    <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ชำระเงิน</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                       </div>
                                     </div>
                                   </div>
@@ -310,86 +554,90 @@
                                         <div class="bg-blue-modal">
                                             <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-sm-7 mb-2">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            สมาชิก
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="row">
-                                                                <div class="col-3 align-self-center">
-                                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="100" style="border-radius:50%"/>
-                                                                    <input type="file" id="myfile" style="display: none;"/>
-                                                                </div>
-                                                                <div class="col-9">
-                                                                    <div class="row mb-2">
-                                                                        <label class="col-sm-4">ประเภท</label>
-                                                                        <input type="text" class="col-sm-8 form-control-modal" required>
+                                        <form action="{{url_for('editmember')}}" method="POST" id="renewForm">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-7 mb-2">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                สมาชิก
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-3 align-self-center">
+                                                                        <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="100" style="border-radius:50%"/>
+                                                                        <input type="file" id="myfile" style="display: none;"/>
                                                                     </div>
-                                                                    <div class="row mb-2">
-                                                                        <label class="col-sm-4">สถานะ</label>
-                                                                        <select class="col-sm-8 form-select form-select-sm">
-                                                                            <option value=""></option>
-                                                                        </select>
-                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="row mb-2">
+                                                                            <label class="col-sm-4">ประเภท</label>
+                                                                            <input type="text" class="col-sm-8 form-control-modal" name="member_package" required>
+                                                                        </div>
+                                                                        <div class="row mb-2">
+                                                                            <label class="col-sm-4">สถานะ</label>
+                                                                            <select class="col-sm-8 form-select form-select-sm">
+                                                                                <option value=""></option>
+                                                                            </select>
+                                                                        </div>
+    
+                                                                        <h2 class="text-center" id="mem_no">M000000</h2>
+                                                                        <input type="hidden" name="memberno" id="memberno" value="" >
 
-                                                                    <h2 class="text-center">M000000</h2>
-
-                                                                    <div class="row">
-                                                                        <label class="col-sm-4">วันหมดอายุ</label>
-                                                                        <input type="text" class="col-sm-8 form-control-modal" required>
+    
+                                                                        <div class="row">
+                                                                            <label class="col-sm-4">วันหมดอายุ</label>
+                                                                            <input type="date" class="col-sm-8 form-control-modal" name="expiry_date" required>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 mb-3">
-                                                            <label>คำนำหน้า</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label>ชื่อ</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label>นามสกุล</label>
-                                                            <input type="text" class="form-control-modal" required>
+                                                    <div class="col-sm-5">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 mb-2">
+                                                                <label>คำนำหน้า</label>
+                                                                <input type="text" class="form-control-modal" id="title_name" name="title_name" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-12 mb-2">
+                                                                <label>ชื่อ</label>
+                                                                <input type="text" class="form-control-modal" id="first_name" name="first_name" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-12 mb-2">
+                                                                <label>นามสกุล</label>
+                                                                <input type="text" class="form-control-modal" id="last_name" name="last_name" value="" required>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>เบอร์โทรศัพท์</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>ประเภทรถ</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>ทะเบียนรถ</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>จังหวัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <label>หมายเหตุ</label>
-                                                    <input type="text" class="form-control-modal" required>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label>เบอร์โทรศัพท์</label>
+                                                        <input type="text" class="form-control-modal" id="phone" name="phone" value="" required>
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label>ประเภทรถ</label>
+                                                        <select class="form-select form-select-sm">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label>ทะเบียนรถ</label>
+                                                        <input type="text" class="form-control-modal" id="license_plate" name="license_plate" value="" required>
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label>จังหวัด</label>
+                                                        <input type="text" class="form-control-modal" id="province" name="province" value="" required>
+                                                    </div>
+                                                    <div class="col-sm-12 mb-2">
+                                                        <label>หมายเหตุ</label>
+                                                        <input type="text" class="form-control-modal" id="remark" name="remark" value="" required>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer footer-center">
-                                            <button type="button" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
-                                        </div>
+                                            <div class="modal-footer footer-center">
+                                                <button type="submit" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
+                                            </div>
+                                        </form>
+
                                       </div>
                                     </div>
                                   </div>
@@ -405,166 +653,74 @@
                                         <div class="bg-blue-modal">
                                             <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-sm-3 text-center">
-                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
-                                                    <input type="file" id="myfile" style="display: none;"/>
-                                                    <h4>M000000</h4>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <label><span class="text-red">*</span> คำนำหน้า</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-8">
-                                                            <label><span class="text-red">*</span> ชื่อ-นามสกุล</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label><span class="text-red">*</span> ประเภทรถ</label>
-                                                            <select class="form-select form-select-sm">
-                                                                <option value=""></option>
-                                                            </select>
-                                                        </div>
+                                        <form action="{{url_for('addvip')}}" method="POST">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 text-center">
+                                                        <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="120" style="border-radius:50%"/>
+                                                        <input type="file" id="myfile" style="display: none;"/>
+                                                        <h4 id="mem_no">V000000</h4>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> ทะเบียนรถ</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> จังหวัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                            </div>
-                                            <h6 class="mt-4 mb-3 text-center bg-label">รายละเอียดหน่วยงาน</h6>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <label><span class="text-red">*</span> หน่วยงาน</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> สังกัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label><span class="text-red">*</span> หน้าที่</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer footer-center">
-                                            <button type="button" class="btn btn-danger col-8" data-bs-dismiss="modal">ยืนยันข้อมูล</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <!-- Modal 2 : VIP -->
-                                  <div class="modal fade" id="editVIPModal" tabindex="-1" aria-labelledby="editVIPModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content modal-content-jpark modal-width">
-                                        <div class="modal-header modal-header-jpark">
-                                          <h5 class="modal-title" id="editVIPModalLabel">จัดการข้อมูล VIP</h5>
-                                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="bg-blue-modal">
-                                            <h6 class="mx-3 my-2"><i class="fas fa-caret-right"></i> รายละเอียดสมาชิก</h6>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-sm-6 mb-2">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            สมาชิก
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="row">
-                                                                <div class="col-3 align-self-center">
-                                                                    <img id="image" src="{{url_for('static', filename='image/uploadimg.png')}}" width="88" style="border-radius:50%"/>
-                                                                    <input type="file" id="myfile" style="display: none;"/>
-                                                                </div>
-                                                                <div class="col-9">
-                                                                    <div class="row mb-2">
-                                                                        <label class="col-sm-4">หน่วยงาน</label>
-                                                                        <select class="col-sm-8 form-select form-select-sm">
-                                                                            <option value=""></option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="row mb-2">
-                                                                        <label class="col-sm-4">สถานะ</label>
-                                                                        <select class="col-sm-8 form-select form-select-sm">
-                                                                            <option value=""></option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <h2 class="text-center">V000000</h2>
-                                                                </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label><span class="text-red">*</span> คำนำหน้า</label>
+                                                                <input type="text" class="form-control-modal" name="title_name" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label><span class="text-red">*</span> ชื่อ</label>
+                                                                <input type="text" class="form-control-modal" name="first_name" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label><span class="text-red">*</span>นามสกุล</label>
+                                                                <input type="text" class="form-control-modal" name="last_name" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label><span class="text-red">*</span> เบอร์โทรศัพท์</label>
+                                                                <input type="text" class="form-control-modal" name="phone" value="" required>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label><span class="text-red">*</span> ประเภทรถ</label>
+                                                                <select class="form-select form-select-sm" name="car_type">
+                                                                    <option value="car">รถยนต์</option>
+                                                                    <option value="Motorcycles">จักรยานยนต์</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-12 mb-3">
-                                                            <label>คำนำหน้า</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label>ชื่อ</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label>นามสกุล</label>
-                                                            <input type="text" class="form-control-modal" required>
-                                                        </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> ทะเบียนรถ</label>
+                                                        <input type="text" class="form-control-modal" name="license_plate" value="" required>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> จังหวัด</label>
+                                                        <input type="text" class="form-control-modal" name="province" value="" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <label>เบอร์โทรศัพท์</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>ประเภทรถ</label>
-                                                    <select class="form-select form-select-sm">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>ทะเบียนรถ</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>จังหวัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>สังกัด</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label>หน้าที่</label>
-                                                    <input type="text" class="form-control-modal" required>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <label>หมายเหตุ</label>
-                                                    <input type="text" class="form-control-modal" required>
+                                                <h6 class="mt-4 mb-2 text-center bg-label">รายละเอียดหน่วยงาน</h6>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label><span class="text-red">*</span> หน่วยงาน</label>
+                                                        <select class="form-select form-select-sm">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> สังกัด</label>
+                                                        <input type="text" class="form-control-modal" name="member_package" value="" required>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label><span class="text-red">*</span> หน้าที่</label>
+                                                        <select class="form-select form-select-sm" name="position">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer footer-center">
-                                            <button type="button" class="btn btn-add-member col-8">ยืนยันการแก้ไข</button>
-                                        </div>
+                                            <div class="modal-footer footer-center">
+                                                <button type="submit" class="btn btn-danger col-8">ยืนยันข้อมูล</button>
+                                            </div>
+                                        </form>
                                       </div>
                                     </div>
                                   </div>
@@ -578,6 +734,52 @@
 
 
     <script>
+
+        //edit vip
+        $( ".btn-renew.vip-no" ).click(function() {
+            var mem_no = $(this).attr('data-vip-no');
+            $.getJSON("/editvip/json?mem_no=" + mem_no, function(data) {
+                $("#editvipForm #vip_no").html(data.mem_no);
+                $("#editvipForm #vip_memberno").val(data.mem_no);
+                $("#editvipForm #first_name").val(data.first_name);
+                $("#editvipForm #title_name").val(data.title_name);
+                $("#editvipForm #last_name").val(data.last_name);
+                $("#editvipForm #phone").val(data.phone);
+                $("#editvipForm #car_type").val(data.car_type);
+                $("#editvipForm #province").val(data.province);
+                $("#editvipForm #license_plate").val(data.license_plate);
+            });
+        });
+        //edit member
+        $( ".btn-edit-2.btn-sm.remem-no" ).click(function() {
+            var mem_no = $(this).attr('data-remem-no');
+            $.getJSON("/renewmember/json?mem_no=" + mem_no, function(data) {
+                $("#renewForm #mem_no").html(data.mem_no);
+                $("#renewForm #memberno").val(data.mem_no);
+                $("#renewForm #first_name").val(data.first_name);
+                $("#renewForm #title_name").val(data.title_name);
+                $("#renewForm #last_name").val(data.last_name);
+                $("#renewForm #phone").val(data.phone);
+                $("#renewForm #car_type").val(data.car_type);
+                $("#renewForm #province").val(data.province);
+                $("#renewForm #license_plate").val(data.license_plate);
+            });
+        });
+        //ต่ออายุ member
+        $( ".btn-renew.mem-no" ).click(function() {
+            var mem_no = $(this).attr('data-mem-no');
+            $.getJSON("/editmember/json?mem_no=" + mem_no, function(data) {
+                $("#renewMemberForm #mem_no").html(data.mem_no);
+                $("#renewForm #memberno").val(data.mem_no);
+                $("#renewMemberForm #first_name").val(data.first_name);
+                $("#renewMemberForm #title_name").val(data.title_name);
+                $("#renewMemberForm #last_name").val(data.last_name);
+                $("#renewMemberForm #phone").val(data.phone);
+                $("#renewMemberForm #car_type").val(data.car_type);
+                $("#renewMemberForm #province").val(data.province);
+                $("#renewMemberForm #license_plate").val(data.license_plate);
+            });
+        });
         // Search
         $(document).ready(function () {
             $("#search").on("keyup", function () {
@@ -612,7 +814,13 @@
             })
         })
 
-
+        //กำหนดไอดีให้กับปุ่มแก้ไขแต่ละปุ่ม
+        $(document).ready(function(){
+            $("#button1").click(function () {
+                var passedID = $(this).data('id');//get the id of the selected button
+                $('input[name="id"]').val(passedID);//set the id to the input on the modal
+            });
+        });
 
         // Upload Image
         $('#image').click(function(){

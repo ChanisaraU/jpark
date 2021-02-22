@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่จอด</h6>
-                                            <span class="h2 text-red">140</span> <span class="h6">คัน</span>
+                                            <span class="h2 text-red">{{total_car_status0}}</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่ว่าง</h6>
-                                            <span class="h2 text-green">110</span> <span class="h6">คัน</span>
+                                            <span class="h2 text-green">{{total_car}}</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                         <div class="col-8">
                                             <div class="card shadow mb-2" style="border-radius: 34px;background: #f1f1f1;">
                                                 <div class="card-body">
-                                                    <span class="license-font">7กญ3603</span>
+                                                    <span class="license-font" id="license_plate"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                             <label for="province" class="col-form-label text-blue">จังหวัด</label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <div class="form-control" id="province" readonly></div>
+                                            <div class="form-control" id="province"></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -107,7 +107,7 @@
                                             <label for="insert_date" class="col-form-label text-blue">เวลาเข้า</label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <div class="form-control" id="insert_date" readonly></div>
+                                            <div class="form-control" id="timeIn"></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -119,7 +119,7 @@
                                             <label for="car_type" class="col-form-label text-blue">ประเภทรถ</label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <div class="form-control" id="car_type" readonly></div>
+                                            <div class="form-control" id="car_type"></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -129,11 +129,11 @@
                                         <div class="col-md-1"></div>
                                         <div class="col-md-3">
                                             <label class="col-form-label text-blue">ค่าจอด<br>(รถจักรยานยนต์)</label>
-                                            <input type="number" class="form-control" id="amount" value="{{amount}}" readonly hidden>
-                                            <input type="hidden" name="original_amount" id="original_amount" value="{{amount}}">
+                                            <!-- <input type="number" class="form-control" id="amount" value="{{amount}}" readonly hidden> -->
+                                            <input type="hidden" name="original_amount" id="price" >
                                         </div>
                                         <div class="col-sm-7">
-                                            <div class="form-control" id="car_type" readonly></div>
+                                            <div class="form-control" id="car_type" ></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -149,7 +149,7 @@
                                             <!-- <p id="datalist" hidden></p> -->
                                         </div>
                                         <div class="col-md-7">
-                                            <div class="form-control" name="first_name" id="livebox" readonly></div>
+                                            <div class="form-control" name="first_name" id="name_"></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -161,7 +161,7 @@
                                             <label for="member_type" class="col-form-label text-blue">ประเภทสมาชิก</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <div class="form-control" id="member_type" readonly></div>
+                                            <div class="form-control" id="mem_type" ></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -173,7 +173,7 @@
                                             <label for="expiry_date" class="col-form-label text-blue">วันที่หมดอายุ</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <div class="form-control" id="expiry_date" readonly></div>
+                                            <div class="form-control" id="expi" ></div>
                                         </div>
                                         <div class="col-md-1"></div>
                                     </div>
@@ -264,5 +264,67 @@
     </script>
 
 </body>
+<script id ="socket" src="http://203.154.99.225:7003/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+   
+    <script type="text/javascript"  charset="utf-8">
+    var licenP;
+    var lp = document.getElementById("license_plate");
+    var prov;
+    var province = document.getElementById("province");
+    var time;
+    var timeIn = document.getElementById("timeIn");
+    var carT;
+    var car_type = document.getElementById("car_type");
+    var name_ ;
+    var name_mem = document.getElementById("name_"); //ชื่อลูกค้า
+    var expi_;
+    var expi = document.getElementById("expi");
+    var memT;
+    var memType = document.getElementById("mem_type")
 
+    var price_;
+    var price = document.getElementById("price");
+    
+    
+
+     var socket = io.connect('http://203.154.99.225:7003');
+      socket.on('car_in',function(data) {
+        licenP= data.license_plate;
+        lp.innerHTML = licenP;
+        lp.innerHTML = lp.innerHTML;
+
+        prov = data.province;
+        province.innerHTML = prov;
+        province.innerHTML =  province.innerHTML;
+
+        time= data.time_in;
+        timeIn.innerHTML = time;
+        timeIn.innerHTML = timeIn.innerHTML;
+        
+        carT = data.car_type;
+        car_type.innerHTML = carT;
+        car_type.innerHTML =  car_type.innerHTML;
+        /////////////////////////////
+        name_ = data.name;
+        name_mem.innerHTML = name_;
+        name_mem.innerHTML=name_mem.innerHTML;
+
+        expi_ = data.expi;
+        expi.innerHTML = expi_;
+        expi.innerHTML= expi.innerHTML;
+
+        memT = data.memberType;
+        memType.innerHTML = memT;
+        memType.innerHTML = memType.innerHTML;
+
+        price_ = data.price;
+        price.innerHTML = price_;
+        price.innerHTML  =  price.innerHTML ;
+
+
+      });
+     
+
+    </script>
 </html>

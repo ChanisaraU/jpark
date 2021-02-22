@@ -1,13 +1,5 @@
 from db_config import mysql  # import sql
 
-def __init__(self, fines, discount, receieve, changes, gate):
-        self.fines = fines
-        self.discount = discount
-        self.receieve = receieve
-        self.changes = changes
-        self.gate = gate
-
-
 def cal_fines(fines,gate):
 
     mycursor = mysql.connection.cursor()

@@ -3,10 +3,6 @@ import datetime
 import math
 from datetime import datetime, timedelta, date, time
 
-import socket    
-hostname = socket.gethostname()    
-IPAddr = socket.gethostbyname(hostname)  
-
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -19,32 +15,14 @@ mydb = mysql.connector.connect(
 def get_hour(delta):
     return delta.seconds/3600
 
-hostname = socket.gethostname()    
-IPAddr = socket.gethostbyname(hostname)  
-
-def IP_Address() :  
-    if IPAddr == '192.168.1.48' :
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where gate = 0"
-    elif IPAddr == '172.17.15.49' :    
-        zero = "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where gate = 1"
-    return zero
-
-
-def Where_id() :
-    if IPAddr == '192.168.1.48' :
-        id = "where id = 1"
-    elif IPAddr == '172.17.15.49' :    
-        id = "where id = 1"
-    return id
-# print(type(Where_id()))
+# mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
 
 def cal_Price():
     mycursor = mydb.cursor()
-    # mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from parking_log ORDER BY date_out DESC, time_out DESC LIMIT 1")
-    # "select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out from test_log where id = 0"
-    
-    mycursor.execute(IP_Address())
+    mycursor.execute("select date_in,time_in,date_out, TIME_FORMAT(time_out, '%T') as time_out,id from test_log where gate = 0")
     myresult = mycursor.fetchall()
+    
+
     if not myresult[0][1]:
         y = list(myresult[0])
         y[1] = '00:00:00'
@@ -55,7 +33,7 @@ def cal_Price():
         y[3] = '00:00:00'
         myresult[0] = tuple(y)
 
-    for (date_in, time_in, date_out, time_out) in myresult:
+    for (date_in, time_in, date_out, time_out ,id) in myresult:
         checkHourIn = str(time_in).split(":")
         if len(checkHourIn[0])== 1 :
             checkHourIn[0]= "0"+checkHourIn[0]
@@ -104,21 +82,32 @@ def cal_Price():
 
                 if date_in >= date_out and not last:
                     last = True
-
-            cal_amount(price)  # ค่าเงินจอดรถ
-    
-        excluding_vat = (price * 100 )/107   
-
+        
+        cal_amount(price)  # ค่าเงินจอดรถ
+        cal_amount_parking(price,id)
+        # print(price)
+        excluding_vat = (price * 100 )/107  
+        
         vat = price - excluding_vat
         vat = '{0:.2f}'.format(float(vat))
+        excluding_vat = '{0:.2f}'.format(float(excluding_vat))
         cal_excluding_vat(excluding_vat)
         cal_vat(vat)
-        return price
+        return price ,excluding_vat ,vat
+
+
+def cal_amount_parking(price,id):
+    mycursor = mydb.cursor()
+    sql_parking = "update parking_log set amount = %s where id = %s "
+    val = (price,id)
+    mycursor.execute(sql_parking, val)
+    mydb.commit()
+    mycursor.close()
 
 
 def cal_amount(price):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set amount = %s"+" "+ Where_id()
+    sql_parking = "update test_log set amount = %s where gate = 0 "
     val = (price,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
@@ -127,7 +116,7 @@ def cal_amount(price):
 
 def cal_excluding_vat(excluding_vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set excluding_vat = %s"+" "+ Where_id()
+    sql_parking = "update test_log set excluding_vat = %s where gate = 0 "
     val = (excluding_vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
@@ -136,8 +125,10 @@ def cal_excluding_vat(excluding_vat):
 
 def cal_vat(vat):
     mycursor = mydb.cursor()
-    sql_parking = "update test_log set vat = %s"+" "+ Where_id()
+    sql_parking = "update test_log set vat = %s where gate = 0 "
     val = (vat,)
     mycursor.execute(sql_parking, val)
     mydb.commit()
     mycursor.close()
+
+# print(cal_Price())    
