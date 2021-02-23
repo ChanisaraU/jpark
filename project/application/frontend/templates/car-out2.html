@@ -36,7 +36,7 @@
                 {% include "comp/header.html" %}
 
                 <div class="container-fluid">
-                    <div class="row text-center">
+                    <div class="row text-center" style="zoom:80%">
                         <div class="col-lg-4">
                             <div class="card shadow">
                                 <div class="card-body">
@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่จอด</h6>
-                                            <span class="h2 text-red">{{total_car_status0}}</span> <span class="h6">คัน</span>
+                                            <span class="h2 text-red">150</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-7 text-left">
                                             <h6 class="card-title">จำนวนรถที่ว่าง</h6>
-                                            <span class="h2 text-green">{{total_car}}</span> <span class="h6">คัน</span>
+                                            <span class="h2 text-green">105</span> <span class="h6">คัน</span>
                                         </div>
                                     </div>
                                 </div>
@@ -88,125 +88,148 @@
                         </div>
                     </div>
 
-                    <div class="row align-items-center">
+                    <div class="row mt-3">
                         <div class="col-lg-5">
-                            <img src="{{ url_for('video_feed', id='2') }}" class="img-calc">
+                            <img src="{{ url_for('video_feed', id='1') }}" class="img-calc">
                             <div class="row mt-2">
                                 <div class="col">
-                                    <img id="img_in" class="img-calc">
-                                    <p class="text-center">รูปขาเข้า</p>
+                                    <img id="img_in" class="img-calc-2">
+                                    <p class="text-center mb-0">รูปขาเข้า</p>
                                 </div>
                                 <div class="col">
-                                    <img id="img_out" class="img-calc">
-                                    <p class="text-center">รูปขาออก</p>
+                                    <img id="img_out" class="img-calc-2">
+                                    <p class="text-center mb-0">รูปขาออก</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12 text-blue" style="zoom: 80%;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="first_name"
+                                            class="col-form-label text-blue">ชื่อ-นามสกุล</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-control-test p" id="name_" style="background: #f1f1f1;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-blue" style="zoom: 80%;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="member_type"
+                                            class="col-form-label text-blue">ประเภทสมาชิก</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-control-test p" id="mem_type" style="background: #f1f1f1;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="zoom: 80%;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="expiry_date"
+                                            class="col-form-label text-blue">วันที่หมดอายุ</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-control-test p" id="expi" style="background: #f1f1f1;"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-7 mt-2" style="zoom: 70%;">
-                            <div class="row g-2 mt-2">
-                                <div class="col-md-6 text-center">
+                        <div class="col-lg-7" style="zoom: 78%;">
+                            <div class="row g-2">
+                                <div class="col-md-6 text-center mt-4">
                                     <h5 class="text-blue">ป้ายทะเบียนรถ</h5>
-                                    <div class="form-control" id="license_plate"></div>
-                                    <div class="fw-normal" id="province"></div>
+                                    <!-- <p class="text-blue2" style="font-size: 5rem;">7กญ3603</p> -->
+                                    <h3 class="text-blue2" style="font-size: 5rem;" id="license_plate"></h3>
+                                    <div class="fw-normal" style="font-size: 1.5rem;margin-top: -1.5rem;" id="province"></div>
+                                    <!-- <div class="fw-normal" style="font-size: 1.5rem;margin-top: -1.5rem;">กรุงเทพมหานคร</div> -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-2">
-                                        <div class="form-control" id="timeIn"></div>
+                                        <div class="form-control" id="timeIn" style="font-size: 1rem;border: 0;background: #f1f1f1;"></div>
                                         <label for="time_out">เวลาเข้า</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <div type="text" class="form-control" id="total_time"></div>
+                                        <div class="form-control" id="timeIn" style="font-size: 1rem;border: 0;background: #f1f1f1;"></div>
+                                        <label for="time_out">เวลาออก</label>
+                                    </div>
+                                    <div class="form-floating mb-2">
+                                        <div class="form-control" id="total_time" style="font-size: 1rem;border: 0;background: #f1f1f1;"></div>
                                         <label for="insert_date">เวลาจอด</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12 px-5 mb-0">
                                     <hr>
                                 </div>
-                                <form class="row" method="POST" id="form">
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-2">
-                                            <input type="number" value="0" min="0" class="form-control input-field"
-                                                style="border: 3px solid #B4C8E2;" name="discount" id="discount">
-                                            <label for="discount">คูปอง</label>
-                                        </div>
-                                        <div class="form-floating">
-                                            <input type="number" value="0" min="0" class="form-control input-field"
-                                                style="border: 3px solid #B4C8E2;" name="fines" id="fines">
-                                            <label for="fines">ค่าปรับ</label>
-                                        </div>
-                                        <div class="form-check my-2 mx-3">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                id="flexRadioDefault1" checked>
-                                            <label class="form-check-label" for="flexRadioDefault1">
-                                                เงินสด
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 text-blue">
+                                <form method="POST" id="form">
+                                    <div class="col-md-12 text-blue">
                                         <div class="text-center">
                                             <label for="amount" class="form-label h5">ค่าจอดรถ</label>
-                                            <div type="number" class="form-control input-parking-fee shadow" id="price">
+                                            <div type="number" class="form-control input-parking-fee shadow" id="price" style="font-size: 3rem;
+                                            color: #0800ff !important;">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-2">
+                                                <input type="number" value="0" min="0" class="form-control input-field"
+                                                    style="border: 3px solid #B4C8E2;" name="" id="">
+                                                <label for="discount">เลขที่คูปอง</label>
                                             </div>
-                                            <input type="hidden" name="ID" id="ID" ><br>
-                                            <input type="hidden" name="license" id="license" >
-                                            <input type="hidden" name="time_in" id="time_in" >
-                                            <input type="hidden" name="time_out" id="time_out" >
-                                            <input type="hidden" name="time_total" id="time_total" >
-                                            <input type="hidden" name="amount" id="amount" >
-
+                                            <div class="form-floating mb-2">
+                                                <input type="number" value="0" min="0" class="form-control input-field"
+                                                    style="border: 3px solid #B4C8E2;" name="discount" id="discount">
+                                                <label for="discount">คูปอง</label>
+                                            </div>
+                                            <div class="form-floating">
+                                                <input type="number" value="0" min="0" class="form-control input-field"
+                                                    style="border: 3px solid #B4C8E2;" name="fines" id="fines">
+                                                <label for="fines">ค่าปรับ</label>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <span>
+                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                                                    <label class="btn-outline-money width-btn-money" for="btnradio1">เงินสด</label>
+                                                </span>
+                                                <span>
+                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio2" autocomplete="off">
+                                                    <label class="btn-outline-money width-btn-money" for="btnradio2">Banking</label>
+                                                </span>
+                                                <span>
+                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio3" autocomplete="off">
+                                                    <label class="btn-outline-money width-btn-money" for="btnradio3">True Money</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-blue">
+                                            <div class="text-center">
+                                                <label for="receieve" class="form-label h5">เงินที่ได้รับ</label>
+                                                <input type="text" name="receieve" class="form-control shadow input-field"
+                                                style="border-radius: 34px;border: 3px solid #B4C8E2;font-size: 2.75rem;" id="receieve"
+                                                type="number" value="0" min="0">
+                                            </div>
+                                            <div class="text-center mt-2">
+                                                <label for="changes" class="form-label h5">เงินทอน</label>
+                                                <input type="text" class="form-control shadow"
+                                                    style="border-radius: 34px;font-size: 2.75rem;" id="changes"
+                                                    name="changes" readonly>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 text-center text-blue">
-                                        <label for="receieve" class="form-label h5">เงินที่ได้รับ</label>
-                                        <input type="text" name="receieve" class="form-control shadow input-field"
-                                            style="border-radius: 34px;border: 3px solid #B4C8E2;" id="receieve"
-                                            type="number" value="0" min="0">
-                                    </div>
 
-                                    <div class="col-md-6 text-center text-blue">
-                                        <label for="changes" class="form-label h5">เงินทอน</label>
-                                        <input type="text" class="form-control shadow"
-                                            style="border-radius: 34px;color: #F72C25 !important;" id="changes"
-                                            name="changes" readonly>
-                                        <button type="submit" id="finish" class="btn btn-primary btn-sm mt-2 col-4">ยืนยัน</button>
+                                    <div class="col-md-12 mt-2">
+                                        <button type="submit" id="finish" class="btn btn-primary col-12 btn-lg" style="background-color: #E66767;
+                                        border-color: #E66767;">ยืนยัน</button>
                                     </div>
                                 </form>
-                                <div class="col-md-12 px-5">
-                                    <hr>
-                                </div>
-                                <div class="col-md-12 text-blue">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="first_name"
-                                                class="col-form-label text-blue">ชื่อ-นามสกุล</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-control-test p" id="name_"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 text-blue">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="member_type"
-                                                class="col-form-label text-blue">ประเภทสมาชิก</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-control-test p" id="mem_type"></div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="col-md-12 text-blue mb-3">
                                     <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="expiry_date"
-                                                class="col-form-label text-blue">วันที่หมดอายุ</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-control-test p" id="expi"></div>
-                                        </div>
                                         <div class="col-md-4 m-0 p-0">
-                                            <a href="{{ url_for('receipt_two') }}" target="_blank" type="button"
+                                            <a href="{{ url_for('receipt') }}" target="_blank" type="button"
                                                 class="btn btn-primary floating-button">
                                                 <i class="fas fa-print"></i> พิมพ์ใบเสร็จ
                                             </a>
@@ -226,6 +249,19 @@
 
     <!-- Timeline JS-->
     <script type="text/javascript">
+
+    //   $(function() { //คลิกยืนยัน
+    //     $('#finish').on('click', function(e) {
+    //       e.preventDefault()
+    //       $.getJSON('/background_process_test',
+    //           function(data) {
+    //         //ฟังก์ชั่น /background_process_test ทำงาน
+    //       });
+    //       return false;
+    //     });
+    //   });
+
+
         var display = setInterval(function () { Time() }, 0);
         function Time() {
             var date = new Date();
@@ -249,14 +285,14 @@
 
             $(document).ready(function () {
                 $('#fines, #discount, #receieve').on('keyup', function () {
-                    var original = (parseInt(document.getElementById("price").innerHTML))
+                    var original = parseInt($('#original_amount').val());
+                    var gate = parseInt($('#gate').val());
                     var fines = parseInt($('#fines').val());
                     var discount = parseInt($('#discount').val());
                     var receieve = parseInt($('#receieve').val());
-                    console.log(fines , 'fines' , discount, 'discount' , receieve, 'receieve')
                     var total = original + fines - discount;
-                    console.log(total, 'total')
-                    var changes = receieve - total;
+                    var changes = receieve - total; +
+                        $('#amount').val(total);
                     $('#changes').val(changes);
                 })
             });
@@ -272,8 +308,8 @@
     </script>
 </body>
 
-<!-- รับ socket จาก port 7001 -->
-<script id ="socket" src="http://203.154.99.225:7001/socket.io/socket.io.js"></script>
+<!-- รับ socket จาก port 7000 -->
+<script id ="socket" src="http://localhost:7000/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
    
     <script type="text/javascript"  charset="utf-8">
@@ -303,8 +339,8 @@
     var ID_;
     var ID = document.getElementById("ID");
 
-     var socket = io.connect('http://203.154.99.225:7001');
-      socket.on('carout2',function(data) {
+     var socket = io.connect('http://localhost:7000');
+      socket.on('hi',function(data) {
         licenP= data.license_plate;
         lp.innerHTML = licenP;
         lp.innerHTML = lp.innerHTML;
@@ -346,18 +382,9 @@
         price.innerHTML = price_;
         price.innerHTML  =  price.innerHTML ;
 
-        $('#ID').val(data.id);
-        $('#amount').val(data.price);
-        $('#license').val(data.license_plate);
-        $('#time_in').val(data.time_in);
-        $('#time_out').val(data.time_out);
-        $('#time_total').val(data.total_time);
-
-        // ID_ = data.id;
-        // ID.innerHTML = ID_;
-        // ID.innerHTML =  ID.innerHTML;
-        
-       
+        ID_ = data.id;
+        ID.innerHTML = ID_;
+        ID.innerHTML =  ID.innerHTML;
 
 
 
