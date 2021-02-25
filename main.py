@@ -1,5 +1,5 @@
 from flask_paginate import Pagination, get_page_parameter
-from flask_restful import Api,Resource, abort ,reqparse
+from flask_restful import Api, Resource, abort, reqparse
 from flask_sqlalchemy import SQLAlchemy, Model
 from openGate import control_Gate
 from member import member
@@ -14,7 +14,7 @@ from app import app
 from db_config import mysql  # import sql
 import cv2
 import time
-from datetime import datetime ,date
+from datetime import datetime, date
 import socket
 import io
 import xlwt
@@ -24,7 +24,7 @@ import pdfkit
 path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
 
-now = datetime.now() # current date and time
+now = datetime.now()  # current date and time
 year = now.strftime("%Y")
 year_two = now.strftime("%y")
 month = now.strftime("%m")
@@ -34,6 +34,7 @@ date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 today = datetime.today()
 today_date = date.today()
 time_h = now.strftime("%H:%M")
+
 
 def find_camera(id):
     cameras = ['rtsp://admin:ap123456789@172.16.6.4/profile3',
@@ -112,7 +113,7 @@ def monitorout():
     cursor3.execute(sql3, val)
     member1 = cursor3.fetchone()
 
-    price ,excluding_vat ,vat = member()
+    price, excluding_vat, vat = member()
     if member1:
         mem_type = member1[2]
         expiry_date = member1[11]
@@ -169,8 +170,8 @@ def login():
             cursor.execute(sql, val)
             mysql.connection.commit()
             cursor.close()
-            
-            return redirect(url_for('transaction') )
+
+            return redirect(url_for('transaction'))
         else:
             sql = 'select * from user_admin where user_name = %s'
             cursor.execute(sql, (username,))
@@ -225,6 +226,7 @@ def livesearch():
         mycursor.close()
         return 'success'
 
+
 @app.route('/showled')  # แสดงจำนวนรถที่ว่าง
 def showled():
     if session['username'] != " ":
@@ -236,13 +238,13 @@ def showled():
         # print(result[0][0]) จำนวนรถที่มีสถานะเป็น 0 (จอดอยู่)
         total_car_status0 = result[0][0]
 
-    if total_car_status0  < 1000:
+    if total_car_status0 < 1000:
         diff = 1000 - total_car_status0
         colored = {'color': 'green'}
     else:
         diff = "FULL"
         colored = {'color': 'red'}
-    return render_template('showled.html',diff=diff, colored=colored) 
+    return render_template('showled.html', diff=diff, colored=colored)
 
 
 @app.route('/car-in')  # ข้อมูลรถเข้าลานจอด
@@ -251,12 +253,12 @@ def car_in():
         mycursor = mysql.connection.cursor()
         query = "select COUNT(*) from parking_log where status='0' AND date_in=%s"
         val = (today_date,)
-        mycursor.execute(query,val)
+        mycursor.execute(query, val)
         result = mycursor.fetchall()
         # print(result[0][0]) จำนวนรถที่มีสถานะเป็น 0 (จอดอยู่)
         total_car_status0 = result[0][0]
-        total_car = 1000-total_car_status0 
-        return render_template('car-in.html',total_car_status0=total_car_status0,total_car=total_car)
+        total_car = 1000-total_car_status0
+        return render_template('car-in.html', total_car_status0=total_car_status0, total_car=total_car)
 
 
 @app.route('/car-out1', methods=["POST"])
@@ -282,19 +284,20 @@ def current():
     fines = request.form.get("fines")  # ค่าปรับ
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
-    gate = request.form.get("ID") #id 
+    gate = request.form.get("ID")  # id
     license_plate = request.form.get("license")
     time_in = request.form.get("time_in")
     time_out = request.form.get("time_out")
     total_time = request.form.get("time_total")
     amount = request.form.get("amount")
-    
+
     cal_discount(discount, gate)
     cal_fines(fines, gate)
-    cal_receieve(receieve,gate)
-    cal_changes(changes,gate)
-   
-    record_receipt(TAX_ID, POS_ID, today, receipt_no, cashier_box, user,date,license_plate,discount ,fines ,changes ,receieve,time_in, time_out,total_time,amount)
+    cal_receieve(receieve, gate)
+    cal_changes(changes, gate)
+
+    record_receipt(TAX_ID, POS_ID, today, receipt_no, cashier_box, user, date, license_plate,
+                   discount, fines, changes, receieve, time_in, time_out, total_time, amount)
 
     return maindown()
 
@@ -322,19 +325,20 @@ def current2():
     fines = request.form.get("fines")  # ค่าปรับ
     receieve = request.form.get("receieve")  # เงินที่ได้รับ
     changes = request.form.get("changes")  # เงินทอน
-    gate = request.form.get("ID") #id 
+    gate = request.form.get("ID")  # id
     license_plate = request.form.get("license")
     time_in = request.form.get("time_in")
     time_out = request.form.get("time_out")
     total_time = request.form.get("time_total")
-    
+
     cal_discount(discount, gate)
     cal_fines(fines, gate)
-    cal_receieve(receieve,gate)
-    cal_changes(changes,gate)
-   
-    record_receipt(TAX_ID, POS_ID, today, receipt_no, cashier_box, user,date,license_plate,discount ,fines ,changes ,receieve,time_in, time_out,total_time)
-    
+    cal_receieve(receieve, gate)
+    cal_changes(changes, gate)
+
+    record_receipt(TAX_ID, POS_ID, today, receipt_no, cashier_box, user, date,
+                   license_plate, discount, fines, changes, receieve, time_in, time_out, total_time)
+
     return maindown_two()
 
 
@@ -344,13 +348,13 @@ def maindown():
         mycursor = mysql.connection.cursor()
         query = "select COUNT(*) from parking_log where status='0' AND date_in=%s"
         val = (today_date,)
-        mycursor.execute(query,val)
+        mycursor.execute(query, val)
         result = mycursor.fetchall()
         # print(result[0][0]) จำนวนรถที่มีสถานะเป็น 0 (จอดอยู่)
         total_car_status0 = result[0][0]
-        total_car = 1000-total_car_status0 
-            
-    return render_template('car-out1.html',total_car_status0=total_car_status0,total_car=total_car)
+        total_car = 1000-total_car_status0
+
+    return render_template('car-out1.html', total_car_status0=total_car_status0, total_car=total_car)
 
 
 @app.route('/car-out2', methods=["GET"])  # ข้อมูลรถออกลานจอด
@@ -359,12 +363,12 @@ def maindown_two():
         mycursor = mysql.connection.cursor()
         query = "select COUNT(*) from parking_log where status='0' AND date_in=%s"
         val = (today_date,)
-        mycursor.execute(query,val)
+        mycursor.execute(query, val)
         result = mycursor.fetchall()
         # print(result[0][0]) จำนวนรถที่มีสถานะเป็น 0 (จอดอยู่)
         total_car_status0 = result[0][0]
-        total_car = 1000-total_car_status0 
-    return render_template('car-out2.html',total_car_status0=total_car_status0,total_car=total_car)
+        total_car = 1000-total_car_status0
+    return render_template('car-out2.html', total_car_status0=total_car_status0, total_car=total_car)
 
 
 report_header_definition = {
@@ -448,7 +452,7 @@ report_header_definition = {
             "เจ้าหน้าที่"
         ]
     },
-        "amount": {
+    "amount": {
         "api": "/report/table_amount/datatable",
         "title": ["รายงานยอดเงินประจำวัน"],
         "header": [
@@ -475,11 +479,11 @@ def report():
             if report_list != None:
                 return render_template("report.html", report_list=report_list)
 
-        report_name = request.args.get('reports') #รับค่ามาจาก ตัวเลือกหน้า report id="mySelect" name="reports"
+        # รับค่ามาจาก ตัวเลือกหน้า report id="mySelect" name="reports"
+        report_name = request.args.get('reports')
         date_start = request.args.get('date_start')
-        date_end = request.args.get('date_end') 
+        date_end = request.args.get('date_end')
         member_type = request.args.get('member')
-
 
         if not report_name:
             report_name = list(report_header_definition.keys())[0]
@@ -489,13 +493,13 @@ def report():
 
         api_param = "?"
         params = []
-        if date_start :
-            params.append("date_start=" + date_start) # date_in=2020-10-10
+        if date_start:
+            params.append("date_start=" + date_start)  # date_in=2020-10-10
         if date_end:
-            params.append("date_end=" + date_end) # date_out=2020-10-10
-        if member_type :
-            params.append("member=" + member_type)    
-            
+            params.append("date_end=" + date_end)  # date_out=2020-10-10
+        if member_type:
+            params.append("member=" + member_type)
+
         api_param += "&".join(params)
     return render_template("report.html", table_header=table_header, api=api, api_param=api_param, title=title)
 
@@ -543,14 +547,13 @@ def transaction():
         today = now.strftime('%Y-%m-%d')
         cur = mysql.connection.cursor()
         que = "select * from parking_log where date_in = %s ORDER By time_in DESC,date_in DESC LIMIT %s OFFSET %s"
-        cur.execute(que, (today,limit, offset))
+        cur.execute(que, (today, limit, offset))
         data = cur.fetchall()
         cur.close()
 
         pagination = Pagination(page=page, per_page=limit,
                                 total=total, record_name='transaction', css_framework='bootstrap4')
-        return render_template('transaction.html', roles=roles,pagination=pagination, transaction=data, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
-
+        return render_template('transaction.html', roles=roles, pagination=pagination, transaction=data, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
 
 
 @app.route('/transaction/json', methods=['GET', 'POST'])
@@ -559,12 +562,13 @@ def transaction_json():
     cursor = mysql.connection.cursor()
     sql = "select id, car_type ,license_plate ,province  from parking_log where id = %s"
     val = (mem_no,)
-    cursor.execute(sql,val)
+    cursor.execute(sql, val)
     result = cursor.fetchone()
 
     payload = []
     content = {}
-    content = {'id': result[0], 'car_type': result[1], 'license_plate' : result[2], 'province' : result[3]}
+    content = {'id': result[0], 'car_type': result[1],
+               'license_plate': result[2], 'province': result[3]}
     return content
 
 
@@ -591,13 +595,13 @@ def addcar():
         cursor2.execute(sql, val)
         mysql.connection.commit()
         cursor2.close()
-        
+
     return transaction()
 
 
 @app.route('/edit', methods=["POST", "GET"])
 def edit():
-    
+
     id = request.values.get('id')
     license_plate = request.values.get('license_plate')
     province = request.values.get('province')
@@ -717,14 +721,15 @@ def addvip():
     license_plate = request.form.get('license_plate')
     province = request.form.get('province')
     car_type = request.form.get('car_type')
-    modify_by= session['username']
+    modify_by = session['username']
     insert_date = now
     member_type = 'VIP'
     pay_date = date
 
     cursor = mysql.connection.cursor()
     sql = "INSERT INTO member(title_name, first_name,last_name, type, phone,car_type, license_plate, pay_date, province,modify_by,insert_date) VALUES  (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) "
-    val = (title_name, first_name,last_name,member_type, phone,car_type, license_plate, pay_date, province,modify_by,insert_date)
+    val = (title_name, first_name, last_name, member_type, phone,
+           car_type, license_plate, pay_date, province, modify_by, insert_date)
     cursor.execute(sql, val)
     mysql.connection.commit()
     cursor.close()
@@ -741,22 +746,23 @@ def addmember():
     license_plate = request.form.get('license_plate')
     province = request.form.get('province')
     car_type = request.form.get('car_type')
-    modify_by= session['username']
+    modify_by = session['username']
     insert_date = now
     member_type = 'member'
     pay_date = date
 
     cursor2 = mysql.connection.cursor()
     sql = "INSERT INTO member(title_name, first_name,last_name, type, phone,car_type, license_plate, pay_date, province,modify_by,insert_date) VALUES  (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) "
-    
-    val = (title_name, first_name,last_name,member_type, phone,car_type, license_plate, pay_date, province,modify_by,insert_date)
+
+    val = (title_name, first_name, last_name, member_type, phone,
+           car_type, license_plate, pay_date, province, modify_by, insert_date)
     cursor2.execute(sql, val)
     mysql.connection.commit()
     cursor2.close()
-    
+
     return memberdetail()
-    
-    
+
+
 @app.route('/remember', methods=["POST", "GET"])
 def remember():
     cursor2 = mysql.connection.cursor()
@@ -771,7 +777,8 @@ def remember():
     position = request.values.get('position')
     remark = request.values.get('remark')
     sql = "UPDATE member SET title_name=%s, first_name=%s, last_name=%s, phone=%s, license_plate=%s, province=%s, member_package= %s, position= %s, remark= %s WHERE mem_no = %s"
-    val = (title_name, first_name, last_name, phone, license_plate,province, member_package, position, remark, mem_no)
+    val = (title_name, first_name, last_name, phone, license_plate,
+           province, member_package, position, remark, mem_no)
     cursor2.execute(sql, val)
     mysql.connection.commit()
     cursor2.close()
@@ -793,12 +800,14 @@ def editvip():
     position = request.values.get('position')
     remark = request.values.get('remark')
     sql = "UPDATE member SET title_name=%s, first_name=%s, last_name=%s, phone=%s, license_plate=%s, province=%s, member_package= %s, position= %s, remark= %s WHERE mem_no = %s"
-    val = (title_name, first_name, last_name, phone, license_plate,province, member_package, position, remark, mem_no)
+    val = (title_name, first_name, last_name, phone, license_plate,
+           province, member_package, position, remark, mem_no)
     cursor2.execute(sql, val)
     mysql.connection.commit()
     cursor2.close()
 
     return memberdetail()
+
 
 @app.route('/editmember', methods=["POST", "GET"])
 def editmember():
@@ -814,7 +823,8 @@ def editmember():
     position = request.values.get('position')
     remark = request.values.get('remark')
     sql = "UPDATE member SET title_name=%s, first_name=%s, last_name=%s, phone=%s, license_plate=%s, province=%s, member_package= %s, position= %s, remark= %s WHERE mem_no = %s"
-    val = (title_name, first_name, last_name, phone, license_plate,province, member_package, position, remark, mem_no)
+    val = (title_name, first_name, last_name, phone, license_plate,
+           province, member_package, position, remark, mem_no)
     cursor2.execute(sql, val)
     mysql.connection.commit()
     cursor2.close()
@@ -822,19 +832,22 @@ def editmember():
     return memberdetail()
     return render_template('member-detail.html')
 
+
 @app.route('/editmember/json')
 def editmember_json():
     mem_no = request.args.get('mem_no')
     cursor = mysql.connection.cursor()
     sql = "select id, mem_no, title_name, first_name ,phone ,car_type ,license_plate ,province ,last_name from member where type ='Member' and mem_no = %s"
     val = (mem_no,)
-    cursor.execute(sql,val)
+    cursor.execute(sql, val)
     result = cursor.fetchone()
 
     payload = []
     content = {}
-    content = {'id': result[0], 'mem_no' : result[1], 'title_name' : result[2], 'first_name': result[3], 'phone': result[4], 'car_type': result[5], 'license_plate' : result[6], 'province' : result[7] ,'last_name': result[8]}
+    content = {'id': result[0], 'mem_no': result[1], 'title_name': result[2], 'first_name': result[3], 'phone': result[4],
+               'car_type': result[5], 'license_plate': result[6], 'province': result[7], 'last_name': result[8]}
     return content
+
 
 @app.route('/renewmember/json')
 def renewmember_json():
@@ -842,13 +855,15 @@ def renewmember_json():
     cursor = mysql.connection.cursor()
     sql = "select id, mem_no, title_name, first_name ,phone ,car_type ,license_plate ,province ,last_name from member where type ='Member' and mem_no = %s"
     val = (mem_no,)
-    cursor.execute(sql,val)
+    cursor.execute(sql, val)
     result = cursor.fetchone()
 
     payload = []
     content = {}
-    content = {'id': result[0], 'mem_no' : result[1], 'title_name' : result[2], 'first_name': result[3], 'phone': result[4], 'car_type': result[5], 'license_plate' : result[6], 'province' : result[7] ,'last_name': result[8]}
+    content = {'id': result[0], 'mem_no': result[1], 'title_name': result[2], 'first_name': result[3], 'phone': result[4],
+               'car_type': result[5], 'license_plate': result[6], 'province': result[7], 'last_name': result[8]}
     return content
+
 
 @app.route('/editvip/json')
 def editvip_json():
@@ -856,14 +871,16 @@ def editvip_json():
     cursor = mysql.connection.cursor()
     sql = "select id, mem_no, title_name, first_name ,phone ,car_type ,license_plate ,province ,last_name from member where type ='VIP' and mem_no = %s"
     val = (mem_no,)
-    cursor.execute(sql,val)
+    cursor.execute(sql, val)
     result = cursor.fetchone()
 
     payload = []
     content = {}
-    content = {'id': result[0], 'mem_no' : result[1], 'title_name' : result[2], 'first_name': result[3], 'phone': result[4], 'car_type': result[5], 'license_plate' : result[6], 'province' : result[7] ,'last_name': result[8]}
+    content = {'id': result[0], 'mem_no': result[1], 'title_name': result[2], 'first_name': result[3], 'phone': result[4],
+               'car_type': result[5], 'license_plate': result[6], 'province': result[7], 'last_name': result[8]}
 
     return content
+
 
 @app.route('/allCar_11')
 def allCar_datein_11():
@@ -871,28 +888,35 @@ def allCar_datein_11():
     query = "select * from parking_log where date_in='2021-02-11'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_11.html',result=result)
+    return render_template('allCar_11.html', result=result)
+
+
 @app.route('/allCar_12')
 def allCar_datein_12():
     cursor = mysql.connection.cursor()
     query = "select * from parking_log where date_in='2021-02-12'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_12.html',result=result)
+    return render_template('allCar_12.html', result=result)
+
+
 @app.route('/allCar_13')
 def allCar_datein_13():
     cursor = mysql.connection.cursor()
     query = "select * from parking_log where date_in='2021-02-13'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_13.html',result=result)
+    return render_template('allCar_13.html', result=result)
+
+
 @app.route('/allCar_14')
 def allCar_datein_14():
     cursor = mysql.connection.cursor()
     query = "select * from parking_log where date_in='2021-02-14'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_14.html',result=result)
+    return render_template('allCar_14.html', result=result)
+
 
 @app.route('/allCar_10')
 def allCar_datein_10():
@@ -900,7 +924,8 @@ def allCar_datein_10():
     query = "select * from parking_log where date_in='2021-02-10'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_10.html',result=result)
+    return render_template('allCar_10.html', result=result)
+
 
 @app.route('/allCar_15')
 def allCar_datein_15():
@@ -908,7 +933,8 @@ def allCar_datein_15():
     query = "select * from parking_log where date_in='2021-02-15'"
     cursor.execute(query)
     result = cursor.fetchall()
-    return render_template('allCar_15.html',result=result)
+    return render_template('allCar_15.html', result=result)
+
 
 @app.route('/undefind_carin')
 def test_undefind_carin():
@@ -929,7 +955,8 @@ def test_undefind_carin():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/undefind_carin12')
 def test_undefind_carin12():
@@ -950,7 +977,8 @@ def test_undefind_carin12():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin12.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin12.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/undefind_carin13')
 def test_undefind_carin13():
@@ -971,7 +999,8 @@ def test_undefind_carin13():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin13.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin13.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/undefind_carin14')
 def test_undefind_carin14():
@@ -992,7 +1021,8 @@ def test_undefind_carin14():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin14.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin14.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/undefind_carin15')
 def test_undefind_carin15():
@@ -1013,7 +1043,8 @@ def test_undefind_carin15():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin15.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin15.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/undefind_carin10')
 def test_undefind_carin7():
@@ -1034,7 +1065,8 @@ def test_undefind_carin7():
     result2 = cursor2.fetchall()
     count_p = result2[0]
 
-    return render_template('undefind_carin10.html', count_p=count_p, count=count,result=result)
+    return render_template('undefind_carin10.html', count_p=count_p, count=count, result=result)
+
 
 @app.route('/newmember-receipt')
 def newmember_receipt():
@@ -1084,7 +1116,7 @@ def receipt():
         cashier_box = result[4]
         today_date_time = result[5]
         date_now = now.strftime('%Y-%m-%d %H:%M:%S')
-        license_plate= result[7]
+        license_plate = result[7]
         time_in = str(result[8])
         time_out = str(result[9])
         total_time = str(result[12])
@@ -1094,8 +1126,8 @@ def receipt():
         changess = result[15]
         amount = result[16]
         fines = result[17]
-    
-    return render_template('comp/receipt.html' ,date_now=date_now, receipt_no=receipt_no, total_time=total_time, tax_id=tax_id ,pos_id=pos_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,time_out=time_out,time_in=time_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve)
+
+    return render_template('comp/receipt.html', date_now=date_now, receipt_no=receipt_no, total_time=total_time, tax_id=tax_id, pos_id=pos_id, today_date_time=today_date_time, cashier_box=cashier_box, license_plate=license_plate, amount=amount, time_out=time_out, time_in=time_in, discount=discount, fines=fines, changess=changess, receieve=receieve)
 
 
 @app.route('/receipt_two')
@@ -1111,7 +1143,7 @@ def receipt_two():
         cashier_box = result[4]
         today_date_time = result[5]
         date_now = now.strftime('%Y-%m-%d %H:%M:%S')
-        license_plate= result[7]
+        license_plate = result[7]
         time_in = str(result[8])
         time_out = str(result[9])
         total_time = str(result[12])
@@ -1121,9 +1153,8 @@ def receipt_two():
         changess = result[15]
         amount = result[16]
         fines = result[17]
-    
-    return render_template('comp/receipt_two.html' ,date_now=date_now, receipt_no=receipt_no, total_time=total_time, tax_id=tax_id ,pos_id=pos_id,today_date_time=today_date_time,cashier_box=cashier_box ,license_plate=license_plate ,amount=amount ,time_out=time_out,time_in=time_in ,discount=discount,fines=fines ,changess=changess ,receieve=receieve)
 
+    return render_template('comp/receipt_two.html', date_now=date_now, receipt_no=receipt_no, total_time=total_time, tax_id=tax_id, pos_id=pos_id, today_date_time=today_date_time, cashier_box=cashier_box, license_plate=license_plate, amount=amount, time_out=time_out, time_in=time_in, discount=discount, fines=fines, changess=changess, receieve=receieve)
 
 
 @app.route('/slip-report')
@@ -1177,62 +1208,62 @@ def shift():
     if session['username'] != " ":
         user = session['username']
 
-        cursor = mysql.connection.cursor() #เวลา user login
+        cursor = mysql.connection.cursor()  # เวลา user login
         query = "select * from login_history where user_name = %s ORDER BY id DESC LIMIT 1"
         val = (user,)
-        cursor.execute(query,val)
+        cursor.execute(query, val)
         result = cursor.fetchone()
         datein = result[4]
 
-        cursor1 = mysql.connection.cursor() #รายได้
+        cursor1 = mysql.connection.cursor()  # รายได้
         sql = "select sum(amount) FROM receipt where cashier = %s "
         val = (user,)
-        cursor1.execute(sql,val)
+        cursor1.execute(sql, val)
         info = cursor1.fetchone()
         amount = info[0]
 
-        cursor4 = mysql.connection.cursor() #ส่วนลด
+        cursor4 = mysql.connection.cursor()  # ส่วนลด
         sql4 = "select sum(discount) FROM receipt where cashier = %s "
         val = (user,)
-        cursor4.execute(sql4,val)
+        cursor4.execute(sql4, val)
         info4 = cursor4.fetchone()
         discount = info4[0]
 
         today = year+"-"+month+"-"+day
 
-        cursor2 = mysql.connection.cursor() #รถออกจาก user คนนี้
+        cursor2 = mysql.connection.cursor()  # รถออกจาก user คนนี้
         sql2 = "select count(id) FROM receipt where cashier = %s and date = %s "
-        val = (user,today)
-        cursor2.execute(sql2,val)
+        val = (user, today)
+        cursor2.execute(sql2, val)
         info2 = cursor2.fetchone()
         count = info2[0]
 
-
-        cursor3 = mysql.connection.cursor() #รถเข้าทั้งหมดวันนี้
+        cursor3 = mysql.connection.cursor()  # รถเข้าทั้งหมดวันนี้
         sql3 = "select count(id) from parking_log where date_in = %s "
         val = (today,)
-        cursor3.execute(sql3,val)
+        cursor3.execute(sql3, val)
         info3 = cursor3.fetchone()
         carin = info3[0]
 
-        stale = carin - count #รถคงค้างของ user นั้นๆ
+        stale = carin - count  # รถคงค้างของ user นั้นๆ
 
-        return render_template('reports/shift-report.html', stale=stale, datein=datein, date_time=date_time, user=user, amount=amount, discount=discount, count=count,carin=carin )
+        return render_template('reports/shift-report.html', stale=stale, datein=datein, date_time=date_time, user=user, amount=amount, discount=discount, count=count, carin=carin)
 
 
 def car_datatable_sql(date_start, date_end):
     sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log "
 
-    if date_start == None and date_end != None :
+    if date_start == None and date_end != None:
         sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log where date_in <= "+"'"+date_end+"'"
-    
-    elif date_start != None and date_end == None :
-        sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log where date_in >= "+"'"+date_start+"'"
-    
-    elif date_start != None and date_end != None :
-        sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log where date_in BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
 
-    return sql 
+    elif date_start != None and date_end == None:
+        sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log where date_in >= "+"'"+date_start+"'"
+
+    elif date_start != None and date_end != None:
+        sql = "select id, type, license_plate, time_in, cashier, time_out, time_total, time_promotion, time_discount, time_grand, fines, amount, discount from parking_log where date_in BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    return sql
 
 
 @app.route('/report/table-car/datatable')
@@ -1256,17 +1287,18 @@ def table_car_datatable():
 
 def out_datatable_sql(date_start, date_end):
     sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' "
-    
-    if date_start == None and date_end != None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in <= "+"'"+date_end+"'"
-    
-    elif date_start != None and date_end == None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in >= "+"'"+date_start+"'"
-    
-    elif date_start != None and date_end != None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
 
-    return sql 
+    if date_start == None and date_end != None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in <= "+"'"+date_end+"'"
+
+    elif date_start != None and date_end == None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in >= "+"'"+date_start+"'"
+
+    elif date_start != None and date_end != None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    return sql
 
 
 @app.route('/report/outcar/datatable')
@@ -1291,17 +1323,18 @@ def table_out_datatable():
 
 def salestax_datatable_sql(date_start, date_end):
     sql = "select receipt.id, receipt.tax_id, member.card_no, receipt.license_plate, date(receipt.datetime_in), time(receipt.datetime_in), receipt.cashier, receipt.cashier_box, date(receipt.datetime_out), time(receipt.datetime_out), receipt.fines, receipt.amount, receipt.vat, receipt.total from receipt inner join member on receipt.id = member.id "
-    
-    if date_start == None and date_end != None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in <= "+"'"+date_end+"'"
-    
-    elif date_start != None and date_end == None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in >= "+"'"+date_start+"'"
-    
-    elif date_start != None and date_end != None :
-        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
 
-    return sql 
+    if date_start == None and date_end != None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in <= "+"'"+date_end+"'"
+
+    elif date_start != None and date_end == None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in >= "+"'"+date_start+"'"
+
+    elif date_start != None and date_end != None:
+        sql = "select id, type, license_plate, timestamp(date_in, time_in) as datetime from parking_log where licenplate_out = '' and date_in BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    return sql
 
 
 @app.route('/report/table-salestax/datatable')
@@ -1325,17 +1358,18 @@ def table_salestax_datatable():
 
 def staff_datatable_sql(date_start, date_end):
     sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_history"
-    
-    if date_start == None and date_end != None :
-        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_history WHERE pay_date <= "+"'"+date_end+"'"
-    
-    elif date_start != None and date_end == None :
-        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_history WHERE pay_date >= "+"'"+date_start+"'"
-    
-    elif date_start != None and date_end != None :
-        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_histor  where pay_date BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
 
-    return sql 
+    if date_start == None and date_end != None:
+        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_history WHERE pay_date <= "+"'"+date_end+"'"
+
+    elif date_start != None and date_end == None:
+        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_history WHERE pay_date >= "+"'"+date_start+"'"
+
+    elif date_start != None and date_end != None:
+        sql = "select id, user_name, login_date, logout_date, time(hour(login_date))+time(hour(logout_date)) as amount, discount from login_histor  where pay_date BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    return sql
 
 
 @app.route('/report/table-staff/datatable')
@@ -1359,24 +1393,25 @@ def table_staff_datatable():
 
 def member_income_datatable_sql(date_start, date_end):
     sql = "select id,first_name, license_plate,member_receipt_no, pay_date, expiry_date ,amount_package ,cashier  from member"
-    
-    if date_start == None and date_end != None :
-        sql = "select id,concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, expiry_date ,amount_package ,cashier  from member WHERE pay_date <= "+"'"+date_end+"'"
-    
-    elif date_start != None and date_end == None :
-        sql = "select id, concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, expiry_date ,amount_package ,cashier from member WHERE pay_date >= "+"'"+date_start+"'"
-    
-    elif date_start != None and date_end != None :
-        sql = "select id, concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, pay_date ,expiry_date ,amount_package ,cashier from member  where pay_date BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
 
-    return sql    
+    if date_start == None and date_end != None:
+        sql = "select id,concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, expiry_date ,amount_package ,cashier  from member WHERE pay_date <= "+"'"+date_end+"'"
+
+    elif date_start != None and date_end == None:
+        sql = "select id, concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, expiry_date ,amount_package ,cashier from member WHERE pay_date >= "+"'"+date_start+"'"
+
+    elif date_start != None and date_end != None:
+        sql = "select id, concat(first_name, " ", last_name) as name, license_plate,member_receipt_no, pay_date ,expiry_date ,amount_package ,cashier from member  where pay_date BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    return sql
 
 
 @app.route('/report/table_member_income/datatable')
 def table_member_datatable():
     date_start = request.args.get('date_start')
     date_end = request.args.get('date_end')
-    
+
     cursor = mysql.connection.cursor()
     sql = member_income_datatable_sql(date_start, date_end)
     cursor.execute(sql)
@@ -1392,40 +1427,46 @@ def table_member_datatable():
 
 
 def amount_datatable_sql(date_start, date_end, member_type):
-  
+
     sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log"
-    
-    if date_start != None and date_end != None and member_type != None :
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log  where type = "+"'"+member_type+"'"+" and date_in BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
+
+    if date_start != None and date_end != None and member_type != None:
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log  where type = " + \
+            "'"+member_type+"'"+" and date_in BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
 
     elif date_start == None and date_end == None and member_type != None:
         sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log  where type = "+"'"+member_type+"'"
 
     elif date_start != None and date_end != None and member_type == None:
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log  where date_in BETWEEN "+"'"+date_start+"'"+" and "+"'"+date_end+"'"
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log  where date_in BETWEEN " + \
+            "'"+date_start+"'"+" and "+"'"+date_end+"'"
 
     elif date_start == None and date_end != None and member_type == None:
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE date_in <= "+"'"+date_end+"'"  
-    
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE date_in <= "+"'"+date_end+"'"
+
     elif date_start != None and date_end == None and member_type == None:
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE date_in >= "+"'"+date_start+"'" 
-    
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE date_in >= "+"'"+date_start+"'"
+
     elif date_start != None and date_end == None and member_type != None:
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE type = "+"'"+member_type+"'"+" and date_in >= "+"'"+date_start+"'" 
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE type = " + \
+            "'"+member_type+"'"+" and date_in >= "+"'"+date_start+"'"
 
     elif date_start == None and date_end != None and member_type != None:
-        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE type = "+"'"+member_type+"'"+" and date_in <= "+"'"+date_end+"'" 
+        sql = "select id, type, license_plate, time_in, date_in, time_out, date_out, amount, excluding_vat,vat from parking_log WHERE type = " + \
+            "'"+member_type+"'"+" and date_in <= "+"'"+date_end+"'"
 
-    return sql     
+    return sql
+
 
 @app.route('/report/table_amount/datatable')
 def table_amount_datatable():
-    cursor = mysql.connection.cursor() 
+    cursor = mysql.connection.cursor()
     date_start = request.args.get('date_start')
     date_end = request.args.get('date_end')
     member_type = request.args.get('member')
 
-    sql = amount_datatable_sql(date_start, date_end , member_type)
+    sql = amount_datatable_sql(date_start, date_end, member_type)
     print(sql)
     cursor.execute(sql)
     info = cursor.fetchall()
@@ -1439,12 +1480,28 @@ def table_amount_datatable():
     return data
 
 
+@app.route('/contact-manage')
+def contact_manage():
+    if session['username'] != " ":
+        cursor = mysql.connection.cursor()
+        sql = "SELECT mem_no, first_name, last_name, phone, license_plate, province, car_type, status_member FROM member WHERE member_package = 6"
+        # print(sql)
+        cursor.execute(sql)
+        datas = cursor.fetchall()
+        return render_template('/contact-manage.html', datas=datas)
+
+
+@app.route('/add-contact')
+def add_contact():
+    return render_template('/add-contact.html')
+
 
 @app.route('/background_process_test')
 def background_process_test():
     control_Gate()
     print("hello")
     return ("nothing")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

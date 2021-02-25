@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>J-Parking Management</title>
+    {% include "comp/includecss.html" %}
+    {% include "comp/includedbtables.html" %}
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        {% include "comp/sidebar.html" %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                {% include "comp/header.html" %}
+                <div class="container-fluid">
+                    <div class="col-lg-12">
+                        <div class="row my-2">
+                            <div class="col">
+                                <h4 class="text-blue">หน่วยงาน <span class="text-red">มิราเคิล</span></h4>
+                            </div>
+                            <div class="col text-right">
+                                <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา"
+                                    style="min-height: calc(1.5em + .75rem + 2px);
+                                padding: .375rem .75rem;font-size: 1rem;text-align: start;">
+                            </div>
+                        </div>
+                        
+                        <form method="POST">
+                            <div class="card form-group mt-3" id="dynamic_form">
+                                <a href="javascript:(0)" id="minus5" class="btn arrow"><i class="fas fa-times"></i></a>
+                                <div class="card-body">
+                                    <p>test</p>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>คำนำหน้า</label>
+                                            <input type="text" class="form-control-test col-12" id="title_name" name="title_name"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>ชื่อ</label>
+                                            <input type="text" class="form-control-test col-12" id="first_name" name="first_name"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>นามสกุล</label>
+                                            <input type="text" class="form-control-test col-12" id="last_name" name="last_name"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>เบอร์โทรศัพท์</label>
+                                            <input type="text" class="form-control-test col-12" id="phone" name="phone"/>
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label class="mb-0">ประเภทรถ</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="typecar" id="typecarRadios1" value="option1" checked>
+                                                <label class="form-check-label" for="typecarRadios1">
+                                                    รถยนต์
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="typecar" id="typecarRadios2" value="option2">
+                                                <label class="form-check-label" for="typecarRadios2">
+                                                    รถจักรยานยนต์
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mt-2">
+                                            <label>ป้ายทะเบียน</label>
+                                            <input type="text" class="form-control-test col-12" id="lisence_plate" name="lisence_plate"/>
+                                        </div>
+                                        <div class="col-md-3 mt-2">
+                                            <label>จังหวัด</label>
+                                            <input type="text" class="form-control-test col-12" id="province" name="province"/>
+                                        </div>
+                                        <div class="col-md-2 mt-2">
+                                            <label>เวลาเข้า</label>
+                                            <input type="time" class="form-control-test col-12" id="time_in" name="time_in"/>
+                                        </div>
+                                        <div class="col-md-2 mt-2">
+                                            <label>เวลาออก</label>
+                                            <input type="time" class="form-control-test col-12" id="time_out" name="time_out"/>
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <span class="input-group-text" id="basic-addon3">หมายเหตุ</span>
+                                            <input type="text" class="form-control-test col-10" id="remark" name="remark">
+                                        </div>
+                                        
+                                    </div>
+                                    <!-- <div class="button-group">
+                                        <a href="javascript:(0)" id="plus5" class="btn btn-outline-primary js-add-row col-3"><i class="fas fa-plus"></i> เพิ่มข้อมูล</a>
+                                        
+                                    </div> -->
+                                </div>
+                                <div class="text-center mb-2">
+                                    <a href="javascript:(0)" id="plus5" class="btn btn-outline-primary js-add-row col-4"><i class="fas fa-plus"></i> เพิ่มข้อมูล</a>
+                                </div>
+                               
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary col-4">ยืนยัน</button>
+                                </div>
+                               
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    index = 0;
+    $(document).ready(function() {
+        var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus5", "#minus5", {
+		limit:10,
+		formPrefix : "dynamic_form",
+		normalizeFullForm : false
+	});
+
+
+	$("#dynamic_form #minus5").on('click', function(){
+		var initDynamicId = $(this).closest('#dynamic_form').parent().find("[id^='dynamic_form']").length;
+		if (initDynamicId === 2) {
+		    $(this).closest('#dynamic_form').next().find('#minus5').hide();
+		}
+        $(this).closest('#dynamic_form').find("p").append(index);
+        count++;
+		$(this).closest('#dynamic_form').remove();
+	});
+
+		    $('form').on('submit', function(event){
+	        	var values = {};
+				$.each($('form').serializeArray(), function(i, field) {
+				    values[field.name] = field.value;
+				});
+				console.log(values)
+        		event.preventDefault();
+        	})
+        });
+  
+    
+
+    // ควบคุม Sidebar
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+        $("body").toggleClass("sidebar-toggled");
+          $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+              $('.sidebar .collapse').collapse('hide');
+            };
+    });
+  
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function () {
+          if ($(window).width() < 768) {
+            $('.sidebar .collapse').collapse('hide');
+        };
+        // Toggle the side navigation when window is resized below 480px
+          if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+            $("body").addClass("sidebar-toggled");
+            $(".sidebar").addClass("toggled");
+            $('.sidebar .collapse').collapse('hide');
+          };
+        });
+  
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+          if ($(window).width() > 768) {
+            var e0 = e.originalEvent,
+            delta = e0.wheelDelta || -e0.detail;
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+          }
+        });
+  
+        // Scroll to top button appear
+        $(document).on('scroll', function () {
+          var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+              $('.scroll-to-top').fadeIn();
+            } else {
+              $('.scroll-to-top').fadeOut();
+            }
+        });
+  
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function (e) {
+          var $anchor = $(this);
+          $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top)
+          }, 1000, 'easeInOutExpo');
+            e.preventDefault();
+        });
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/dynamic-form.js') }}"></script>
+  </body>
+  
+  </html>

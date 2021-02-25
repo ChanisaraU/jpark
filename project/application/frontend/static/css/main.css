@@ -115,6 +115,12 @@ tr {
   color: #fff !important;
 }
 
+.btn-success-3 {
+  background-color: #6cb871 !important;
+  border-color: #6cb871 !important;
+  color: #fff !important;
+}
+
 .animate-car-left {
   margin-left: -18rem;
   position: relative;
@@ -246,7 +252,7 @@ tr {
 /* --------------------------------------------------------------------------------------- */
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0.85em;
-  position: fixed;
+  position: absolute;
 }
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   margin: 10px 0 0 0;
@@ -379,4 +385,29 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   line-height: 1.5;
   border-radius: 0.35rem;
   cursor: pointer;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+.arrow {
+  padding: 3px 5px !important;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% !important;
+  position: absolute;
+  right: 0;
+  color: white !important;
+  background-color: #f13c3c !important;
+}
+/* ------------------------------ Modal Noti Car-In & Car-Out  --------------------------------------------- */
+.modify__modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e3e6f0;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+  background: #EB190A;
+  color: white;
 }

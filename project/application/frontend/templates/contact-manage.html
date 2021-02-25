@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>J-Parking Management</title>
+    {% include "comp/includecss.html" %}
+    {% include "comp/includedbtables.html" %}
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        {% include "comp/sidebar.html" %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                {% include "comp/header.html" %}
+                <div class="container-fluid">
+                    <div class="col-lg-12">
+                        <div class="row my-2">
+                            <div class="col">
+                                <h4 class="text-blue">หน่วยงาน <span class="text-red">มิราเคิล</span></h4>
+                            </div>
+                            <div class="col text-right">
+                                <input class="form-control" list="datalistOptions" id="search" placeholder="ค้นหา"
+                                    style="min-height: calc(1.5em + .75rem + 2px);
+                                padding: .375rem .75rem;font-size: 1rem;text-align: start;">
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col mb-2">
+                                <!-- <label class="form-label text-blue">วันที่เริ่ม</label> -->
+                                <input type="text" class="form-control-test col-12" id="date_start" name="date_start" placeholder="วันที่เริ่ม">
+                            </div>
+                            <div class="col mb-2">
+                                <!-- <label class="form-label text-blue">ถึงวันที่</label> -->
+                                <input type="text" class="form-control-test col-12" id="date_end" name="date_end" placeholder="ถึงวันที่">
+                            </div>
+                            <div class="col mb-2">
+                                <select id="status-filter" name="status" class="form-select">
+                                    <option value="">-- ค้นหาสถานะ --</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="col mb-2 text-right">
+                                <button type="button" class="btn btn-excel col-10" id="export-excel"><i class="far fa-file-excel"></i> Export to Excel</button>
+                            </div>
+                            <div class="col mb-2 text-left">
+                                <button type="button" class="btn btn-danger col-10" id="export-pdf"><i class="far fa-file-pdf"></i> Export to PDF</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table" id="monitorTable" style="width:100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">รหัสสมาชิก</th>
+                                            <th scope="col">ชื่อ</th>
+                                            <th scope="col">นามสกุล</th>
+                                            <th scope="col">เบอร์โทรศัพท์</th>
+                                            <th scope="col">ทะเบียนรถ</th>
+                                            <th scope="col">จังหวัด</th>
+                                            <th scope="col">ประเภทรถ</th>
+                                            <th scope="col">เวลาเข้า</th>
+                                            <th scope="col">เวลาออก</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">หมายเหตุ</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if datas %}
+                                        {% for row in datas %}
+                                        <tr>
+                                            <td>{{row[0]}}</td>
+                                            <td>{{row[1]}}</td>
+                                            <td>{{row[2]}}</td>
+                                            <td>{{row[3]}}</td>
+                                            <td>{{row[4]}}</td>
+                                            <td>{{row[5]}}</td>
+                                            <td>{{row[6]}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            {% if row[7] == 0 %}
+                                            <td><i class="fas fa-circle fa-xs" style="color: #10FF28;"></i> Active</td>
+                                            {% else %}
+                                            <td><i class="fas fa-circle fa-xs" style="color: #ff0000"></i> Inactive</td>
+                                            {% endif %}
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    //คำสั่ง Jquery เริ่มทำงาน เมื่อ โหลดหน้า Page เสร็จ 
+    $(document).ready(function(){
+    // document.title='บริษัท เจนก้องไกล จำกัด';
+    $.noConflict();
+    //กำหนดให้  Plug-in dataTable ทำงาน ใน ตาราง Html ที่มี id เท่ากับ example
+    var table = $('#monitorTable').DataTable({
+        "dom": 'Btip',
+        "paging": true,
+        "pageLength": 8,
+        "autoWidth": true,
+        "processing": true,
+        "buttons": [
+                    {extend: "csv", className: "buttonsToHide"},
+                    {extend: "print", className: "buttonsToHide"},
+                    {extend: "copy", className: "buttonsToHide"}
+        ],
+    });
+  
+    table.buttons('.buttonsToHide').nodes().css("display", "none");
+
+    $('#status-filter').on('change', function(){
+        table.columns(9).search(this.value).draw()
+    });
+
+    oTable = $('#monitorTable').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
+    $('#search').keyup(function(){
+        oTable.search($(this).val()).draw() ;
+    })
+    });
+  
+      function calldropdown(mySelect) {
+        document.getElementById("areatodisplay").innerHTML = mySelect;
+      }
+  
+      // ควบคุม Sidebar
+      $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+        $("body").toggleClass("sidebar-toggled");
+          $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+              $('.sidebar .collapse').collapse('hide');
+            };
+        });
+  
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function () {
+          if ($(window).width() < 768) {
+            $('.sidebar .collapse').collapse('hide');
+        };
+        // Toggle the side navigation when window is resized below 480px
+          if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+            $("body").addClass("sidebar-toggled");
+            $(".sidebar").addClass("toggled");
+            $('.sidebar .collapse').collapse('hide');
+          };
+        });
+  
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+          if ($(window).width() > 768) {
+            var e0 = e.originalEvent,
+            delta = e0.wheelDelta || -e0.detail;
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+          }
+        });
+  
+        // Scroll to top button appear
+        $(document).on('scroll', function () {
+          var scrollDistance = $(this).scrollTop();
+            if (scrollDistance > 100) {
+              $('.scroll-to-top').fadeIn();
+            } else {
+              $('.scroll-to-top').fadeOut();
+            }
+        });
+  
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function (e) {
+          var $anchor = $(this);
+          $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top)
+          }, 1000, 'easeInOutExpo');
+            e.preventDefault();
+        });
+    </script>
+  </body>
+  
+  </html>

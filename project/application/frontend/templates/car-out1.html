@@ -237,6 +237,24 @@
                                     </div>
                                 </div>
 
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nodata">
+                                    No Data
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="nodata" tabindex="-1" aria-labelledby="nodataModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modify__modal-header">
+                                        <h5 class="modal-title" id="nodataModalLabel"><i class="fas fa-exclamation-triangle"></i> ไม่พบข้อมูลรถป้ายทะเบียน <span class="border-bottom">3กท4447</span></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        ...
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -249,18 +267,6 @@
 
     <!-- Timeline JS-->
     <script type="text/javascript">
-
-    //   $(function() { //คลิกยืนยัน
-    //     $('#finish').on('click', function(e) {
-    //       e.preventDefault()
-    //       $.getJSON('/background_process_test',
-    //           function(data) {
-    //         //ฟังก์ชั่น /background_process_test ทำงาน
-    //       });
-    //       return false;
-    //     });
-    //   });
-
 
         var display = setInterval(function () { Time() }, 0);
         function Time() {
@@ -385,8 +391,6 @@
         ID_ = data.id;
         ID.innerHTML = ID_;
         ID.innerHTML =  ID.innerHTML;
-
-
 
       });
      

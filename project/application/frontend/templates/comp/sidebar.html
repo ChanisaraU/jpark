@@ -20,7 +20,7 @@
 
     <div class="sidebar-heading">
       <i class="fas fa-user"></i>
-      <span>พนักงาน {{session['roles']}}</span>
+      <span>พนักงาน</span>
     </div>
     {% if session['roles'] == 'admin' %}  
     <!-- Nav Item - car-in -->
@@ -51,6 +51,16 @@
       <a class="nav-link" href="member-detail">
         <i class="fas fa-fw fa-table"></i>
         <span>ข้อมูลสมาชิก</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="contact-manage">
+        <i class="fas fa-user"></i>
+        <span>จัดการข้อมูลผู้มาติดต่อ</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="add-contact">
+        <i class="fas fa-user-plus"></i>
+        <span>เพิ่มข้อมูล</span></a>
     </li>
     <!-- Nav Item - payment -->
     <!-- <li class="nav-item">
@@ -96,12 +106,6 @@
           </div>
       </li>
     </li>
-    
-    <!-- Sidebar Toggler (Sidebar) -->
-    
-    <!-- <div class="text-center d-none d-md-inline mt-3">
-      <a class="rounded-circle2 border-0" id="sidebarToggle"></a>
-    </div> -->
     {% endif %}
     {% if session['roles'] == 'guardhouse' %}
     <li class="nav-item">
@@ -121,7 +125,6 @@
         <span>ป้อมขาออก 2</span></a>
     </li>
     {% endif %}
-
   </ul>
 
   <script>
