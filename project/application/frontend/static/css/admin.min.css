@@ -5175,6 +5175,12 @@ a.close.disabled {
   margin: 0.5rem;
   pointer-events: none;
 }
+/* .modal-dialog2 {
+  position: relative;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+} */
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);
@@ -5300,7 +5306,7 @@ a.close.disabled {
 }
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
+    max-width: 50vw;
     margin: 1.75rem auto;
   }
   .modal-dialog-scrollable {
@@ -5320,6 +5326,11 @@ a.close.disabled {
   }
   .modal-sm {
     max-width: 300px;
+  }
+
+  .modal-dialog {
+    max-width: 50vw;
+    margin: 1.75rem auto;
   }
 }
 @media (min-width: 992px) {
@@ -9591,6 +9602,7 @@ a:focus {
   .sidebar.toggled {
     overflow: visible;
     /* width: 6.5rem !important; */
+    background: transparent;
   }
   .sidebar.toggled .nav-item .collapse {
     position: absolute;
@@ -9610,6 +9622,7 @@ a:focus {
   .sidebar.toggled .nav-item .collapse .collapse-inner {
     box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
     border-radius: 0.35rem;
+    display: none;
   }
   .sidebar.toggled .nav-item .collapsing {
     display: none;

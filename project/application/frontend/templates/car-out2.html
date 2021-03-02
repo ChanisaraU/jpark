@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-lg-5">
+                        <div class="col-lg-6">
                             <img src="{{ url_for('video_feed', id='1') }}" class="img-calc">
                             <div class="row mt-2">
                                 <div class="col">
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-7" style="zoom: 78%;">
+                        <div class="col-lg-6" style="zoom: 78%;">
                             <div class="row g-2">
                                 <div class="col-md-6 text-center mt-4">
                                     <h5 class="text-blue">ป้ายทะเบียนรถ</h5>
@@ -249,19 +249,6 @@
 
     <!-- Timeline JS-->
     <script type="text/javascript">
-
-    //   $(function() { //คลิกยืนยัน
-    //     $('#finish').on('click', function(e) {
-    //       e.preventDefault()
-    //       $.getJSON('/background_process_test',
-    //           function(data) {
-    //         //ฟังก์ชั่น /background_process_test ทำงาน
-    //       });
-    //       return false;
-    //     });
-    //   });
-
-
         var display = setInterval(function () { Time() }, 0);
         function Time() {
             var date = new Date();
@@ -297,15 +284,8 @@
                 })
             });
         });
-
-        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
-            $("body").toggleClass("sidebar-toggled");
-            $(".sidebar").toggleClass("toggled");
-            if ($(".sidebar").hasClass("toggled")) {
-                $('.sidebar .collapse').collapse('hide');
-            };
-        });
     </script>
+     <script type="text/javascript" src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 </body>
 
 <!-- รับ socket จาก port 7000 -->
@@ -384,13 +364,8 @@
 
         ID_ = data.id;
         ID.innerHTML = ID_;
-        ID.innerHTML =  ID.innerHTML;
-
-
-
+        ID.innerHTML =  ID.innerHTML;   
       });
-     
-
     </script>
 
 </html>

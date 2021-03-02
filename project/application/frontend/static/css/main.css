@@ -399,7 +399,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   color: white !important;
   background-color: #f13c3c !important;
 }
-/* ------------------------------ Modal Noti Car-In & Car-Out  --------------------------------------------- */
+/* ------------------------------ Modify: Modal Noti Car-In & Car-Out  --------------------------------------------- */
 .modify__modal-header {
   display: flex;
   align-items: flex-start;
@@ -408,6 +408,42 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   border-bottom: 1px solid #e3e6f0;
   border-top-left-radius: calc(0.3rem - 1px);
   border-top-right-radius: calc(0.3rem - 1px);
-  background: #EB190A;
+  background: #eb190a;
   color: white;
+}
+
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+}
+
+
+.modity__modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 1300px;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.btn-outline-modity {
+  color: #7b7b7b;
+  background-color: #e7e7e7;
+  border-color: #e7e7e7;
+  text-align: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.7rem;
+  margin: 0px 4px;
+  line-height: 1.5;
+  border-radius: 0.35rem;
+  cursor: pointer;
+}
+
+.modify-font {
+  font-size: 1.7rem;
 }

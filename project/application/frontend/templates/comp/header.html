@@ -88,8 +88,8 @@
     var d = new Date();
     document.getElementById("date").innerHTML = dayNames[d.getDay()] + "  " + d.getDate() + " " + monthNamesThai[d.getMonth()] + "  " + (0 + d.getFullYear() + 543);
   </script>
-
-  <script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+  <!-- <script>
     $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
       $("body").toggleClass("sidebar-toggled");
       $(".sidebar").toggleClass("toggled");
@@ -140,7 +140,7 @@
       }, 1000, 'easeInOutExpo');
       e.preventDefault();
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
