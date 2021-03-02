@@ -259,7 +259,7 @@
                                     <div class="modal-dialog">
                                         <div class="modity__modal-content">
                                             <div class="modify__modal-header">
-                                            <h5 class="modal-title" id="nodataModalLabel"><i class="fas fa-exclamation-triangle"></i> ไม่พบข้อมูลรถป้ายทะเบียน <span class="border-bottom">3กท4447</span></h5>
+                                            <h5 class="modal-title" id="nodataModalLabel"><i class="fas fa-exclamation-triangle"></i> ไม่พบข้อมูลรถป้ายทะเบียน <span class="border-bottom" id="license_plate"></span></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -293,29 +293,42 @@
                                                             <div class="card-body">
                                                                 <div class="row">
                                                                     <div class="col-md-3">
+                                                                        <label class="col-form-label text-blue">ID</label>
+                                                                    </div>
+                                                                    <div class="col-md-9 mb-3">
+                                                                        <input class="form-control-test" id="ID" name="ID" style="font-size: 1.6rem;width: 85%;"/>
+                                                                    </div>
+
+                                                                    <div class="col-md-3">
                                                                         <label class="col-form-label text-blue">ขาเข้า</label>
                                                                     </div>
                                                                     <div class="col-md-9 mb-3">
-                                                                        <div class="form-control-test p" id="licenplate_in" name="licenplate_in" style="font-size: 1.8rem;"></div>
+                                                                        <input class="form-control-test" id="licenplate_in" name="licenplate_in" style="font-size: 2rem;"/>
                                                                     </div>
 
                                                                     <div class="col-md-3">
                                                                         <label class="col-form-label text-blue">ขาออก</label>
                                                                     </div>
                                                                     <div class="col-md-9 mb-3">
-                                                                        <div class="form-control-test p" id="licenplate_out" name="licenplate_out" style="font-size: 1.8rem;"></div>
+                                                                        <input class="form-control-test" id="licenplate_out" name="licenplate_out" style="font-size: 2rem;"/>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>วันเวลาเข้า</label>
-                                                                        <div class="form-control-test p" id="time_in" name="time_in" style="background: #f1f1f1;font-size: 1.5rem;"></div>
+                                                                        <div class="form-control-test" style="background: #f1f1f1;font-size: 1.8rem;">
+                                                                            <h3 class="text-blue" id="timeIn"></h3>
+                                                                            <p class="fw-normal" id="date_in"></p>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>วันเวลาออก</label>
-                                                                        <div class="form-control-test p" id="time_out" name="time_out" style="background: #f1f1f1;font-size: 1.5rem;"></div>
+                                                                        <div class="form-control-test p" style="background: #f1f1f1;font-size: 1.8rem;">
+                                                                            <h3 class="text-blue" id="timeOut"></h3>
+                                                                            <p class="fw-normal" id="date_out"></p>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="col-md-12 mt-3">
                                                                         <label>จำนวนเงิน</label>
-                                                                        <div class="form-control-test p" id="amount" name="amount" style="background: #f1f1f1;font-size: 1.9rem;"></div>
+                                                                        <div class="form-control-test p" id="amount" name="amount" style="background: #f1f1f1;font-size: 3rem;color: #FF0000;"></div>
                                                                     </div>
                                                                     <div class="col-md-12 mt-3">
                                                                         <label>สาเหตุ</label>
@@ -336,7 +349,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 mt-2 text-center">
-                                                            <button class="btn btn-secondary col-12">ยืนยัน</button>
+                                                            <button class="btn btn-secondary col-12 btn-lg modify-font">ยืนยัน</button>
                                                         </div>
                                                     </div>
                                                 </div>

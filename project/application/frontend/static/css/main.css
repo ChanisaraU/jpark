@@ -443,6 +443,16 @@ body.modal-open {
   cursor: pointer;
 }
 
+.btn-check:active + .btn-outline-modity,
+.btn-check:checked + .btn-outline-modity,
+.btn-outline-modity.active,
+.btn-outline-modity.dropdown-toggle.show,
+.btn-outline-modity:active {
+  color: #fff;
+  background-color: #ffa400;
+  border-color: #ffa400;
+}
+
 .modify-font {
   font-size: 1.6rem;
 }
