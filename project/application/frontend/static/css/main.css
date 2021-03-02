@@ -417,7 +417,6 @@ body.modal-open {
   position: fixed;
 }
 
-
 .modity__modal-content {
   position: relative;
   display: flex;
@@ -445,5 +444,11 @@ body.modal-open {
 }
 
 .modify-font {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
+}
+/* ------------------------------------------------------------------------------------------------ */
+
+.a-header {
+  color: #1b3e6c;
+  cursor: pointer;
 }

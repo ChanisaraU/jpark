@@ -104,41 +104,42 @@
                             <div class="col-md-12">
                                 <hr>
                             </div>
-                            <div class="col-md-12 text-blue" style="zoom: 80%;">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="first_name"
-                                            class="col-form-label text-blue">ชื่อ-นามสกุล</label>
-                                    </div>
-                                    <div class="col-md-8 mb-3">
-                                        <div class="form-control-test p" id="name_" style="background: #f1f1f1;"></div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-3 align-self-center text-center">
+                                    <button class="btn btn-danger" style="height: 100px;">เปิด/ปิด ไม้กั้น</button>
                                 </div>
-                            </div>
-                            <div class="col-md-12 text-blue" style="zoom: 80%;">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="member_type"
-                                            class="col-form-label text-blue">ประเภทสมาชิก</label>
+                                <div class="col-md-9 text-blue" style="zoom: 70%;">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="first_name"
+                                                class="col-form-label text-blue">ชื่อ-นามสกุล</label>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <div class="form-control-test p" id="name_" style="background: #f1f1f1;"></div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8 mb-3">
-                                        <div class="form-control-test p" id="mem_type" style="background: #f1f1f1;"></div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="member_type"
+                                                class="col-form-label text-blue">ประเภทสมาชิก</label>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <div class="form-control-test p" id="mem_type" style="background: #f1f1f1;"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12" style="zoom: 80%;">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="expiry_date"
-                                            class="col-form-label text-blue">วันที่หมดอายุ</label>
-                                    </div>
-                                    <div class="col-md-8 mb-3">
-                                        <div class="form-control-test p" id="expi" style="background: #f1f1f1;"></div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="expiry_date"
+                                                class="col-form-label text-blue">วันที่หมดอายุ</label>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <div class="form-control-test p" id="expi" style="background: #f1f1f1;"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6" style="zoom: 78%;">
+                        <div class="col-lg-6" style="zoom: 70%;">
                             <div class="row g-2">
                                 <div class="col-md-6 text-center mt-4">
                                     <h5 class="text-blue">ป้ายทะเบียนรถ</h5>
@@ -220,22 +221,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 mt-2">
-                                        <button type="submit" id="finish" class="btn btn-primary col-12 btn-lg" style="background-color: #E66767;
+                                    <div class="col-md-12 mt-2 text-center">
+                                        <button type="submit" id="finish" class="btn btn-primary col-7 btn-lg" style="background-color: #E66767;
                                         border-color: #E66767;">ยืนยัน</button>
+                                        <a href="{{ url_for('receipt') }}" target="_blank" type="button"
+                                        class="btn btn-primary col-4 btn-lg">
+                                            <i class="fas fa-print"></i> พิมพ์ใบเสร็จ
+                                        </a>
                                     </div>
                                 </form>
-
-                                <div class="col-md-12 text-blue mb-3">
-                                    <div class="row">
-                                        <div class="col-md-4 m-0 p-0">
-                                            <a href="{{ url_for('receipt') }}" target="_blank" type="button"
-                                                class="btn btn-primary floating-button">
-                                                <i class="fas fa-print"></i> พิมพ์ใบเสร็จ
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
