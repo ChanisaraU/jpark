@@ -6,6 +6,20 @@
     {% include "comp/includecss.html" %}
     {% include "comp/includedbtables.html" %}
 </head>
+<style>
+body {
+    counter-reset: section;
+}
+
+runNumber::before {
+    counter-increment: section;
+    content: counter(section);
+    font-size: 6rem;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+</style>
 <body id="page-top">
     <div id="wrapper">
         {% include "comp/sidebar.html" %}
@@ -27,78 +41,82 @@
                         
                         <form method="POST">
                             <div class="card form-group mt-3" id="dynamic_form">
-                                <a href="javascript:(0)" id="minus5" class="btn arrow"><i class="fas fa-times"></i></a>
-                                <div class="card-body">
-                                    <p>test</p>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label>คำนำหน้า</label>
-                                            <input type="text" class="form-control-test col-12" id="title_name" name="title_name"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>ชื่อ</label>
-                                            <input type="text" class="form-control-test col-12" id="first_name" name="first_name"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>นามสกุล</label>
-                                            <input type="text" class="form-control-test col-12" id="last_name" name="last_name"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>เบอร์โทรศัพท์</label>
-                                            <input type="text" class="form-control-test col-12" id="phone" name="phone"/>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label class="mb-0">ประเภทรถ</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="typecar" id="typecarRadios1" value="option1" checked>
-                                                <label class="form-check-label" for="typecarRadios1">
-                                                    รถยนต์
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="typecar" id="typecarRadios2" value="option2">
-                                                <label class="form-check-label" for="typecarRadios2">
-                                                    รถจักรยานยนต์
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 mt-2">
-                                            <label>ป้ายทะเบียน</label>
-                                            <input type="text" class="form-control-test col-12" id="lisence_plate" name="lisence_plate"/>
-                                        </div>
-                                        <div class="col-md-3 mt-2">
-                                            <label>จังหวัด</label>
-                                            <input type="text" class="form-control-test col-12" id="province" name="province"/>
-                                        </div>
-                                        <div class="col-md-2 mt-2">
-                                            <label>เวลาเข้า</label>
-                                            <input type="time" class="form-control-test col-12" id="time_in" name="time_in"/>
-                                        </div>
-                                        <div class="col-md-2 mt-2">
-                                            <label>เวลาออก</label>
-                                            <input type="time" class="form-control-test col-12" id="time_out" name="time_out"/>
-                                        </div>
-                                        <div class="input-group mt-2">
-                                            <span class="input-group-text" id="basic-addon3">หมายเหตุ</span>
-                                            <input type="text" class="form-control-test col-10" id="remark" name="remark">
-                                        </div>
-                                        
+                                <a href="javascript:(0)" id="minus5" class="btn arrow" style="z-index: 2000;"><i class="fas fa-times"></i></a>
+                                <div class="row">
+                                    <div class="col-1" style="background: #1B3E6C;border-radius: 0.35rem 0rem 0rem 0.35rem;">
+                                        <runNumber id="index-number" class="text-white"></runNumber>
+                                        <!-- <div id="TextBoxDiv1">
+                                            <label class="text-white">Textbox #1 : </label><input type='textbox' id='textbox1'>
+                                        </div> -->
                                     </div>
-                                    <!-- <div class="button-group">
-                                        <a href="javascript:(0)" id="plus5" class="btn btn-outline-primary js-add-row col-3"><i class="fas fa-plus"></i> เพิ่มข้อมูล</a>
-                                        
-                                    </div> -->
+                                    <div class="col-11">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>คำนำหน้า</label>
+                                                    <input type="text" class="form-control-test col-12" id="title_name" name="title_name"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>ชื่อ</label>
+                                                    <input type="text" class="form-control-test col-12" id="first_name" name="first_name"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>นามสกุล</label>
+                                                    <input type="text" class="form-control-test col-12" id="last_name" name="last_name"/>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control-test col-12" id="phone" name="phone"/>
+                                                </div>
+                                                <div class="col-md-3 mt-2">
+                                                    <label class="mb-0">ประเภทรถ</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="typecar" id="typecarRadios1" value="option1" checked>
+                                                        <label class="form-check-label" for="typecarRadios1">
+                                                            รถยนต์
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="typecar" id="typecarRadios2" value="option2">
+                                                        <label class="form-check-label" for="typecarRadios2">
+                                                            รถจักรยานยนต์
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 mt-2">
+                                                    <label>ป้ายทะเบียน</label>
+                                                    <input type="text" class="form-control-test col-12" id="lisence_plate" name="lisence_plate"/>
+                                                </div>
+                                                <div class="col-md-3 mt-2">
+                                                    <label>จังหวัด</label>
+                                                    <input type="text" class="form-control-test col-12" id="province" name="province"/>
+                                                </div>
+                                                <div class="col-md-2 mt-2">
+                                                    <label>เวลาเข้า</label>
+                                                    <input type="time" class="form-control-test col-12" id="time_in" name="time_in"/>
+                                                </div>
+                                                <div class="col-md-2 mt-2">
+                                                    <label>เวลาออก</label>
+                                                    <input type="time" class="form-control-test col-12" id="time_out" name="time_out"/>
+                                                </div>
+                                                <div class="input-group mt-2">
+                                                    <span class="input-group-text" id="basic-addon3">หมายเหตุ</span>
+                                                    <input type="text" class="form-control-test col-10" id="remark" name="remark">
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-2">
+                                            <a href="javascript:(0)" id="plus5" class="btn btn-outline-primary js-add-row col-4"><i class="fas fa-plus"></i> เพิ่มข้อมูล</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-center mb-2">
-                                    <a href="javascript:(0)" id="plus5" class="btn btn-outline-primary js-add-row col-4"><i class="fas fa-plus"></i> เพิ่มข้อมูล</a>
-                                </div>
-                               
-                                </div>
-                                <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary col-4">ยืนยัน</button>
-                                </div>
-                               
-                        </form> 
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary col-4">ยืนยัน</button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -108,35 +126,33 @@
 
 
 <script type="text/javascript">
-    index = 0;
     $(document).ready(function() {
         var dynamic_form =  $("#dynamic_form").dynamicForm("#dynamic_form","#plus5", "#minus5", {
-		limit:10,
-		formPrefix : "dynamic_form",
-		normalizeFullForm : false
-	});
+            limit: 10,
+            formPrefix : "dynamic_form",
+            normalizeFullForm : false,
+	    });
 
-
-	$("#dynamic_form #minus5").on('click', function(){
-		var initDynamicId = $(this).closest('#dynamic_form').parent().find("[id^='dynamic_form']").length;
-		if (initDynamicId === 2) {
-		    $(this).closest('#dynamic_form').next().find('#minus5').hide();
-		}
-        $(this).closest('#dynamic_form').find("p").append(index);
-        count++;
-		$(this).closest('#dynamic_form').remove();
-	});
-
-		    $('form').on('submit', function(event){
-	        	var values = {};
-				$.each($('form').serializeArray(), function(i, field) {
-				    values[field.name] = field.value;
-				});
-				console.log(values)
-        		event.preventDefault();
-        	})
+        $("#dynamic_form #minus5").on('click', function(){
+            var initDynamicId = $(this).closest('#dynamic_form').parent().find("[id^='dynamic_form']").length;
+            if (initDynamicId === 2) {
+                $(this).closest('#dynamic_form').next().find('#minus5').hide();
+            }
+            $(this).closest('#dynamic_form').remove();
         });
-    </script>
+
+        $('form').on('submit', function(event){
+            var values = {};
+            $.each($('form').serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+            console.log(values)
+            event.preventDefault();
+        });
+
+        
+    });
+</script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/dynamic-form.js') }}"></script>
   </body>
