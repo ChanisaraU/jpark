@@ -12,6 +12,10 @@
   background-color: #1b3e6c;
   border-color: #1b3e6c;
 }
+.btn-primary-jpark:hover {
+  color: #ffa700;
+  text-decoration: none;
+}
 
 .bg-image {
   width: 100vw;
@@ -20,6 +24,29 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+}
+
+.bg-intro {
+  width: 100vw;
+  /* height:100vw; */
+  background-image: url("/static/image/intro2.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.container-intro {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: block;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 }
 
 .version-login {
