@@ -171,7 +171,7 @@ def login():
             mysql.connection.commit()
             cursor.close()
 
-            return redirect(url_for('transaction'))
+            return redirect(url_for('intro'))
         else:
             sql = 'select * from user_admin where user_name = %s'
             cursor.execute(sql, (username,))
@@ -536,24 +536,16 @@ def reportdash():
 def transaction():
     if session['username'] != " ":
         roles = request.args.get('roles', None)
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        limit = 5
-        offset = page*limit-limit
-        cursor = mysql.connection.cursor()
-        cursor.execute("select * from parking_log")
-        result = cursor.fetchall()
-        total = len(result)
         now = datetime.now()
         today = now.strftime('%Y-%m-%d')
-        cur = mysql.connection.cursor()
-        que = "select * from parking_log where date_in = %s ORDER By time_in DESC,date_in DESC LIMIT %s OFFSET %s"
-        cur.execute(que, (today, limit, offset))
-        data = cur.fetchall()
-        cur.close()
+        cursor = mysql.connection.cursor()
+        today = now.strftime('%Y-%m-%d')
+        sql = "select * from parking_log where date_in = %s ORDER By time_in DESC,date_in DESC"
+        cursor.execute(sql, (today,))
+        result = cursor.fetchall()
+        cursor.close()
 
-        pagination = Pagination(page=page, per_page=limit,
-                                total=total, record_name='transaction', css_framework='bootstrap4')
-        return render_template('transaction.html', roles=roles, pagination=pagination, transaction=data, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
+        return render_template('transaction.html', roles=roles, result=result, data=[{'in_out': 'เข้า'}, {'in_out': 'ออก'}], type=[{'typecar': 'รถยนต์ส่วนบุคคล'}, {'typecar': 'รถแท๊กซี่'}, {'typecar': 'รถจักรยานยนต์'}])
 
 
 @app.route('/transaction/json', methods=['GET', 'POST'])
@@ -617,59 +609,59 @@ def edit():
 
 
 # Export to Excel :: Transaction
-@app.route('/download/report/excel')
-def download_report():
-    cursor = mysql.connection.cursor()
-    query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, amount, discount, earn, reason from parking_log"
-    cursor.execute(query)
-    result = cursor.fetchall()
+# @app.route('/download/report/excel')
+# def download_report():
+#     cursor = mysql.connection.cursor()
+#     query = "select id, code, license_plate, province, car_type, insert_by_in, insert_date_in, cancel, time_total, discount_name, pay_fine, amount, discount, earn, reason from parking_log"
+#     cursor.execute(query)
+#     result = cursor.fetchall()
 
-    # Output in bytes
-    output = io.BytesIO()
-    # Create Workbook Object
-    workbook = xlwt.Workbook()
-    # Add a sheet
-    sh = workbook.add_sheet('Transaction Report')
+#     # Output in bytes
+#     output = io.BytesIO()
+#     # Create Workbook Object
+#     workbook = xlwt.Workbook()
+#     # Add a sheet
+#     sh = workbook.add_sheet('Transaction Report')
 
-    # Add headers
-    sh.write(0, 0, 'ลำดับ')
-    sh.write(0, 1, 'เลขสมาชิก')
-    sh.write(0, 2, 'เลขทะเบียนรถ')
-    sh.write(0, 3, 'จังหวัด')
-    sh.write(0, 4, 'ประเภทรถ')
-    sh.write(0, 5, 'ผู้ใช้ระบบขาเข้า')
-    sh.write(0, 6, 'วันที่คีย์ข้อมูลเข้าระบบขาเข้า')
-    sh.write(0, 7, 'กรณียกเลิกจากระบบ')
-    sh.write(0, 8, 'เวลาทั้งหมดที่จอด')
-    sh.write(0, 9, 'ชื่อส่วนลด')
-    sh.write(0, 10, 'ค่าปรับบัตรหาย')
-    sh.write(0, 11, 'ค่าจอดสุทธิ')
-    sh.write(0, 12, 'ส่วนลดทั้งหมด')
-    sh.write(0, 13, 'จำนวนเงินที่ได้รับ')
-    sh.write(0, 14, 'สาเหตุ')
+#     # Add headers
+#     sh.write(0, 0, 'ลำดับ')
+#     sh.write(0, 1, 'เลขสมาชิก')
+#     sh.write(0, 2, 'เลขทะเบียนรถ')
+#     sh.write(0, 3, 'จังหวัด')
+#     sh.write(0, 4, 'ประเภทรถ')
+#     sh.write(0, 5, 'ผู้ใช้ระบบขาเข้า')
+#     sh.write(0, 6, 'วันที่คีย์ข้อมูลเข้าระบบขาเข้า')
+#     sh.write(0, 7, 'กรณียกเลิกจากระบบ')
+#     sh.write(0, 8, 'เวลาทั้งหมดที่จอด')
+#     sh.write(0, 9, 'ชื่อส่วนลด')
+#     sh.write(0, 10, 'ค่าปรับบัตรหาย')
+#     sh.write(0, 11, 'ค่าจอดสุทธิ')
+#     sh.write(0, 12, 'ส่วนลดทั้งหมด')
+#     sh.write(0, 13, 'จำนวนเงินที่ได้รับ')
+#     sh.write(0, 14, 'สาเหตุ')
 
-    idx = 0
-    for row in result:
-        sh.write(idx+1, 0, row[0])
-        sh.write(idx+1, 1, row[1])
-        sh.write(idx+1, 2, row[2])
-        sh.write(idx+1, 3, row[3])
-        sh.write(idx+1, 4, row[4])
-        sh.write(idx+1, 5, row[5])
-        sh.write(idx+1, 6, row[6])
-        sh.write(idx+1, 7, row[7])
-        sh.write(idx+1, 8, row[8])
-        sh.write(idx+1, 9, row[9])
-        sh.write(idx+1, 10, row[10])
-        sh.write(idx+1, 11, row[11])
-        sh.write(idx+1, 12, row[12])
-        sh.write(idx+1, 13, row[13])
-        sh.write(idx+1, 14, row[14])
-        idx += 1
-    workbook.save(output)
-    output.seek(0)
+#     idx = 0
+#     for row in result:
+#         sh.write(idx+1, 0, row[0])
+#         sh.write(idx+1, 1, row[1])
+#         sh.write(idx+1, 2, row[2])
+#         sh.write(idx+1, 3, row[3])
+#         sh.write(idx+1, 4, row[4])
+#         sh.write(idx+1, 5, row[5])
+#         sh.write(idx+1, 6, row[6])
+#         sh.write(idx+1, 7, row[7])
+#         sh.write(idx+1, 8, row[8])
+#         sh.write(idx+1, 9, row[9])
+#         sh.write(idx+1, 10, row[10])
+#         sh.write(idx+1, 11, row[11])
+#         sh.write(idx+1, 12, row[12])
+#         sh.write(idx+1, 13, row[13])
+#         sh.write(idx+1, 14, row[14])
+#         idx += 1
+#     workbook.save(output)
+#     output.seek(0)
 
-    return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition": "attachment;filename=transaction_report.xls"})
+#     return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition": "attachment;filename=transaction_report.xls"})
 
 
 @app.route('/member-detail', methods=['GET', 'POST'])
@@ -1496,11 +1488,16 @@ def add_contact():
     return render_template('/add-contact.html')
 
 
-@app.route('/background_process_test')
-def background_process_test():
-    control_Gate()
-    print("hello")
-    return ("nothing")
+@app.route('/intro')
+def intro():
+    if session['username'] != " ":
+        return render_template('/intro.html')
+
+# @app.route('/background_process_test')
+# def background_process_test():
+#     control_Gate()
+#     print("hello")
+#     return ("nothing")
 
 
 if __name__ == "__main__":

@@ -26,14 +26,6 @@
         display: block !important;
     }
 </style>
-<!-- <style>
-    @media (min-width: 576px) {
-        .modity__modal-dialog {
-            max-width: 750px;
-            margin: 1.75rem auto;
-        }
-    }
-</style> -->
 
 <body id="page-top">
     <div id="wrapper">
@@ -201,19 +193,20 @@
                                             </div>
                                             <div class="col-12 mt-3">
                                                 <span>
-                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
                                                     <label class="btn-outline-money width-btn-money" for="btnradio1">เงินสด</label>
                                                 </span>
                                                 <span>
-                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio2" autocomplete="off">
+                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
                                                     <label class="btn-outline-money width-btn-money" for="btnradio2">Banking</label>
                                                 </span>
                                                 <span>
-                                                    <input type="radio" class="btn-check2" name="btnradio" id="btnradio3" autocomplete="off">
+                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
                                                     <label class="btn-outline-money width-btn-money" for="btnradio3">True Money</label>
                                                 </span>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-6 text-blue">
                                             <div class="text-center">
                                                 <label for="receieve" class="form-label h5">เงินที่ได้รับ</label>
@@ -264,16 +257,55 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row modify-font">
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <svg class="bd-placeholder-img img-thumbnail" width="700" height="400" style="max-height: 400px;
-                                                            height: calc(100% - 80px);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="200x200" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-                                                            <h6 class="text-center modify-font">รูปรถขาออก</h6>
+                                                    <div class="col-md-6" style="zoom: 80%;">
+                                                        <div class="div" style="padding: 5px;background: #AFACAC;">
+                                                            <div class="mb-3 text-center">
+                                                                <svg class="bd-placeholder-img img-thumbnail" width="700" style="height: 350px;" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+                                                                <h6 class="text-center modify-font">รูปรถขาออก</h6>
+                                                            </div>
+                                                            <div class="mb-3 text-center">
+                                                                <svg class="bd-placeholder-img img-thumbnail" width="700" style="height: 350px;" xmlns="http://www.w3.org/2000/svg" role="img" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+                                                                <h6 class="text-center modify-font">รูปรถขาเข้า</h6>
+                                                            </div>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <svg class="bd-placeholder-img img-thumbnail" width="700" height="400" style="max-height: 400px;
-                                                            height: calc(100% - 80px);" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="200x200" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-                                                            <h6 class="text-center modify-font">รูปรถขาเข้า</h6>
+                                                        
+                                                        <div class="card mt-3">
+                                                            <div class="card-header text-white bg-secondary text-center">
+                                                                สาเหตุ
+                                                            </div>
+                                                            <div class="card-body" style="background: #F5F5F5;">
+                                                                <div class="row">
+                                                                    <div class="col-12 text-center">
+                                                                        <div class="btn-group mr-1" role="group" style="display: block;">
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio1" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio1">ป้ายชำรุด</label>
+                                                                            </span>
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio2" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio2">ป้ายแดง</label>
+                                                                            </span>
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio3" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio3">ป้ายเขียว</label>
+                                                                            </span>
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio4" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio4">ป้ายปกติ</label>
+                                                                            </span>
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio5" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio5">ไม่พบป้ายทะเบียน</label>
+                                                                            </span>
+                                                                            <span>
+                                                                                <input type="radio" class="btn-check" name="note" id="listradio6" autocomplete="off">
+                                                                                <label class="btn-outline-modity width-btn-modity" for="listradio6">อื่นๆ</label>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -286,23 +318,17 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="card mt-3">
-                                                            <div class="card-header text-white bg-secondary">
-                                                              ตรวจสอบข้อมูล
-                                                            </div>
-                                                            <div class="card-body">
+                                                        <div class="mt-3">
+                                                            <div class="">
                                                                 <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <label class="col-form-label text-blue">รหัส</label>
-                                                                    </div>
-                                                                    <div class="col-md-9 mb-3">
-                                                                        <input class="form-control-test" id="ID" name="ID" style="font-size: 1.6rem;width: 100%;"/>
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <span class="h1" id="mem_type">Member</span> <span class="h6">Exp: 1/1/2021</span> <span class="text-white" id="ID" name="ID"></span>
                                                                     </div>
 
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-3 mt-2">
                                                                         <label class="col-form-label text-blue">ขาเข้า</label>
                                                                     </div>
-                                                                    <div class="col-md-9 mb-3">
+                                                                    <div class="col-md-9 mb-3 mt-2">
                                                                         <div class="form-control-test" id="licenplate_in" name="licenplate_in" style="font-size: 2rem;"></div>
                                                                     </div>
 
@@ -314,41 +340,75 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>วันเวลาเข้า</label>
-                                                                        <div class="form-control-test" style="background: #f1f1f1;font-size: 1.8rem;text-align: center;">
-                                                                            <h3 class="text-blue mb-0" id="timeIn">15:37:00</h3>
-                                                                            <span class="fw-normal mb-0" id="date_in">2021-03-03</span>
+                                                                        <div class="form-control-test text-center" style="background: #f1f1f1;">
+                                                                            <h3 class="text-blue mb-0" id="timeIn" style="font-size: 2.5rem;"></h3>
+                                                                            <span class="fw-normal mb-0" id="date_in" style="font-size: 1.25rem;"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>ประเภทสมาชิก</label>
-                                                                        <div class="form-control-test" style="background: #f1f1f1;font-size: 2rem;text-align: center;height: 67%;">
-                                                                            <p class="text-blue mb-0" id="mem_type">Member</p>
+                                                                        <label>วันเวลาออก</label>
+                                                                        <div class="form-control-test text-center" style="background: #f1f1f1;">
+                                                                            <h3 class="text-blue mb-0" id="timeOut" style="font-size: 2.5rem;"></h3>
+                                                                            <span class="fw-normal mb-0" id="date_out" style="font-size: 1.25rem;"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12 mt-3">
-                                                                        <label>จำนวนเงิน</label>
-                                                                        <div class="form-control-test p" id="amount" name="amount" style="background: #f1f1f1;font-size: 3rem;color: #FF0000;"></div>
-                                                                    </div>
-                                                                    <div class="col-md-12 mt-3">
-                                                                        <label>สาเหตุ</label>
-                                                                        <div class="btn-group mr-1" role="group">
-                                                                            <input type="radio" class="btn-check" name="note" id="listradio1" autocomplete="off">
-                                                                            <label class="btn-outline-modity" for="listradio1">ป้ายชำรุด</label>
-                                                                            <input type="radio" class="btn-check" name="note" id="listradio2" autocomplete="off">
-                                                                            <label class="btn-outline-modity" for="listradio2">ป้ายแดง</label>
-                                                                            <input type="radio" class="btn-check" name="note" id="listradio3" autocomplete="off">
-                                                                            <label class="btn-outline-modity" for="listradio3">ป้ายเขียว</label>
-                                                                            <input type="radio" class="btn-check" name="note" id="listradio4" autocomplete="off">
-                                                                            <label class="btn-outline-modity" for="listradio4">ป้ายปกติ</label>
-                                                                            <input type="radio" class="btn-check" name="note" id="listradio5" autocomplete="off">
-                                                                            <label class="btn-outline-modity" for="listradio5">อื่นๆ</label>
+                                                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                                            <li class="nav-item" role="presentation">
+                                                                              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">จำนวนเงิน</button>
+                                                                            </li>
+                                                                            <li class="nav-item" role="presentation">
+                                                                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">ส่วนลด</button>
+                                                                            </li>
+                                                                          </ul>
+                                                                          <div class="tab-content" id="myTabContent">
+                                                                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                                                                <div class="card-body">
+                                                                                    <label>จำนวนเงิน</label>
+                                                                                    <div class="form-control-test p text-center" id="amount" name="amount" style="background: #f1f1f1;font-size: 4rem;color: #FF0000;">40.00</div>
+                                                                                    <div class="col-12 mt-3 text-center">
+                                                                                        <span>
+                                                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off" checked>
+                                                                                            <label class="btn-outline-money width-btn-money" for="btnradio11">เงินสด</label>
+                                                                                        </span>
+                                                                                        <span>
+                                                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio22" autocomplete="off">
+                                                                                            <label class="btn-outline-money width-btn-money" for="btnradio22">Banking</label>
+                                                                                        </span>
+                                                                                        <span>
+                                                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio33" autocomplete="off">
+                                                                                            <label class="btn-outline-money width-btn-money" for="btnradio33">True Money</label>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                                                <div class="card-body">
+                                                                                    <div class="input-group mb-3">
+                                                                                        <span class="input-group-text">เลขที่คูปอง</span>
+                                                                                        <input type="text" class="form-control" name="" id="">
+                                                                                    </div>
+                                                                                    <div class="input-group mb-3">
+                                                                                        <span class="input-group-text">ส่วนลด</span>
+                                                                                        <input type="text" class="form-control" name="" id="">
+                                                                                    </div>
+                                                                                    <div class="input-group mb-0">
+                                                                                        <span class="input-group-text">ค่าปรับ</span>
+                                                                                        <input type="text" class="form-control" name="" id="">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 mt-2 text-center">
-                                                            <button class="btn btn-secondary col-12 btn-lg modify-font">ยืนยัน</button>
+                                                            <a href="{{ url_for('receipt') }}" target="_blank" type="button"
+                                                            class="btn btn-primary col-4 btn-lg" style="font-size: 2rem;">
+                                                                <i class="fas fa-print"></i><br> พิมพ์ใบเสร็จ
+                                                            </a>
+                                                            <button class="btn btn-success-2 col-7 btn-lg modify-font" style="font-size: 4rem;">ยืนยัน</button>
                                                         </div>
                                                     </div>
                                                 </div>

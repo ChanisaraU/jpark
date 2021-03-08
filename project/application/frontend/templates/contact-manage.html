@@ -114,9 +114,9 @@
         "autoWidth": true,
         "processing": true,
         "buttons": [
-                    {extend: "csv", className: "buttonsToHide"},
-                    {extend: "print", className: "buttonsToHide"},
-                    {extend: "copy", className: "buttonsToHide"}
+            {extend: "csv", className: "buttonsToHide"},
+            {extend: "print", className: "buttonsToHide"},
+            {extend: "copy", className: "buttonsToHide"}
         ],
     });
   
@@ -126,7 +126,7 @@
         table.columns(9).search(this.value).draw()
     });
 
-    oTable = $('#monitorTable').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object, as @Lionel said
+    oTable = $('#monitorTable').DataTable();   //pay attention to capital D, which is mandatory to retrieve "api" datatables' object
     $('#search').keyup(function(){
         oTable.search($(this).val()).draw() ;
     })
